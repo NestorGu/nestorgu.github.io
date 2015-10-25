@@ -51,31 +51,31 @@ public interface Engine {
 }
 ```
 * 可以使用Observable配合RxJava进行事件传递
-```java
+~~~~{java}
 @GET("/user/{id}/photo")
 Observable<Photo> getUserPhoto(@Path("id") int id);
-```
+~~~~
  - 需要添加Retrofit适配RxJava的依赖
   + `compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'`
 * 设置header
-```java
+~~~~{java}
 @Headers("Cache-Control: max-age=640000")
 @Headers({
     "Accept: application/vnd.github.v3.full+json",
     "User-Agent: Retrofit-Sample-App"
 })
-```
+~~~~
 * 更多请见[官网](http://square.github.io/retrofit/)
 
 ## 使用Retrofit生成接口Engine的实现
 * 以android C端的加油卡为例：
-```java
+~~~~{java}
 // 如果需要按照不同模块创建不同的engine，需要考虑在什么地方初始化engine；
 Engine mEngine = new Retrofit.Builder()
                 .baseUrl(HttpMethod.HTTP_URL + "/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(Engine.class);
-```
+~~~~
  - addConverterFactory可以自定义转换器
   + 官网说明：（来源： <http://square.github.io/retrofit/>）
   >Converters can be added to support other types. Six sibling modules adapt popular serialization libraries for your convenience.
@@ -94,11 +94,11 @@ Engine mEngine = new Retrofit.Builder()
 * 经过两天的调试终于写好了顺便加了优雅的日志输出（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）
 * 不多说上代码（代码是谁？）
  - 首先在Retrofit生成接口Engine的实现增加
-```java
+~~~~{java}
   .client(TWLOkHttpClient.getOkHttpClient(this))//通过okHttp拦截器设置Retrofit的公用头部和日志输出
-```
+~~~~
   - 然后创建okHttp拦截器
-```java
+~~~~{java}
   // Retrofit2.0只能通过okHttp拦截器设置Retrofit的公用头部
     // Retrofit2.0取去掉了日志功能也需要在okHttp里打印日志
     client.networkInterceptors().add(new Interceptor() {
@@ -151,7 +151,7 @@ Engine mEngine = new Retrofit.Builder()
             }
         }
     });
-```
+~~~~
 * 最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：
 ```
  D/retrofit-->: ╔══════════════════════════════════════════════════════════════════════════════
@@ -225,46 +225,31 @@ D/retrofit-->: ╚════════════════════�
 </code></pre>
 
 <ul>
-<li>可以使用Observable配合RxJava进行事件传递</li>
-</ul>
-
-<pre><code class="java">@GET("/user/{id}/photo")
-Observable&lt;Photo&gt; getUserPhoto(@Path("id") int id);
-</code></pre>
-
-<ul>
-<li>需要添加Retrofit适配RxJava的依赖
-<ul><li><code>compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'</code></li>
-<li>设置header</li></ul></li>
-</ul>
-
-<pre><code class="java">@Headers("Cache-Control: max-age=640000")
-@Headers({
-    "Accept: application/vnd.github.v3.full+json",
-    "User-Agent: Retrofit-Sample-App"
-})
-</code></pre>
-
-<ul>
-<li>更多请见<a href="http://square.github.io/retrofit/">官网</a></li>
+<li>可以使用Observable配合RxJava进行事件传递
+<pre class=" language-java"><code class=" language-java">@<span class="token function">GET<span class="token punctuation">(</span></span><span class="token string">"/user/{id}/photo"</span><span class="token punctuation">)</span>
+Observable<span class="token operator">&lt;</span>Photo&gt; <span class="token function">getUserPhoto<span class="token punctuation">(</span></span>@<span class="token function">Path<span class="token punctuation">(</span></span><span class="token string">"id"</span><span class="token punctuation">)</span> <span class="token keyword">int</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> - 需要添加Retrofit适配RxJava的依赖
+<ul><li><code>compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'</code></li></ul></li>
+<li>设置header
+<pre class=" language-java"><code class=" language-java">@<span class="token function">Headers<span class="token punctuation">(</span></span><span class="token string">"Cache-Control: max-age=640000"</span><span class="token punctuation">)</span>
+@<span class="token function">Headers<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+<span class="token string">"Accept: application/vnd.github.v3.full+json"</span><span class="token punctuation">,</span>
+<span class="token string">"User-Agent: Retrofit-Sample-App"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>* 更多请见<a href="http://square.github.io/retrofit/">官网</a></li>
 </ul>
 
 <h2 id="retrofitengine">使用Retrofit生成接口Engine的实现</h2>
 
 <ul>
-<li>以android C端的加油卡为例：</li>
-</ul>
-
-<pre><code class="java">// 如果需要按照不同模块创建不同的engine，需要考虑在什么地方初始化engine；
-Engine mEngine = new Retrofit.Builder()
-                .baseUrl(HttpMethod.HTTP_URL + "/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build().create(Engine.class);
-</code></pre>
-
-<ul>
-<li><p>addConverterFactory可以自定义转换器
-</p><ul><li>官网说明：（来源： <a href="http://square.github.io/retrofit/">http://square.github.io/retrofit/</a>）<p></p>
+<li><p>以android C端的加油卡为例：
+</p><pre class=" language-java"><code class=" language-java"><span class="token comment" spellcheck="true">// 如果需要按照不同模块创建不同的engine，需要考虑在什么地方初始化engine；
+</span>Engine mEngine <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Retrofit<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">baseUrl<span class="token punctuation">(</span></span>HttpMethod<span class="token punctuation">.</span>HTTP_URL <span class="token operator">+</span> <span class="token string">"/"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">addConverterFactory<span class="token punctuation">(</span></span>GsonConverterFactory<span class="token punctuation">.</span><span class="token function">create<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">build<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">create<span class="token punctuation">(</span></span>Engine<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> - addConverterFactory可以自定义转换器
+<ul><li>官网说明：（来源： <a href="http://square.github.io/retrofit/">http://square.github.io/retrofit/</a>）<p></p>
 
 <blockquote>
   <p>Converters can be added to support other types. Six sibling modules adapt popular serialization libraries for your convenience.</p></blockquote></li>
@@ -273,11 +258,10 @@ Engine mEngine = new Retrofit.Builder()
   <li>Moshi: com.squareup.retrofit:converter-moshi</li>
   <li>Protobuf: com.squareup.retrofit:converter-protobuf</li>
   <li>Wire: com.squareup.retrofit:converter-wire</li>
-  <li>Simple XML: com.squareup.retrofit:converter-simplexml</li></ul><p></p>
+  <li><p>Simple XML: com.squareup.retrofit:converter-simplexml</p></li>
+  <li><p>这里用了Gson，需要添加converter-gson依赖</p></li>
+  <li><code>compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'</code></li></ul><p></p>
 </li>
-<li><p>这里用了Gson，需要添加converter-gson依赖</p>
-
-<ul><li><code>compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'</code></li></ul></li>
 </ul>
 
 <h2 id="">优化</h2>
@@ -286,72 +270,62 @@ Engine mEngine = new Retrofit.Builder()
 <li>目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话“Headers that need to be added to every request can be specified using an OkHttp interceptor.”</li>
 <li>经过两天的调试终于写好了顺便加了优雅的日志输出（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）</li>
 <li>不多说上代码（代码是谁？）
-<ul><li>首先在Retrofit生成接口Engine的实现增加</li></ul></li>
-</ul>
-
-<pre><code class="java">  .client(TWLOkHttpClient.getOkHttpClient(this))//通过okHttp拦截器设置Retrofit的公用头部和日志输出
-</code></pre>
-
-<ul>
-<li>然后创建okHttp拦截器</li>
-</ul>
-
-<pre><code class="java">  // Retrofit2.0只能通过okHttp拦截器设置Retrofit的公用头部
-    // Retrofit2.0取去掉了日志功能也需要在okHttp里打印日志
-    client.networkInterceptors().add(new Interceptor() {
-        @Override
-        public com.squareup.okhttp.Response intercept(Interceptor.Chain chain) throws IOException {
-            Request request = chain.request();
-            Request.Builder requestBuilder = request.newBuilder();
-            Request signedRequest = requestBuilder
-                    .addHeader("Source", "1")
-                    .addHeader("Channel", AppUtil.getChanel(context))
-                    .addHeader("IMEI", AppUtil.getImeiCode(context))
-                    .addHeader("UserId", QicheChaorenApplication.getInstance().getUserId() + "")
-                    .addHeader("Version", AppUtil.getAppVersionName(context))
-                    .addHeader("Net", "" + NetWorkUtil.getNetWorkType(context))
-                    .addHeader("Token", TOKEN)
-                    .addHeader("SessionId", "" + QicheChaorenApplication.getInstance().getSessionId())
-                    .build();
-            long t1 = System.nanoTime();
-            Response response = chain.proceed(signedRequest);
-            long t2 = System.nanoTime();
-            MediaType contentType = null;
-            String bodyString = null;
-            if (response.body() != null) {
-                contentType = response.body().contentType();
-                bodyString = response.body().string();
-            }
-            // 请求响应时间
-            double time = (t2 - t1) / 1e6d;
-            switch (request.method()) {
-                case "GET":
-                    Logger.d("retrofit--&gt;", String.format("GET " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), response.code(), response.headers(), stringifyResponseBody(bodyString)));
-                    break;
-                case "POST":
-                    Logger.d("retrofit--&gt;", String.format("POST " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), stringifyRequestBody(signedRequest), response.code(), response.headers(), stringifyResponseBody(bodyString)));
-                    break;
-                case "PUT":
-                    Logger.d("retrofit--&gt;", String.format("PUT " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), signedRequest.body().toString(), response.code(), response.headers(), stringifyResponseBody(bodyString)));
-                    break;
-                case "DELETE":
-                    Logger.d("retrofit--&gt;", String.format("DELETE " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITHOUT_BODY, signedRequest.url(), time, signedRequest.headers(), response.code(), response.headers()));
-                    break;
-            }
-            if (response.body() != null) {
-                // 深坑！
-                // 打印body后原ResponseBody会被清空，需要重新设置body
-                ResponseBody body = ResponseBody.create(contentType, bodyString);
-                return response.newBuilder().body(body).build();
-            } else {
-                return response;
-            }
-        }
-    });
-</code></pre>
-
-<ul>
-<li>最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：</li>
+<ul><li>首先在Retrofit生成接口Engine的实现增加
+<pre class=" language-java"><code class=" language-java">  <span class="token punctuation">.</span><span class="token function">client<span class="token punctuation">(</span></span>TWLOkHttpClient<span class="token punctuation">.</span><span class="token function">getOkHttpClient<span class="token punctuation">(</span></span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">)//通过okHttp拦截器设置Retrofit的公用头部和日志输出
+</span></code></pre>  - 然后创建okHttp拦截器
+<pre class=" language-java"><code class=" language-java"> <span class="token comment" spellcheck="true"> // Retrofit2.0只能通过okHttp拦截器设置Retrofit的公用头部
+</span><span class="token comment" spellcheck="true">// Retrofit2.0取去掉了日志功能也需要在okHttp里打印日志
+</span>client<span class="token punctuation">.</span><span class="token function">networkInterceptors<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">add<span class="token punctuation">(</span></span><span class="token keyword">new</span> <span class="token class-name">Interceptor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+@Override
+<span class="token keyword">public</span> com<span class="token punctuation">.</span>squareup<span class="token punctuation">.</span>okhttp<span class="token punctuation">.</span>Response <span class="token function">intercept<span class="token punctuation">(</span></span>Interceptor<span class="token punctuation">.</span>Chain chain<span class="token punctuation">)</span> <span class="token keyword">throws</span> IOException <span class="token punctuation">{</span>
+    Request request <span class="token operator">=</span> chain<span class="token punctuation">.</span><span class="token function">request<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Request<span class="token punctuation">.</span>Builder requestBuilder <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">newBuilder<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Request signedRequest <span class="token operator">=</span> requestBuilder
+            <span class="token punctuation">.</span><span class="token function">addHeader<span class="token punctuation">(</span></span><span class="token string">"Source"</span><span class="token punctuation">,</span> <span class="token string">"1"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">addHeader<span class="token punctuation">(</span></span><span class="token string">"Channel"</span><span class="token punctuation">,</span> AppUtil<span class="token punctuation">.</span><span class="token function">getChanel<span class="token punctuation">(</span></span>context<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">addHeader<span class="token punctuation">(</span></span><span class="token string">"IMEI"</span><span class="token punctuation">,</span> AppUtil<span class="token punctuation">.</span><span class="token function">getImeiCode<span class="token punctuation">(</span></span>context<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">addHeader<span class="token punctuation">(</span></span><span class="token string">"UserId"</span><span class="token punctuation">,</span> QicheChaorenApplication<span class="token punctuation">.</span><span class="token function">getInstance<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getUserId<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">addHeader<span class="token punctuation">(</span></span><span class="token string">"Version"</span><span class="token punctuation">,</span> AppUtil<span class="token punctuation">.</span><span class="token function">getAppVersionName<span class="token punctuation">(</span></span>context<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">addHeader<span class="token punctuation">(</span></span><span class="token string">"Net"</span><span class="token punctuation">,</span> <span class="token string">""</span> <span class="token operator">+</span> NetWorkUtil<span class="token punctuation">.</span><span class="token function">getNetWorkType<span class="token punctuation">(</span></span>context<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">addHeader<span class="token punctuation">(</span></span><span class="token string">"Token"</span><span class="token punctuation">,</span> TOKEN<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">addHeader<span class="token punctuation">(</span></span><span class="token string">"SessionId"</span><span class="token punctuation">,</span> <span class="token string">""</span> <span class="token operator">+</span> QicheChaorenApplication<span class="token punctuation">.</span><span class="token function">getInstance<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSessionId<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">build<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> t1 <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">nanoTime<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Response response <span class="token operator">=</span> chain<span class="token punctuation">.</span><span class="token function">proceed<span class="token punctuation">(</span></span>signedRequest<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> t2 <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">nanoTime<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    MediaType contentType <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    String bodyString <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">body<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">!</span><span class="token operator">=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        contentType <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">body<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">contentType<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bodyString <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">body<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">string<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+   <span class="token comment" spellcheck="true"> // 请求响应时间
+</span>    <span class="token keyword">double</span> time <span class="token operator">=</span> <span class="token punctuation">(</span>t2 <span class="token operator">-</span> t1<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1e6d</span><span class="token punctuation">;</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">method<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token string">"GET"</span><span class="token operator">:</span>
+            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"GET "</span> <span class="token operator">+</span> FREQUESTWITHOUTBODY <span class="token operator">+</span> FRESPONSEWITHBODY<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> time<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">stringifyResponseBody<span class="token punctuation">(</span></span>bodyString<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token string">"POST"</span><span class="token operator">:</span>
+            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"POST "</span> <span class="token operator">+</span> FREQUESTWITHBODY <span class="token operator">+</span> FRESPONSEWITHBODY<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> time<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">stringifyRequestBody<span class="token punctuation">(</span></span>signedRequest<span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">stringifyResponseBody<span class="token punctuation">(</span></span>bodyString<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token string">"PUT"</span><span class="token operator">:</span>
+            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"PUT "</span> <span class="token operator">+</span> FREQUESTWITHBODY <span class="token operator">+</span> FRESPONSEWITHBODY<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> time<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">body<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">stringifyResponseBody<span class="token punctuation">(</span></span>bodyString<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token string">"DELETE"</span><span class="token operator">:</span>
+            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"DELETE "</span> <span class="token operator">+</span> FREQUESTWITHOUTBODY <span class="token operator">+</span> FRESPONSEWITHOUTBODY<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> time<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">body<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">!</span><span class="token operator">=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment" spellcheck="true"> // 深坑！
+</span>       <span class="token comment" spellcheck="true"> // 打印body后原ResponseBody会被清空，需要重新设置body
+</span>        ResponseBody body <span class="token operator">=</span> ResponseBody<span class="token punctuation">.</span><span class="token function">create<span class="token punctuation">(</span></span>contentType<span class="token punctuation">,</span> bodyString<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> response<span class="token punctuation">.</span><span class="token function">newBuilder<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">body<span class="token punctuation">(</span></span>body<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> response<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>* 最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：</li></ul></li>
 </ul>
 
 <pre><code> D/retrofit--&gt;: ╔══════════════════════════════════════════════════════════════════════════════
