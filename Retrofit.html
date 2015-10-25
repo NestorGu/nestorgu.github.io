@@ -79,14 +79,14 @@ Engine mEngine = new Retrofit.Builder()
  - addConverterFactory可以自定义转换器
   + 官网说明：（来源： <http://square.github.io/retrofit/>）
   >Converters can be added to support other types. Six sibling modules adapt popular serialization libraries for your convenience.
-   * Gson: com.squareup.retrofit:converter-gson
-   * Jackson: com.squareup.retrofit:converter-jackson
-   * Moshi: com.squareup.retrofit:converter-moshi
-   * Protobuf: com.squareup.retrofit:converter-protobuf
-   * Wire: com.squareup.retrofit:converter-wire
-   * Simple XML: com.squareup.retrofit:converter-simplexml
+    >- Gson: com.squareup.retrofit:converter-gson
+   - Jackson: com.squareup.retrofit:converter-jackson
+   - Moshi: com.squareup.retrofit:converter-moshi
+   - Protobuf: com.squareup.retrofit:converter-protobuf
+   - Wire: com.squareup.retrofit:converter-wire
+   - Simple XML: com.squareup.retrofit:converter-simplexml
 
- - 这里用了Gson，需要添加converter-gson依赖
+- 这里用了Gson，需要添加converter-gson依赖
   + `compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'`
 
 ## 优化
@@ -247,16 +247,18 @@ Observable<span class="token operator">&lt;</span>Photo&gt; <span class="token f
 <ul><li>官网说明：（来源： <a href="http://square.github.io/retrofit/">http://square.github.io/retrofit/</a>）<p></p>
 
 <blockquote>
-  <p>Converters can be added to support other types. Six sibling modules adapt popular serialization libraries for your convenience.</p></blockquote></li>
-  <li>Gson: com.squareup.retrofit:converter-gson</li>
+  <p>Converters can be added to support other types. Six sibling modules adapt popular serialization libraries for your convenience.</p>
+  
+  <ul><li>Gson: com.squareup.retrofit:converter-gson</li>
   <li>Jackson: com.squareup.retrofit:converter-jackson</li>
   <li>Moshi: com.squareup.retrofit:converter-moshi</li>
   <li>Protobuf: com.squareup.retrofit:converter-protobuf</li>
   <li>Wire: com.squareup.retrofit:converter-wire</li>
-  <li><p>Simple XML: com.squareup.retrofit:converter-simplexml</p></li>
-  <li><p>这里用了Gson，需要添加converter-gson依赖</p></li>
-  <li><code>compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'</code></li></ul><p></p>
+  <li>Simple XML: com.squareup.retrofit:converter-simplexml</li></ul></blockquote></li></ul>
 </li>
+<li><p>这里用了Gson，需要添加converter-gson依赖</p>
+
+<ul><li><code>compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'</code></li></ul></li>
 </ul>
 
 <h2 id="">优化</h2>
