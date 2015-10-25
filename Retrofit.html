@@ -38,7 +38,7 @@
 
 ## 创建Engine接口实现HTTP API转换
 * 以android C端的加油卡为例：
-```java
+~~~~{java}
 public interface Engine {
     // 加油卡列表
     @POST("user/fuelcard/list")
@@ -49,7 +49,7 @@ public interface Engine {
     @POST("user/fuelcard/delete")
     Call<BaseResponse> delFuelcard(@Field("cardId") String cardId);
 }
-```
+~~~~
 * 可以使用Observable配合RxJava进行事件传递
 ~~~~{java}
 @GET("/user/{id}/photo")
@@ -209,23 +209,18 @@ D/retrofit-->: ╚════════════════════�
 <h2 id="enginehttpapi">创建Engine接口实现HTTP API转换</h2>
 
 <ul>
-<li>以android C端的加油卡为例：</li>
-</ul>
-
-<pre><code class="java">public interface Engine {
-    // 加油卡列表
-    @POST("user/fuelcard/list")
-    Call&lt;RefuleListResponse&gt; loadFuelcardDatas();
-    // 删除加油卡
-    // 官方文档没有说明，需要通过@FormUrlEncoded和@Field注解发送请求参数,也可以在@body里传cardId="xx"
-    @FormUrlEncoded
-    @POST("user/fuelcard/delete")
-    Call&lt;BaseResponse&gt; delFuelcard(@Field("cardId") String cardId);
-}
-</code></pre>
-
-<ul>
-<li>可以使用Observable配合RxJava进行事件传递
+<li>以android C端的加油卡为例：
+<pre class=" language-java"><code class=" language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Engine</span> <span class="token punctuation">{</span><span class="token comment" spellcheck="true">
+// 加油卡列表
+</span>@<span class="token function">POST<span class="token punctuation">(</span></span><span class="token string">"user/fuelcard/list"</span><span class="token punctuation">)</span>
+Call<span class="token operator">&lt;</span>RefuleListResponse&gt; <span class="token function">loadFuelcardDatas<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">
+// 删除加油卡
+</span><span class="token comment" spellcheck="true">// 官方文档没有说明，需要通过@FormUrlEncoded和@Field注解发送请求参数,也可以在@body里传cardId="xx"
+</span>@FormUrlEncoded
+@<span class="token function">POST<span class="token punctuation">(</span></span><span class="token string">"user/fuelcard/delete"</span><span class="token punctuation">)</span>
+Call<span class="token operator">&lt;</span>BaseResponse&gt; <span class="token function">delFuelcard<span class="token punctuation">(</span></span>@<span class="token function">Field<span class="token punctuation">(</span></span><span class="token string">"cardId"</span><span class="token punctuation">)</span> String cardId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>* 可以使用Observable配合RxJava进行事件传递
 <pre class=" language-java"><code class=" language-java">@<span class="token function">GET<span class="token punctuation">(</span></span><span class="token string">"/user/{id}/photo"</span><span class="token punctuation">)</span>
 Observable<span class="token operator">&lt;</span>Photo&gt; <span class="token function">getUserPhoto<span class="token punctuation">(</span></span>@<span class="token function">Path<span class="token punctuation">(</span></span><span class="token string">"id"</span><span class="token punctuation">)</span> <span class="token keyword">int</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre> - 需要添加Retrofit适配RxJava的依赖
