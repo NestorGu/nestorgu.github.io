@@ -90,15 +90,15 @@ Engine mEngine = new Retrofit.Builder()
   + `compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'`
 
 ## 优化
-*目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话“Headers that need to be added to every request can be specified using an OkHttp interceptor.”*
+* 目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话“Headers that need to be added to every request can be specified using an OkHttp interceptor.”
 * 经过两天的调试终于写好了顺便加了优雅的日志输出（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）
 * 不多说上代码（代码是谁？）
-  - 首先在Retrofit生成接口Engine的实现增加
-  ```java
+ - 首先在Retrofit生成接口Engine的实现增加
+```java
   .client(TWLOkHttpClient.getOkHttpClient(this))//通过okHttp拦截器设置Retrofit的公用头部和日志输出
-  ```
+```
   - 然后创建okHttp拦截器
-  ```java
+```java
   // Retrofit2.0只能通过okHttp拦截器设置Retrofit的公用头部
     // Retrofit2.0取去掉了日志功能也需要在okHttp里打印日志
     client.networkInterceptors().add(new Interceptor() {
@@ -151,9 +151,9 @@ Engine mEngine = new Retrofit.Builder()
             }
         }
     });
-  ```
+```
 * 最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：
- ```
+```
  D/retrofit-->: ╔══════════════════════════════════════════════════════════════════════════════
 D/retrofit-->: ║ POST  http://192.168.2.126:9775/user/fuelcard/delete in 2169.3ms
 D/retrofit-->: ║ Content-Type: application/x-www-form-urlencoded
@@ -282,16 +282,21 @@ Engine mEngine = new Retrofit.Builder()
 
 <h2 id="">优化</h2>
 
-<p><em>目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话“Headers that need to be added to every request can be specified using an OkHttp interceptor.”</em>
-* 经过两天的调试终于写好了顺便加了优雅的日志输出（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）
-* 不多说上代码（代码是谁？）
-  - 首先在Retrofit生成接口Engine的实现增加
-  <code>java
-  .client(TWLOkHttpClient.getOkHttpClient(this))//通过okHttp拦截器设置Retrofit的公用头部和日志输出
-</code>
-  - 然后创建okHttp拦截器
-  <code>java
-  // Retrofit2.0只能通过okHttp拦截器设置Retrofit的公用头部
+<ul>
+<li>目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话“Headers that need to be added to every request can be specified using an OkHttp interceptor.”</li>
+<li>经过两天的调试终于写好了顺便加了优雅的日志输出（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）</li>
+<li>不多说上代码（代码是谁？）
+<ul><li>首先在Retrofit生成接口Engine的实现增加</li></ul></li>
+</ul>
+
+<pre><code class="java">  .client(TWLOkHttpClient.getOkHttpClient(this))//通过okHttp拦截器设置Retrofit的公用头部和日志输出
+</code></pre>
+
+<ul>
+<li>然后创建okHttp拦截器</li>
+</ul>
+
+<pre><code class="java">  // Retrofit2.0只能通过okHttp拦截器设置Retrofit的公用头部
     // Retrofit2.0取去掉了日志功能也需要在okHttp里打印日志
     client.networkInterceptors().add(new Interceptor() {
         @Override
@@ -343,10 +348,13 @@ Engine mEngine = new Retrofit.Builder()
             }
         }
     });
-</code>
-* 最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：
- <code>
- D/retrofit--&gt;: ╔══════════════════════════════════════════════════════════════════════════════
+</code></pre>
+
+<ul>
+<li>最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：</li>
+</ul>
+
+<pre><code> D/retrofit--&gt;: ╔══════════════════════════════════════════════════════════════════════════════
 D/retrofit--&gt;: ║ POST  http://192.168.2.126:9775/user/fuelcard/delete in 2169.3ms
 D/retrofit--&gt;: ║ Content-Type: application/x-www-form-urlencoded
 D/retrofit--&gt;: ║ Content-Length: 9
@@ -363,7 +371,7 @@ D/retrofit--&gt;: ║ Net: 1
 D/retrofit--&gt;: ║ Token: 隐藏
 D/retrofit--&gt;: ║ SessionId: 隐藏
 D/retrofit--&gt;: ║ body: cardId=41
-D/retrofit--&gt;: ║ <br>
+D/retrofit--&gt;: ║  
 D/retrofit--&gt;: ║ Response: 200
 D/retrofit--&gt;: ║ Date: Fri, 23 Oct 2015 08:56:38 GMT
 D/retrofit--&gt;: ║ Content-Type: application/json; charset=UTF-8
@@ -373,9 +381,9 @@ D/retrofit--&gt;: ║ OkHttp-Selected-Protocol: http/1.1
 D/retrofit--&gt;: ║ OkHttp-Sent-Millis: 1445590595631
 D/retrofit--&gt;: ║ OkHttp-Received-Millis: 1445590597800
 D/retrofit--&gt;: ║ body: {"code":0, "msg":""}
-D/retrofit--&gt;: ║ <br>
+D/retrofit--&gt;: ║  
 D/retrofit--&gt;: ╚══════════════════════════════════════════════════════════════════════════
-</code></p>
+</code></pre>
 <!-- content end -->
 </div>
 <br>
