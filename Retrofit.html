@@ -1,0 +1,449 @@
+<!DOCTYPE HTML>
+<html style="height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Nestor的博客</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body style="height:100%">
+<div class="main" style="width:60%;height:95%">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">主页</a></li>
+            <li><a href="/#/tags">标签</a></li>
+            <li><a href="/#/archive">文章</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+# Retrofit  *--A type-safe HTTP client for Android and Java*
+* WHY USE RETROFIT？
+![img](/_img/dde1053d2fb59620458a0e340864c1fe.png)
+* 为什么写这个：
+ - Retrofit不仅效率高，android下一步可能需要使用mvp或mvm开发，然后，Retrofit配合Rxjava或RxAndroid可能跟方便的进行mvp或mvm开发。
+
+## Download
+* Gradle:
+ - `compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'`
+* [github](https://github.com/square/retrofit)
+
+## 创建Engine接口实现HTTP API转换
+* 以android C端的加油卡为例：
+```java
+public interface Engine {
+    // 加油卡列表
+    @POST("user/fuelcard/list")
+    Call<RefuleListResponse> loadFuelcardDatas();
+    // 删除加油卡
+    // 官方文档没有说明，需要通过@FormUrlEncoded和@Field注解发送请求参数,也可以在@body里传cardId="xx"
+    @FormUrlEncoded
+    @POST("user/fuelcard/delete")
+    Call<BaseResponse> delFuelcard(@Field("cardId") String cardId);
+}
+```
+* 可以使用Observable配合RxJava进行事件传递
+```java
+@GET("/user/{id}/photo")
+Observable<Photo> getUserPhoto(@Path("id") int id);
+```
+ - 需要添加Retrofit适配RxJava的依赖
+  + `compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'`
+* 设置header
+```java
+@Headers("Cache-Control: max-age=640000")
+@Headers({
+    "Accept: application/vnd.github.v3.full+json",
+    "User-Agent: Retrofit-Sample-App"
+})
+```
+* 更多请见[官网](http://square.github.io/retrofit/)
+
+## 使用Retrofit生成接口Engine的实现
+* 以android C端的加油卡为例：
+```java
+// 如果需要按照不同模块创建不同的engine，需要考虑在什么地方初始化engine；
+Engine mEngine = new Retrofit.Builder()
+                .baseUrl(HttpMethod.HTTP_URL + "/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build().create(Engine.class);
+```
+ - addConverterFactory可以自定义转换器
+  + 官网说明：（来源： <http://square.github.io/retrofit/>）
+  >Converters can be added to support other types. Six sibling modules adapt popular serialization libraries for your convenience.
+   * Gson: com.squareup.retrofit:converter-gson
+   * Jackson: com.squareup.retrofit:converter-jackson
+   * Moshi: com.squareup.retrofit:converter-moshi
+   * Protobuf: com.squareup.retrofit:converter-protobuf
+   * Wire: com.squareup.retrofit:converter-wire
+   * Simple XML: com.squareup.retrofit:converter-simplexml
+
+ - 这里用了Gson，需要添加converter-gson依赖
+  + `compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'`
+
+## 优化
+*目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话“Headers that need to be added to every request can be specified using an OkHttp interceptor.”*
+* 经过两天的调试终于写好了顺便加了优雅的日志输出（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）
+* 不多说上代码（代码是谁？）
+  - 首先在Retrofit生成接口Engine的实现增加
+  ```java
+  .client(TWLOkHttpClient.getOkHttpClient(this))//通过okHttp拦截器设置Retrofit的公用头部和日志输出
+  ```
+  - 然后创建okHttp拦截器
+  ```java
+  // Retrofit2.0只能通过okHttp拦截器设置Retrofit的公用头部
+    // Retrofit2.0取去掉了日志功能也需要在okHttp里打印日志
+    client.networkInterceptors().add(new Interceptor() {
+        @Override
+        public com.squareup.okhttp.Response intercept(Interceptor.Chain chain) throws IOException {
+            Request request = chain.request();
+            Request.Builder requestBuilder = request.newBuilder();
+            Request signedRequest = requestBuilder
+                    .addHeader("Source", "1")
+                    .addHeader("Channel", AppUtil.getChanel(context))
+                    .addHeader("IMEI", AppUtil.getImeiCode(context))
+                    .addHeader("UserId", QicheChaorenApplication.getInstance().getUserId() + "")
+                    .addHeader("Version", AppUtil.getAppVersionName(context))
+                    .addHeader("Net", "" + NetWorkUtil.getNetWorkType(context))
+                    .addHeader("Token", TOKEN)
+                    .addHeader("SessionId", "" + QicheChaorenApplication.getInstance().getSessionId())
+                    .build();
+            long t1 = System.nanoTime();
+            Response response = chain.proceed(signedRequest);
+            long t2 = System.nanoTime();
+            MediaType contentType = null;
+            String bodyString = null;
+            if (response.body() != null) {
+                contentType = response.body().contentType();
+                bodyString = response.body().string();
+            }
+            // 请求响应时间
+            double time = (t2 - t1) / 1e6d;
+            switch (request.method()) {
+                case "GET":
+                    Logger.d("retrofit-->", String.format("GET " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), response.code(), response.headers(), stringifyResponseBody(bodyString)));
+                    break;
+                case "POST":
+                    Logger.d("retrofit-->", String.format("POST " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), stringifyRequestBody(signedRequest), response.code(), response.headers(), stringifyResponseBody(bodyString)));
+                    break;
+                case "PUT":
+                    Logger.d("retrofit-->", String.format("PUT " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), signedRequest.body().toString(), response.code(), response.headers(), stringifyResponseBody(bodyString)));
+                    break;
+                case "DELETE":
+                    Logger.d("retrofit-->", String.format("DELETE " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITHOUT_BODY, signedRequest.url(), time, signedRequest.headers(), response.code(), response.headers()));
+                    break;
+            }
+            if (response.body() != null) {
+                // 深坑！
+                // 打印body后原ResponseBody会被清空，需要重新设置body
+                ResponseBody body = ResponseBody.create(contentType, bodyString);
+                return response.newBuilder().body(body).build();
+            } else {
+                return response;
+            }
+        }
+    });
+  ```
+* 最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：
+ ```
+ D/retrofit-->: ╔══════════════════════════════════════════════════════════════════════════════
+D/retrofit-->: ║ POST  http://192.168.2.126:9775/user/fuelcard/delete in 2169.3ms
+D/retrofit-->: ║ Content-Type: application/x-www-form-urlencoded
+D/retrofit-->: ║ Content-Length: 9
+D/retrofit-->: ║ Host: 192.168.2.126:9775
+D/retrofit-->: ║ Connection: Keep-Alive
+D/retrofit-->: ║ Accept-Encoding: gzip
+D/retrofit-->: ║ User-Agent: okhttp/2.5.0
+D/retrofit-->: ║ Source: 1
+D/retrofit-->: ║ Channel: 1000
+D/retrofit-->: ║ IMEI: 隐藏
+D/retrofit-->: ║ UserId: 107001249
+D/retrofit-->: ║ Version: V1.3.1
+D/retrofit-->: ║ Net: 1
+D/retrofit-->: ║ Token: 隐藏
+D/retrofit-->: ║ SessionId: 隐藏
+D/retrofit-->: ║ body: cardId=41
+D/retrofit-->: ║  
+D/retrofit-->: ║ Response: 200
+D/retrofit-->: ║ Date: Fri, 23 Oct 2015 08:56:38 GMT
+D/retrofit-->: ║ Content-Type: application/json; charset=UTF-8
+D/retrofit-->: ║ Transfer-Encoding: chunked
+D/retrofit-->: ║ Server: Jetty(9.2.1.v20140609)
+D/retrofit-->: ║ OkHttp-Selected-Protocol: http/1.1
+D/retrofit-->: ║ OkHttp-Sent-Millis: 1445590595631
+D/retrofit-->: ║ OkHttp-Received-Millis: 1445590597800
+D/retrofit-->: ║ body: {"code":0, "msg":""}
+D/retrofit-->: ║  
+D/retrofit-->: ╚══════════════════════════════════════════════════════════════════════════
+```
+
+<!-- markdown end -->
+</div>
+<div class="entry" id="main" style="height:80%">
+<!-- content -->
+<h1 id="retrofitatypesafehttpclientforandroidandjava">Retrofit  <em>--A type-safe HTTP client for Android and Java</em></h1>
+
+<ul>
+<li>WHY USE RETROFIT？
+<img src="/_img/dde1053d2fb59620458a0e340864c1fe.png" alt="img" title=""></li>
+<li>为什么写这个：
+<ul><li>Retrofit不仅效率高，android下一步可能需要使用mvp或mvm开发，然后，Retrofit配合Rxjava或RxAndroid可能跟方便的进行mvp或mvm开发。</li></ul></li>
+</ul>
+
+<h2 id="download">Download</h2>
+
+<ul>
+<li>Gradle:
+<ul><li><code>compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'</code></li></ul></li>
+<li><a href="https://github.com/square/retrofit">github</a></li>
+</ul>
+
+<h2 id="enginehttpapi">创建Engine接口实现HTTP API转换</h2>
+
+<ul>
+<li>以android C端的加油卡为例：</li>
+</ul>
+
+<pre><code class="java">public interface Engine {
+    // 加油卡列表
+    @POST("user/fuelcard/list")
+    Call&lt;RefuleListResponse&gt; loadFuelcardDatas();
+    // 删除加油卡
+    // 官方文档没有说明，需要通过@FormUrlEncoded和@Field注解发送请求参数,也可以在@body里传cardId="xx"
+    @FormUrlEncoded
+    @POST("user/fuelcard/delete")
+    Call&lt;BaseResponse&gt; delFuelcard(@Field("cardId") String cardId);
+}
+</code></pre>
+
+<ul>
+<li>可以使用Observable配合RxJava进行事件传递</li>
+</ul>
+
+<pre><code class="java">@GET("/user/{id}/photo")
+Observable&lt;Photo&gt; getUserPhoto(@Path("id") int id);
+</code></pre>
+
+<ul>
+<li>需要添加Retrofit适配RxJava的依赖
+<ul><li><code>compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'</code></li>
+<li>设置header</li></ul></li>
+</ul>
+
+<pre><code class="java">@Headers("Cache-Control: max-age=640000")
+@Headers({
+    "Accept: application/vnd.github.v3.full+json",
+    "User-Agent: Retrofit-Sample-App"
+})
+</code></pre>
+
+<ul>
+<li>更多请见<a href="http://square.github.io/retrofit/">官网</a></li>
+</ul>
+
+<h2 id="retrofitengine">使用Retrofit生成接口Engine的实现</h2>
+
+<ul>
+<li>以android C端的加油卡为例：</li>
+</ul>
+
+<pre><code class="java">// 如果需要按照不同模块创建不同的engine，需要考虑在什么地方初始化engine；
+Engine mEngine = new Retrofit.Builder()
+                .baseUrl(HttpMethod.HTTP_URL + "/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build().create(Engine.class);
+</code></pre>
+
+<ul>
+<li><p>addConverterFactory可以自定义转换器
+</p><ul><li>官网说明：（来源： <a href="http://square.github.io/retrofit/">http://square.github.io/retrofit/</a>）<p></p>
+
+<blockquote>
+  <p>Converters can be added to support other types. Six sibling modules adapt popular serialization libraries for your convenience.</p></blockquote></li>
+  <li>Gson: com.squareup.retrofit:converter-gson</li>
+  <li>Jackson: com.squareup.retrofit:converter-jackson</li>
+  <li>Moshi: com.squareup.retrofit:converter-moshi</li>
+  <li>Protobuf: com.squareup.retrofit:converter-protobuf</li>
+  <li>Wire: com.squareup.retrofit:converter-wire</li>
+  <li>Simple XML: com.squareup.retrofit:converter-simplexml</li></ul><p></p>
+</li>
+<li><p>这里用了Gson，需要添加converter-gson依赖</p>
+
+<ul><li><code>compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'</code></li></ul></li>
+</ul>
+
+<h2 id="">优化</h2>
+
+<p><em>目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话“Headers that need to be added to every request can be specified using an OkHttp interceptor.”</em>
+* 经过两天的调试终于写好了顺便加了优雅的日志输出（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）
+* 不多说上代码（代码是谁？）
+  - 首先在Retrofit生成接口Engine的实现增加
+  <code>java
+  .client(TWLOkHttpClient.getOkHttpClient(this))//通过okHttp拦截器设置Retrofit的公用头部和日志输出
+</code>
+  - 然后创建okHttp拦截器
+  <code>java
+  // Retrofit2.0只能通过okHttp拦截器设置Retrofit的公用头部
+    // Retrofit2.0取去掉了日志功能也需要在okHttp里打印日志
+    client.networkInterceptors().add(new Interceptor() {
+        @Override
+        public com.squareup.okhttp.Response intercept(Interceptor.Chain chain) throws IOException {
+            Request request = chain.request();
+            Request.Builder requestBuilder = request.newBuilder();
+            Request signedRequest = requestBuilder
+                    .addHeader("Source", "1")
+                    .addHeader("Channel", AppUtil.getChanel(context))
+                    .addHeader("IMEI", AppUtil.getImeiCode(context))
+                    .addHeader("UserId", QicheChaorenApplication.getInstance().getUserId() + "")
+                    .addHeader("Version", AppUtil.getAppVersionName(context))
+                    .addHeader("Net", "" + NetWorkUtil.getNetWorkType(context))
+                    .addHeader("Token", TOKEN)
+                    .addHeader("SessionId", "" + QicheChaorenApplication.getInstance().getSessionId())
+                    .build();
+            long t1 = System.nanoTime();
+            Response response = chain.proceed(signedRequest);
+            long t2 = System.nanoTime();
+            MediaType contentType = null;
+            String bodyString = null;
+            if (response.body() != null) {
+                contentType = response.body().contentType();
+                bodyString = response.body().string();
+            }
+            // 请求响应时间
+            double time = (t2 - t1) / 1e6d;
+            switch (request.method()) {
+                case "GET":
+                    Logger.d("retrofit--&gt;", String.format("GET " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), response.code(), response.headers(), stringifyResponseBody(bodyString)));
+                    break;
+                case "POST":
+                    Logger.d("retrofit--&gt;", String.format("POST " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), stringifyRequestBody(signedRequest), response.code(), response.headers(), stringifyResponseBody(bodyString)));
+                    break;
+                case "PUT":
+                    Logger.d("retrofit--&gt;", String.format("PUT " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), signedRequest.body().toString(), response.code(), response.headers(), stringifyResponseBody(bodyString)));
+                    break;
+                case "DELETE":
+                    Logger.d("retrofit--&gt;", String.format("DELETE " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITHOUT_BODY, signedRequest.url(), time, signedRequest.headers(), response.code(), response.headers()));
+                    break;
+            }
+            if (response.body() != null) {
+                // 深坑！
+                // 打印body后原ResponseBody会被清空，需要重新设置body
+                ResponseBody body = ResponseBody.create(contentType, bodyString);
+                return response.newBuilder().body(body).build();
+            } else {
+                return response;
+            }
+        }
+    });
+</code>
+* 最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：
+ <code>
+ D/retrofit--&gt;: ╔══════════════════════════════════════════════════════════════════════════════
+D/retrofit--&gt;: ║ POST  http://192.168.2.126:9775/user/fuelcard/delete in 2169.3ms
+D/retrofit--&gt;: ║ Content-Type: application/x-www-form-urlencoded
+D/retrofit--&gt;: ║ Content-Length: 9
+D/retrofit--&gt;: ║ Host: 192.168.2.126:9775
+D/retrofit--&gt;: ║ Connection: Keep-Alive
+D/retrofit--&gt;: ║ Accept-Encoding: gzip
+D/retrofit--&gt;: ║ User-Agent: okhttp/2.5.0
+D/retrofit--&gt;: ║ Source: 1
+D/retrofit--&gt;: ║ Channel: 1000
+D/retrofit--&gt;: ║ IMEI: 隐藏
+D/retrofit--&gt;: ║ UserId: 107001249
+D/retrofit--&gt;: ║ Version: V1.3.1
+D/retrofit--&gt;: ║ Net: 1
+D/retrofit--&gt;: ║ Token: 隐藏
+D/retrofit--&gt;: ║ SessionId: 隐藏
+D/retrofit--&gt;: ║ body: cardId=41
+D/retrofit--&gt;: ║ <br>
+D/retrofit--&gt;: ║ Response: 200
+D/retrofit--&gt;: ║ Date: Fri, 23 Oct 2015 08:56:38 GMT
+D/retrofit--&gt;: ║ Content-Type: application/json; charset=UTF-8
+D/retrofit--&gt;: ║ Transfer-Encoding: chunked
+D/retrofit--&gt;: ║ Server: Jetty(9.2.1.v20140609)
+D/retrofit--&gt;: ║ OkHttp-Selected-Protocol: http/1.1
+D/retrofit--&gt;: ║ OkHttp-Sent-Millis: 1445590595631
+D/retrofit--&gt;: ║ OkHttp-Received-Millis: 1445590597800
+D/retrofit--&gt;: ║ body: {"code":0, "msg":""}
+D/retrofit--&gt;: ║ <br>
+D/retrofit--&gt;: ╚══════════════════════════════════════════════════════════════════════════
+</code></p>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer" style="height:5%">
+		<p>© Copyright 2015 by yzapp.cn, Code by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "Retrofit.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+</body>
+</html>
