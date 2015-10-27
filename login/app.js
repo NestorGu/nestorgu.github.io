@@ -314,7 +314,8 @@ $(document).ready(function() {
                         var now = {"title": $("#posttitle").val(),
                                    "date": $("#postdate").val(),
                                    "tags": $("#posttags").val(),
-                                   "path": $("#postpath").val()};
+                                   //"path": $("#postpath").val()};
+                                   "path": $("#posttitle").val()+".html"};
                         var mark = null;
                         for (var i = 0; i < posts.length; ++i)
                             if (posts[i].path == now.path)
