@@ -78,10 +78,10 @@
     <div id="posts" class="container-fluid">
         <div class="row">
             <div class="col-sm-3 col-md-3 sidebar">
-                <a class="nav-btn btn btn-default" href="#/posts/newpost">New post</a>
+                <a class="nav-btn btn btn-default" href="#/posts/newpost">新建文章</a>
                 <ul class="nav nav-sidebar" id="postItems">
                 </ul>
-                <a class="nav-btn btn btn-default" href="#/posts/newpage">New page</a>
+                <a class="nav-btn btn btn-default" href="#/posts/newpage">新建左栏页</a>
                 <ul class="nav nav-sidebar" id="pageItems">
                 </ul>
             </div>
@@ -90,12 +90,12 @@
                 <div class="page-header">
                     <div class="form-inline">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="posttitle" placeholder="Title">
-                            <input type="text" class="form-control" id="postpath" placeholder="Url like intro.html">
-                            <input type="text" class="form-control" id="postdate" placeholder="2014-02-01">
-                            <input type="text" class="form-control" id="posttags" placeholder="Tags split with space">
-                            <a class="btn btn-default" href="#/posts/savepost" id="postSave">save</a>
-                            <a class="btn btn-danger" href="#" id="postDelete">delete</a>
+                            <input type="text" class="form-control" id="posttitle" placeholder="标题">
+                            <input type="text" class="form-control" id="postpath" placeholder="文件名：intro.html">
+                            <input type="text" class="form-control" id="postdate" placeholder="2015-10-27">
+                            <input type="text" class="form-control" id="posttags" placeholder="Tags：空格分隔">
+                            <a class="btn btn-default" href="#/posts/savepost" id="postSave">保存</a>
+                            <a class="btn btn-danger" href="#" id="postDelete">删除</a>
                             <span class="label label-danger" style="display:none;" id="saveerror">Save error</span>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                 <div class="post-wrap-edit">
                 <div id="editContent">
                     <textarea id="editmd"></textarea>
-                    <div id="edithtml" class="entry" style="width:500px"></div>
+                    <div id="edithtml" class="entry" ></div>
                 </div>
                 </div>
             </div>

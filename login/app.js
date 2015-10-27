@@ -184,7 +184,7 @@ $(document).ready(function() {
                     $("#postpath").val("");
                     $("#postdate").val("");
                     $("#posttags").val("");
-                    $("#editmd").val(sessionStorage.getItem("editmd") || "before begin to write please click 'new post' or 'new page' first");
+                    $("#editmd").val(sessionStorage.getItem("editmd") || "开始写前，请点击左边新建或编辑");
                     $("#edithtml").html("");
                     var config = JSON.parse(data);
                     config.posts.sort(function(a, b){
