@@ -104,7 +104,6 @@ function checkpass(user, pass, cbsuccess, cberror) {
             global.user = user;
             repo = github.getRepo(user, user+".github.io");
             cbsuccess();
-            this.navigate("/posts");
         }
     });
 }
@@ -124,7 +123,8 @@ $(document).ready(function() {
             $("#loading").show();
             e.preventDefault();
             checkpass(this.user.val(), this.pass.val(),
-                      function(){Spine.Route.navigate("/main");},
+                      //function(){Spine.Route.navigate("/main");},
+                      function(){Spine.Route.navigate("/posts");},
                       curry(errShow, this.err));
         },
         init: function() {
