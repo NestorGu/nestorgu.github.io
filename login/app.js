@@ -104,6 +104,7 @@ function checkpass(user, pass, cbsuccess, cberror) {
             global.user = user;
             repo = github.getRepo(user, user+".github.io");
             cbsuccess();
+            this.navigate("/posts");
         }
     });
 }
@@ -408,4 +409,3 @@ $(document).ready(function() {
         }
     });
 });
-this.navigate("/posts");
