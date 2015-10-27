@@ -408,3 +408,4 @@ $(document).ready(function() {
         }
     });
 });
+this.navigate("/posts");
