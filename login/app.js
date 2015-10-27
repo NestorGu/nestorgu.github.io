@@ -311,11 +311,14 @@ $(document).ready(function() {
                             var template = "template/page.html";
                             var posts = gconfig.pages;
                         }
+                        if($("#postpath").val()==""){
+                          $("#postpath").val()=$("#posttitle").val()+".html";
+                        }
                         var now = {"title": $("#posttitle").val(),
                                    "date": $("#postdate").val(),
                                    "tags": $("#posttags").val(),
-                                   //"path": $("#postpath").val()};
-                                   "path": $("#postpath").val()==""?($("#posttitle").val()+".html"):#postpath").val()};
+                                   "path": $("#postpath").val()};
+                                   //"path": $("#postpath").val()==""?($("#posttitle").val()+".html"):#$("postpath").val()};
                         var mark = null;
                         for (var i = 0; i < posts.length; ++i)
                             if (posts[i].path == now.path)
