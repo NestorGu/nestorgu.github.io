@@ -123,8 +123,7 @@ $(document).ready(function() {
             $("#loading").show();
             e.preventDefault();
             checkpass(this.user.val(), this.pass.val(),
-                      //function(){Spine.Route.navigate("/main");},
-                      function(){Spine.Route.navigate("/posts");},
+                      function(){Spine.Route.navigate("/main");},
                       curry(errShow, this.err));
         },
         init: function() {
@@ -184,7 +183,7 @@ $(document).ready(function() {
                     $("#postpath").val("");
                     $("#postdate").val("");
                     $("#posttags").val("");
-                    $("#editmd").val(sessionStorage.getItem("editmd") || "开始写前，请点击左边新建或编辑");
+                    $("#editmd").val(sessionStorage.getItem("editmd") || "before begin to write please click 'new post' or 'new page' first");
                     $("#edithtml").html("");
                     var config = JSON.parse(data);
                     config.posts.sort(function(a, b){
@@ -314,8 +313,7 @@ $(document).ready(function() {
                         var now = {"title": $("#posttitle").val(),
                                    "date": $("#postdate").val(),
                                    "tags": $("#posttags").val(),
-                                   //"path": $("#postpath").val()};
-                                   "path": $("#posttitle").val()+".html"};
+                                   "path": $("#postpath").val()};
                         var mark = null;
                         for (var i = 0; i < posts.length; ++i)
                             if (posts[i].path == now.path)

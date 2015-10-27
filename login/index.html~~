@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>后台管理</title>
+    <title>Simple</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/loading.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -21,48 +21,40 @@
     <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
     <script src="app.js"></script>
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "//hm.baidu.com/hm.js?31f09fff161b973e671edf0282191b90";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
-    
+
 </head>
 <body>
 <div class="container">
 <div id="views">
     <div id="login">
+        <a id="fork" href="https://github.com/isnowfy/simple" target="_blank"><img src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
         <form class="form-horizontal">
             <div class="form-group">
-                <label>管理员账号</label>
+                <label>Github username</label>
                 <div>
                     <input type="text" name="user" class="form-control" id="loginuser">
                 </div>
             </div>
             <div class="form-group">
-                <label>密码</label>
+                <label>Password</label>
                 <div>
                     <input type="password" name="pass" class="form-control" id="loginpass">
                 </div>
             </div>
             <div class="form-group">
                 <div>
-                    <input type="submit" class="btn btn-default" value="登录" id="loginsubmit">
+                    <input type="submit" class="btn btn-default" value="Sign in" id="loginsubmit">
                     <span class="label label-danger" id="loginerror" style="display: none;">Something error!</span>
                 </div>
             </div>
         </form>
     </div>
     <div id="main">
-        <div class="block" style="display:none">
+        <div class="block">
         <h2>Create a repository</h2>
         <p>Head over to <a href="https://github.com">GitHub</a> and <a href="https://github.com/new">create a new repository</a> named username.github.io, where username is your username on GitHub.(Please selected the "<span style="color:red">Initialize this repository with a README</span>" when creating the repo.)</p>
         </div>
-        <div class="block" style="display:none">
+        <div class="block">
         <h2>Initialize the repository (just the first)</h2>
         <p><a class="btn btn-primary" id="init">Initialize</a></p>
         <p><span class="label label-danger" id="initerror" style="display: none;">Error! Please try again!</span></p>
@@ -78,10 +70,10 @@
     <div id="posts" class="container-fluid">
         <div class="row">
             <div class="col-sm-3 col-md-3 sidebar">
-                <a class="nav-btn btn btn-default" href="#/posts/newpost">新建文章</a>
+                <a class="nav-btn btn btn-default" href="#/posts/newpost">New post</a>
                 <ul class="nav nav-sidebar" id="postItems">
                 </ul>
-                <a class="nav-btn btn btn-default" href="#/posts/newpage">新建左栏页</a>
+                <a class="nav-btn btn btn-default" href="#/posts/newpage">New page</a>
                 <ul class="nav nav-sidebar" id="pageItems">
                 </ul>
             </div>
@@ -90,12 +82,12 @@
                 <div class="page-header">
                     <div class="form-inline">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="posttitle" placeholder="标题">
-                            <!--<input type="text" class="form-control" id="postpath" placeholder="文件名：intro.html">-->
-                            <input type="text" class="form-control" id="postdate" placeholder="2015-10-27">
-                            <input type="text" class="form-control" id="posttags" placeholder="Tags：空格分隔">
-                            <a class="btn btn-default" href="#/posts/savepost" id="postSave">保存</a>
-                            <a class="btn btn-danger" href="#" id="postDelete">删除</a>
+                            <input type="text" class="form-control" id="posttitle" placeholder="Title">
+                            <input type="text" class="form-control" id="postpath" placeholder="Url like intro.html">
+                            <input type="text" class="form-control" id="postdate" placeholder="2014-02-01">
+                            <input type="text" class="form-control" id="posttags" placeholder="Tags split with space">
+                            <a class="btn btn-default" href="#/posts/savepost" id="postSave">save</a>
+                            <a class="btn btn-danger" href="#" id="postDelete">delete</a>
                             <span class="label label-danger" style="display:none;" id="saveerror">Save error</span>
                         </div>
                     </div>
@@ -104,7 +96,7 @@
                 <div class="post-wrap-edit">
                 <div id="editContent">
                     <textarea id="editmd"></textarea>
-                    <div id="edithtml" class="entry" ></div>
+                    <div id="edithtml" class="entry"></div>
                 </div>
                 </div>
             </div>
@@ -133,5 +125,4 @@
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true } });
 </script>
-<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256645027'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256645027%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
 </body>
