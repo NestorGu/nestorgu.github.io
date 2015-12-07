@@ -42,7 +42,8 @@
 * WHY USE RETROFIT？
  - ![img](dde1053d2fb59620458a0e340864c1fe.png)
 * 为什么写这个：
- - Retrofit不仅效率高，android下一步可能需要使用mvp或mvm开发，然后，Retrofit配合Rxjava或RxAndroid可能跟方便的进行mvp或mvm开发。
+ - Retrofit不仅效率高，android下一步可能需要使用mvp或mvm开发，
+    然后，Retrofit配合Rxjava或RxAndroid可能跟方便的进行mvp或mvm开发。
 
 ## Download
 * Gradle:
@@ -91,7 +92,8 @@ Engine mEngine = new Retrofit.Builder()
 ~~~~
  - addConverterFactory可以自定义转换器
   + 官网说明：（来源： <http://square.github.io/retrofit/>）
-  >Converters can be added to support other types. Six sibling modules adapt popular serialization libraries for your convenience.
+  >Converters can be added to support other types. 
+    Six sibling modules adapt popular serialization libraries for your convenience.
     >- Gson: com.squareup.retrofit:converter-gson
    - Jackson: com.squareup.retrofit:converter-jackson
    - Moshi: com.squareup.retrofit:converter-moshi
@@ -103,8 +105,10 @@ Engine mEngine = new Retrofit.Builder()
   + `compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'`
 
 ## 优化
-* 目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话“Headers that need to be added to every request can be specified using an OkHttp interceptor.”
-* 经过两天的调试终于写好了顺便加了优雅的日志输出（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）
+* 目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话
+    “Headers that need to be added to every request can be specified using an OkHttp interceptor.”
+* 经过两天的调试终于写好了顺便加了优雅的日志输出
+    （日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）
 * 不多说上代码（代码是谁？）
  - 首先在Retrofit生成接口Engine的实现增加
 ~~~~{java}
@@ -142,16 +146,45 @@ Engine mEngine = new Retrofit.Builder()
             double time = (t2 - t1) / 1e6d;
             switch (request.method()) {
                 case "GET":
-                    Logger.d("retrofit-->", String.format("GET " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), response.code(), response.headers(), stringifyResponseBody(bodyString)));
+                    Logger.d("retrofit-->", 
+                        String.format("GET " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITH_BODY, 
+                        signedRequest.url(),
+                        time, 
+                        signedRequest.headers(),
+                        response.code(),
+                        response.headers(), 
+                        stringifyResponseBody(bodyString)));
                     break;
                 case "POST":
-                    Logger.d("retrofit-->", String.format("POST " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), stringifyRequestBody(signedRequest), response.code(), response.headers(), stringifyResponseBody(bodyString)));
+                    Logger.d("retrofit-->", 
+                        String.format("POST " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY,
+                        signedRequest.url(), 
+                        time,
+                        signedRequest.headers(), 
+                        stringifyRequestBody(signedRequest), 
+                        response.code(), 
+                        response.headers(), 
+                        stringifyResponseBody(bodyString)));
                     break;
                 case "PUT":
-                    Logger.d("retrofit-->", String.format("PUT " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, signedRequest.url(), time, signedRequest.headers(), signedRequest.body().toString(), response.code(), response.headers(), stringifyResponseBody(bodyString)));
+                    Logger.d("retrofit-->", 
+                        String.format("PUT " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, 
+                        signedRequest.url(), 
+                        time,
+                        signedRequest.headers(),
+                        signedRequest.body().toString(),
+                        response.code(), 
+                        response.headers(), 
+                        stringifyResponseBody(bodyString)));
                     break;
                 case "DELETE":
-                    Logger.d("retrofit-->", String.format("DELETE " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITHOUT_BODY, signedRequest.url(), time, signedRequest.headers(), response.code(), response.headers()));
+                    Logger.d("retrofit-->", 
+                        String.format("DELETE " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITHOUT_BODY, 
+                        signedRequest.url(), 
+                        time, 
+                        signedRequest.headers(), 
+                        response.code(), 
+                        response.headers()));
                     break;
             }
             if (response.body() != null) {
@@ -167,7 +200,7 @@ Engine mEngine = new Retrofit.Builder()
 ~~~~
 * 最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：
 ```
- D/retrofit-->: ╔══════════════════════════════════════════════════════════════════════════════
+ D/retrofit-->: ╔═════════════════════════════════════════════
 D/retrofit-->: ║ POST  http://192.168.2.126:9775/user/fuelcard/delete in 2169.3ms
 D/retrofit-->: ║ Content-Type: application/x-www-form-urlencoded
 D/retrofit-->: ║ Content-Length: 9
@@ -195,7 +228,7 @@ D/retrofit-->: ║ OkHttp-Sent-Millis: 1445590595631
 D/retrofit-->: ║ OkHttp-Received-Millis: 1445590597800
 D/retrofit-->: ║ body: {"code":0, "msg":""}
 D/retrofit-->: ║
-D/retrofit-->: ╚══════════════════════════════════════════════════════════════════════════
+D/retrofit-->: ╚═══════════════════════════════════════════════
 ```
 
 <!-- markdown end -->
@@ -208,7 +241,8 @@ D/retrofit-->: ╚════════════════════�
 <li>WHY USE RETROFIT？
 <ul><li><img src="dde1053d2fb59620458a0e340864c1fe.png" alt="img" title=""></li></ul></li>
 <li>为什么写这个：
-<ul><li>Retrofit不仅效率高，android下一步可能需要使用mvp或mvm开发，然后，Retrofit配合Rxjava或RxAndroid可能跟方便的进行mvp或mvm开发。</li></ul></li>
+<ul><li>Retrofit不仅效率高，android下一步可能需要使用mvp或mvm开发，
+然后，Retrofit配合Rxjava或RxAndroid可能跟方便的进行mvp或mvm开发。</li></ul></li>
 </ul>
 
 <h2 id="download">Download</h2>
@@ -260,8 +294,9 @@ Observable<span class="token operator">&lt;</span>Photo&gt; <span class="token f
 <ul><li>官网说明：（来源： <a href="http://square.github.io/retrofit/">http://square.github.io/retrofit/</a>）<p></p>
 
 <blockquote>
-  <p>Converters can be added to support other types. Six sibling modules adapt popular serialization libraries for your convenience.</p>
-
+  <p>Converters can be added to support other types. 
+  Six sibling modules adapt popular serialization libraries for your convenience.</p>
+  
   <ul><li>Gson: com.squareup.retrofit:converter-gson</li>
   <li>Jackson: com.squareup.retrofit:converter-jackson</li>
   <li>Moshi: com.squareup.retrofit:converter-moshi</li>
@@ -277,8 +312,10 @@ Observable<span class="token operator">&lt;</span>Photo&gt; <span class="token f
 <h2 id="">优化</h2>
 
 <ul>
-<li>目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话“Headers that need to be added to every request can be specified using an OkHttp interceptor.”</li>
-<li>经过两天的调试终于写好了顺便加了优雅的日志输出（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）</li>
+<li>目前为止已经基本可以使用了，但业务需求需要统一增加header，然后又一个深坑来了，官网只有一句话
+“Headers that need to be added to every request can be specified using an OkHttp interceptor.”</li>
+<li>经过两天的调试终于写好了顺便加了优雅的日志输出
+（日志输出参考自：http://stackoverflow.com/questions/28696964/okhttp-how-to-log-request-body）</li>
 <li>不多说上代码（代码是谁？）
 <ul><li>首先在Retrofit生成接口Engine的实现增加
 <pre class=" language-java"><code class=" language-java">  <span class="token punctuation">.</span><span class="token function">client<span class="token punctuation">(</span></span>TWLOkHttpClient<span class="token punctuation">.</span><span class="token function">getOkHttpClient<span class="token punctuation">(</span></span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">)//通过okHttp拦截器设置Retrofit的公用头部和日志输出
@@ -313,16 +350,45 @@ Observable<span class="token operator">&lt;</span>Photo&gt; <span class="token f
 </span>    <span class="token keyword">double</span> time <span class="token operator">=</span> <span class="token punctuation">(</span>t2 <span class="token operator">-</span> t1<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1e6d</span><span class="token punctuation">;</span>
     <span class="token keyword">switch</span> <span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">method<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">case</span> <span class="token string">"GET"</span><span class="token operator">:</span>
-            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"GET "</span> <span class="token operator">+</span> FREQUESTWITHOUTBODY <span class="token operator">+</span> FRESPONSEWITHBODY<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> time<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">stringifyResponseBody<span class="token punctuation">(</span></span>bodyString<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> 
+                String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"GET "</span> <span class="token operator">+</span> FREQUESTWITHOUTBODY <span class="token operator">+</span> FRESPONSEWITHBODY<span class="token punctuation">,</span> 
+                signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                time<span class="token punctuation">,</span> 
+                signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                <span class="token function">stringifyResponseBody<span class="token punctuation">(</span></span>bodyString<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token keyword">break</span><span class="token punctuation">;</span>
         <span class="token keyword">case</span> <span class="token string">"POST"</span><span class="token operator">:</span>
-            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"POST "</span> <span class="token operator">+</span> FREQUESTWITHBODY <span class="token operator">+</span> FRESPONSEWITHBODY<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> time<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">stringifyRequestBody<span class="token punctuation">(</span></span>signedRequest<span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">stringifyResponseBody<span class="token punctuation">(</span></span>bodyString<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> 
+                String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"POST "</span> <span class="token operator">+</span> FREQUESTWITHBODY <span class="token operator">+</span> FRESPONSEWITHBODY<span class="token punctuation">,</span>
+                signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                time<span class="token punctuation">,</span>
+                signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                <span class="token function">stringifyRequestBody<span class="token punctuation">(</span></span>signedRequest<span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                <span class="token function">stringifyResponseBody<span class="token punctuation">(</span></span>bodyString<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token keyword">break</span><span class="token punctuation">;</span>
         <span class="token keyword">case</span> <span class="token string">"PUT"</span><span class="token operator">:</span>
-            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"PUT "</span> <span class="token operator">+</span> FREQUESTWITHBODY <span class="token operator">+</span> FRESPONSEWITHBODY<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> time<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">body<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">stringifyResponseBody<span class="token punctuation">(</span></span>bodyString<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> 
+                String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"PUT "</span> <span class="token operator">+</span> FREQUESTWITHBODY <span class="token operator">+</span> FRESPONSEWITHBODY<span class="token punctuation">,</span> 
+                signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                time<span class="token punctuation">,</span>
+                signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                signedRequest<span class="token punctuation">.</span><span class="token function">body<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                <span class="token function">stringifyResponseBody<span class="token punctuation">(</span></span>bodyString<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token keyword">break</span><span class="token punctuation">;</span>
         <span class="token keyword">case</span> <span class="token string">"DELETE"</span><span class="token operator">:</span>
-            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"DELETE "</span> <span class="token operator">+</span> FREQUESTWITHOUTBODY <span class="token operator">+</span> FRESPONSEWITHOUTBODY<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> time<span class="token punctuation">,</span> signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Logger<span class="token punctuation">.</span><span class="token function">d<span class="token punctuation">(</span></span><span class="token string">"retrofit--&gt;"</span><span class="token punctuation">,</span> 
+                String<span class="token punctuation">.</span><span class="token function">format<span class="token punctuation">(</span></span><span class="token string">"DELETE "</span> <span class="token operator">+</span> FREQUESTWITHOUTBODY <span class="token operator">+</span> FRESPONSEWITHOUTBODY<span class="token punctuation">,</span> 
+                signedRequest<span class="token punctuation">.</span><span class="token function">url<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                time<span class="token punctuation">,</span> 
+                signedRequest<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                response<span class="token punctuation">.</span><span class="token function">code<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                response<span class="token punctuation">.</span><span class="token function">headers<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token keyword">break</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">body<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">!</span><span class="token operator">=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -338,7 +404,7 @@ Observable<span class="token operator">&lt;</span>Photo&gt; <span class="token f
 </code></pre>* 最后来一份删除加油卡的日志（公司网络差用了2169.3ms）：</li></ul></li>
 </ul>
 
-<pre><code> D/retrofit--&gt;: ╔══════════════════════════════════════════════════════════════════════════════
+<pre><code> D/retrofit--&gt;: ╔═════════════════════════════════════════════
 D/retrofit--&gt;: ║ POST  http://192.168.2.126:9775/user/fuelcard/delete in 2169.3ms
 D/retrofit--&gt;: ║ Content-Type: application/x-www-form-urlencoded
 D/retrofit--&gt;: ║ Content-Length: 9
@@ -366,7 +432,7 @@ D/retrofit--&gt;: ║ OkHttp-Sent-Millis: 1445590595631
 D/retrofit--&gt;: ║ OkHttp-Received-Millis: 1445590597800
 D/retrofit--&gt;: ║ body: {"code":0, "msg":""}
 D/retrofit--&gt;: ║
-D/retrofit--&gt;: ╚══════════════════════════════════════════════════════════════════════════
+D/retrofit--&gt;: ╚═══════════════════════════════════════════════
 </code></pre>
 <!-- content end -->
 </div>
