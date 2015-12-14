@@ -38,12 +38,108 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
-mark
+## Retrofit请求的body中传递json在bean转换时和activeandroid的Model冲突
+* 代码：
+~~~~{java}
+@Table(name = "ShoppingCart")
+public class Good extends Model{
+    public Good() {
+    }
+
+    /**
+     * 商品名称
+     */
+    @Column(name = "Name")
+    public String name;
+    ...
+}
+~~~~
+~~~~{java}
+HttpUtil.getRetrofit()
+                .create(IHomeData.class)
+                .homeDate(new Good(""))
+                .enqueue(new Callback<List<Category>>() {
+                ...}
+~~~~
+## Retrofit beta2增加了对表单请求的支持（其实beta1就支持）
+~~~~{java}
+@FormUrlEncoded
+@POST("/user/edit")
+Call<User> updateUser(@Field("first_name") String first, @Field("last_name") String last);
+~~~~
+* 在beta1时官方并没有说明表单请求如何发送，使我研究了很久才得到解决
+（见[Retrofit2.0初步使用指南+设置Retrofit的公用头部和日志输出](http://blog.yzapp.cn/Retrofit.html)
+* 完整更新日志：
+```
+Change Log
+Version 2.0.0-beta2 (2015-09-28)
+
+    New: Using a response type of Void (e.g., Call<Void>) will ignore and discard the response body. This can be used when there will be no response body (such as in a 201 response) or whenever the body is not needed. @Head requests are now forced to use this as their response type.
+    New: validateEagerly() method on Retrofit.Builder will verify the correctness of all service methods on calls to create() instead of lazily validating on first use.
+    New: Converter is now parameterized over both 'from' and 'to' types with a single convert method. Converter.Factory is now an abstract class and has factory methods for both request body and response body.
+    New: Converter.Factory and CallAdapter.Factory now receive the method annotations when being created for a return/response type and the parameter annotations when being created for a parameter type.
+    New: callAdapter() method on Retrofit allows querying a CallAdapter for a given type. The nextCallAdapter() method allows delegating to another CallAdapter from within a CallAdapter.Factory. This is useful for composing call adapters to incrementally build up behavior.
+    New: requestConverter() and responseConverter() methods on Retrofit allow querying a Converter for a given type.
+    New: onResponse method in Callback now receives the Retrofit instance. Combined with the responseConverter() method on Retrofit, this provides a way of deserializing an error body on Response. See the DeserializeErrorBody sample for an example.
+    New: The MoshiConverterFactory has been updated for its v1.0.0.
+    Fix: Using ResponseBody for the response type or RequestBody for a parameter type is now correctly identified. Previously these types would erroneously be passed to the supplied converter.
+    Fix: The encoding of @Path values has been corrected to conform to OkHttp's HttpUrl.
+    Fix: Use form-data content disposition subtype for @Multipart.
+    Fix: Observable and Single-based execution of requests now behave synchronously (and thus requires subscribeOn() for running in the background).
+    Fix: Correct GsonConverterFactory to honor the configuration of the Gson instances (such as not serializing null values, the default).
+```
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<p>mark</p>
+<h2 id="retrofitbodyjsonbeanactiveandroidmodel">Retrofit请求的body中传递json在bean转换时和activeandroid的Model冲突</h2>
+
+<ul>
+<li><p>代码：
+</p><pre class=" language-java"><code class=" language-java">@<span class="token function">Table<span class="token punctuation">(</span></span>name <span class="token operator">=</span> <span class="token string">"ShoppingCart"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Good</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span><span class="token punctuation">{</span>
+<span class="token keyword">public</span> <span class="token function">Good<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token operator">/</span>*<span class="token operator">*</span>
+
+</code><ul><code class=" language-java"></code><li><code class=" language-java">商品名称
+<span class="token operator">/</span>
+@<span class="token function">Column<span class="token punctuation">(</span></span>name <span class="token operator">=</span> <span class="token string">"Name"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> String name<span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</code></li></ul></pre><pre><em><code class=" language-java">HttpUtil<span class="token punctuation">.</span><span class="token function">getRetrofit<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">create<span class="token punctuation">(</span></span>IHomeData<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">homeDate<span class="token punctuation">(</span></span><span class="token keyword">new</span> <span class="token class-name">Good</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">enqueue<span class="token punctuation">(</span></span><span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Category&gt;&gt;<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+</code></em></pre><em>## Retrofit beta2增加了对表单请求的支持（其实beta1就支持）
+<pre class=" language-java"><code class=" language-java">@FormUrlEncoded
+@<span class="token function">POST<span class="token punctuation">(</span></span><span class="token string">"/user/edit"</span><span class="token punctuation">)</span>
+Call<span class="token operator">&lt;</span>User&gt; <span class="token function">updateUser<span class="token punctuation">(</span></span>@<span class="token function">Field<span class="token punctuation">(</span></span><span class="token string">"first_name"</span><span class="token punctuation">)</span> String first<span class="token punctuation">,</span> @<span class="token function">Field<span class="token punctuation">(</span></span><span class="token string">"last_name"</span><span class="token punctuation">)</span> String last<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></em> 在beta1时官方并没有说明表单请求如何发送，使我研究了很久才得到解决
+（见<a href="http://blog.yzapp.cn/Retrofit.html">Retrofit2.0初步使用指南+设置Retrofit的公用头部和日志输出</a></li></ul>
+<li>完整更新日志：</li>
+
+
+<pre><code>Change Log
+Version 2.0.0-beta2 (2015-09-28)
+
+    New: Using a response type of Void (e.g., Call&lt;Void&gt;) will ignore and discard the response body. This can be used when there will be no response body (such as in a 201 response) or whenever the body is not needed. @Head requests are now forced to use this as their response type.
+    New: validateEagerly() method on Retrofit.Builder will verify the correctness of all service methods on calls to create() instead of lazily validating on first use.
+    New: Converter is now parameterized over both 'from' and 'to' types with a single convert method. Converter.Factory is now an abstract class and has factory methods for both request body and response body.
+    New: Converter.Factory and CallAdapter.Factory now receive the method annotations when being created for a return/response type and the parameter annotations when being created for a parameter type.
+    New: callAdapter() method on Retrofit allows querying a CallAdapter for a given type. The nextCallAdapter() method allows delegating to another CallAdapter from within a CallAdapter.Factory. This is useful for composing call adapters to incrementally build up behavior.
+    New: requestConverter() and responseConverter() methods on Retrofit allow querying a Converter for a given type.
+    New: onResponse method in Callback now receives the Retrofit instance. Combined with the responseConverter() method on Retrofit, this provides a way of deserializing an error body on Response. See the DeserializeErrorBody sample for an example.
+    New: The MoshiConverterFactory has been updated for its v1.0.0.
+    Fix: Using ResponseBody for the response type or RequestBody for a parameter type is now correctly identified. Previously these types would erroneously be passed to the supplied converter.
+    Fix: The encoding of @Path values has been corrected to conform to OkHttp's HttpUrl.
+    Fix: Use form-data content disposition subtype for @Multipart.
+    Fix: Observable and Single-based execution of requests now behave synchronously (and thus requires subscribeOn() for running in the background).
+    Fix: Correct GsonConverterFactory to honor the configuration of the Gson instances (such as not serializing null values, the default).
+</code></pre>
 <!-- content end -->
 </div>
 <br>
