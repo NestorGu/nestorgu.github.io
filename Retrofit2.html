@@ -54,6 +54,7 @@ public class Good extends Model{
     ...
 }
 ~~~~
+
 ~~~~{java}
 HttpUtil.getRetrofit()
                 .create(IHomeData.class)
@@ -95,33 +96,35 @@ Version 2.0.0-beta2 (2015-09-28)
 <h2 id="retrofitbodyjsonbeanactiveandroidmodel">Retrofit请求的body中传递json在bean转换时和activeandroid的Model冲突</h2>
 
 <ul>
-<li><p>代码：
-</p><pre class=" language-java"><code class=" language-java">@<span class="token function">Table<span class="token punctuation">(</span></span>name <span class="token operator">=</span> <span class="token string">"ShoppingCart"</span><span class="token punctuation">)</span>
+<li>代码：</li>
+</ul>
+
+<pre class=" language-java"><code class=" language-java">@<span class="token function">Table<span class="token punctuation">(</span></span>name <span class="token operator">=</span> <span class="token string">"ShoppingCart"</span><span class="token punctuation">)</span>
 <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Good</span> <span class="token keyword">extends</span> <span class="token class-name">Model</span><span class="token punctuation">{</span>
-<span class="token keyword">public</span> <span class="token function">Good<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-<span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token function">Good<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
 
-<span class="token operator">/</span>*<span class="token operator">*</span>
-
-</code><ul><code class=" language-java"></code><li><code class=" language-java">商品名称
-<span class="token operator">/</span>
-@<span class="token function">Column<span class="token punctuation">(</span></span>name <span class="token operator">=</span> <span class="token string">"Name"</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> String name<span class="token punctuation">;</span>
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token comment" spellcheck="true">/**
+     * 商品名称
+     */</span>
+    @<span class="token function">Column<span class="token punctuation">(</span></span>name <span class="token operator">=</span> <span class="token string">"Name"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String name<span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
 <span class="token punctuation">}</span>
-</code></li></ul></pre><pre><em><code class=" language-java">HttpUtil<span class="token punctuation">.</span><span class="token function">getRetrofit<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">create<span class="token punctuation">(</span></span>IHomeData<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">homeDate<span class="token punctuation">(</span></span><span class="token keyword">new</span> <span class="token class-name">Good</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">enqueue<span class="token punctuation">(</span></span><span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Category&gt;&gt;<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
-</code></em></pre><em>## Retrofit beta2增加了对表单请求的支持（其实beta1就支持）
+</code></pre>
+
+<p></p><pre class=" language-java"><code class=" language-java">HttpUtil<span class="token punctuation">.</span><span class="token function">getRetrofit<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">create<span class="token punctuation">(</span></span>IHomeData<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">homeDate<span class="token punctuation">(</span></span><span class="token keyword">new</span> <span class="token class-name">Good</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">enqueue<span class="token punctuation">(</span></span><span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Category&gt;&gt;<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+</code></pre>## Retrofit beta2增加了对表单请求的支持（其实beta1就支持）
 <pre class=" language-java"><code class=" language-java">@FormUrlEncoded
 @<span class="token function">POST<span class="token punctuation">(</span></span><span class="token string">"/user/edit"</span><span class="token punctuation">)</span>
-Call<span class="token operator">&lt;</span>User&gt; <span class="token function">updateUser<span class="token punctuation">(</span></span>@<span class="token function">Field<span class="token punctuation">(</span></span><span class="token string">"first_name"</span><span class="token punctuation">)</span> String first<span class="token punctuation">,</span> @<span class="token function">Field<span class="token punctuation">(</span></span><span class="token string">"last_name"</span><span class="token punctuation">)</span> String last<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre></em> 在beta1时官方并没有说明表单请求如何发送，使我研究了很久才得到解决
-（见<a href="http://blog.yzapp.cn/Retrofit.html">Retrofit2.0初步使用指南+设置Retrofit的公用头部和日志输出</a></li></ul>
-<li>完整更新日志：</li>
-
+Call<span class="token operator">&lt;</span>User&gt; <span class="token function">updateUser<span class="token punctuation">(</span></span>@<span class="token function">Field<span class="token punctuation">(</span></span><span class="token string">"firstname"</span><span class="token punctuation">)</span> String first<span class="token punctuation">,</span> @<span class="token function">Field<span class="token punctuation">(</span></span><span class="token string">"lastname"</span><span class="token punctuation">)</span> String last<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>* 在beta1时官方并没有说明表单请求如何发送，使我研究了很久才得到解决
+（见<a href="http://blog.yzapp.cn/Retrofit.html">Retrofit2.0初步使用指南+设置Retrofit的公用头部和日志输出</a>
+* 完整更新日志：<p></p>
 
 <pre><code>Change Log
 Version 2.0.0-beta2 (2015-09-28)
