@@ -40,7 +40,7 @@
 <!-- markdown -->
 * 解决方法1：
 * 延时使用invalidate()请求重新draw()
-~~~~java
+~~~~{java}
 expandtab.postDelayed(new Runnable() {
       @Override
       public void run() {
@@ -48,6 +48,7 @@ expandtab.postDelayed(new Runnable() {
       }
 }, 100);
 ~~~~
+
 * 基于android6.0的测试版miui已经没有这个bug了
 
 <!-- markdown end -->
@@ -56,15 +57,18 @@ expandtab.postDelayed(new Runnable() {
 <!-- content -->
 <ul>
 <li>解决方法1：</li>
-<li>延时使用invalidate()请求重新draw()
-~~~~java
-expandtab.postDelayed(new Runnable() {
-  @Override
-  public void run() {
-        expandtab.invalidate();
-  }
-}, 100);
-~~~~</li>
+<li>延时使用invalidate()请求重新draw()</li>
+</ul>
+
+<pre class=" language-java"><code class=" language-java">expandtab<span class="token punctuation">.</span><span class="token function">postDelayed<span class="token punctuation">(</span></span><span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      @Override
+      <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            expandtab<span class="token punctuation">.</span><span class="token function">invalidate<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token number"> 100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+
+<ul>
 <li>基于android6.0的测试版miui已经没有这个bug了</li>
 </ul>
 <!-- content end -->
