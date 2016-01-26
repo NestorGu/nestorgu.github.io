@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html style="height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Nestor的博客</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "//hm.baidu.com/hm.js?31f09fff161b973e671edf0282191b90";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+<body style="height:100%">
+  <div style="position: fixed;bottom: 20px;right: 15px;z-index: 888;">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="http://music.163.com/outchain/player?type=0&id=96831087&auto=1&height=430"></iframe>
+  </div>
+<div class="main" style="width:60%;height:95%">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">主页</a></li>
+            <li><a href="/#/tags">标签</a></li>
+            <li><a href="/#/archive">文章</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+以前公司项目中做的需求，现在把他做成aar了
+
+* 一个cardId输入的EditText,每4位增加一个空格，可以分别设置hint和number的字体大小，自动对齐控制
+
+下载和使用见我的GitHub：
+----------------------------
+[GITHUB](https://github.com/nesror/CardEditTextView)
+
+Use
+````
+<cn.yzapp.cardedittextview.CardEditTextView
+        xmlns:cardedit="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/et_ccode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:hint="输入卡号"
+        android:imeOptions="actionDone"
+        android:maxLength="19"
+        android:padding="10dp"
+        android:privateImeOptions="验证"
+        android:textColor="#fb6d86"
+        android:textColorHint="#fda8b7"
+        cardedit:CardEditTextView_hintSize="18"
+        cardedit:CardEditTextView_textSize="26"/>
+````
+
+ * hideHintAndGravity2Left()
+  * 隐藏Hint并文字居左 默认获得焦点和点击时触发
+ * ShowHintAndGravity2Center()
+  *  显示Hint并文字居中 需要时手动调用
+ * setHintSize(int size)
+  *  设置显示hint时的字体大小（也可以在布局文件里设置）
+ * setNumSize(int size)
+  *  设置显示内容时的字体大小（也可以在布局文件里设置）
+
+
+<!-- markdown end -->
+</div>
+<div class="entry" id="main" style="min-height:75%">
+<!-- content -->
+<p>以前公司项目中做的需求，现在把他做成aar了</p>
+
+<ul>
+<li>一个cardId输入的EditText,每4位增加一个空格，可以分别设置hint和number的字体大小，自动对齐控制</li>
+</ul>
+
+<h2 id="github">下载和使用见我的GitHub：</h2>
+
+<p><a href="https://github.com/nesror/CardEditTextView">GITHUB</a></p>
+
+<p>Use</p>
+
+<pre><code class="`">&lt;cn.yzapp.cardedittextview.CardEditTextView
+        xmlns:cardedit="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/et_ccode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:hint="输入卡号"
+        android:imeOptions="actionDone"
+        android:maxLength="19"
+        android:padding="10dp"
+        android:privateImeOptions="验证"
+        android:textColor="#fb6d86"
+        android:textColorHint="#fda8b7"
+        cardedit:CardEditTextView_hintSize="18"
+        cardedit:CardEditTextView_textSize="26"/&gt;
+</code></pre>
+
+<p>`</p>
+
+<ul>
+<li>hideHintAndGravity2Left()
+<ul><li>隐藏Hint并文字居左 默认获得焦点和点击时触发</li></ul></li>
+<li>ShowHintAndGravity2Center()
+<ul><li>显示Hint并文字居中 需要时手动调用</li></ul></li>
+<li>setHintSize(int size)
+<ul><li>设置显示hint时的字体大小（也可以在布局文件里设置）</li></ul></li>
+<li>setNumSize(int size)
+<ul><li>设置显示内容时的字体大小（也可以在布局文件里设置）</li></ul></li>
+</ul>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer" style="height:5%">
+		<p>© Copyright 2015 by yzapp.cn, Code by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "CardEditTextView.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256645027'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256645027%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+</body>
+</html>
