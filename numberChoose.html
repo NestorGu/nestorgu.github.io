@@ -38,12 +38,114 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
-please wait
+NumChooseView
+========
+
+<img src="img\img_1.png" width="200" height="100"/>
+
+<img src="img\img_3.gif" width="800" height="450"/>
+
+Add NumChooseView to your project
+----------------------------
+Gradle:
+```
+   compile 'cn.yzapp.numchooseview:numchooseviewlib:0.9.8@aar'
+```
+
+Maven:
+```
+<dependency>
+  <groupId>cn.yzapp.numchooseview</groupId>
+  <artifactId>numchooseviewlib</artifactId>
+  <version>0.9.8</version>
+  <type>aar</type>
+</dependency>
+```
+[ ![Download](https://api.bintray.com/packages/nesror/maven/NumChooseView/images/download.svg) ]()
+
+Use
+----------------------------
+````
+<cn.yzapp.numchooseviewlib.NumChooseView
+            android:id="@+id/num_view"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp" />
+````
+
+ * 得到数量
+  * getBuyNum()
+ * 设置库存
+  * setShowStorage(long showStorage)
+ * 设置最少购买数量
+  * setLeastBuyNum(long buyNum)
+ * 设置限购数量
+  * setLimitNum(long limitNum)
+ * 设置根视图，用于监听键盘是否收起
+  * setRootView(final View rootView)
+ * 设置是否显示提示
+  * setCanShowHint(boolean showToast)
+
+Release History
+------------------------
+[CHANGELOG](CHANGELOG.md)
+
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<p>please wai't</p>
+<h1 id="numchooseview">NumChooseView</h1>
+
+<p><img src="img\img_1.png" width="200" height="100"></p>
+
+<p><img src="img\img_3.gif" width="800" height="450"></p>
+
+<h2 id="addnumchooseviewtoyourproject">Add NumChooseView to your project</h2>
+
+<p>Gradle:</p>
+
+<pre><code>   compile 'cn.yzapp.numchooseview:numchooseviewlib:0.9.8@aar'
+</code></pre>
+
+<p>Maven:</p>
+
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;cn.yzapp.numchooseview&lt;/groupId&gt;
+  &lt;artifactId&gt;numchooseviewlib&lt;/artifactId&gt;
+  &lt;version&gt;0.9.8&lt;/version&gt;
+  &lt;type&gt;aar&lt;/type&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p><a href=""> <img src="https://api.bintray.com/packages/nesror/maven/NumChooseView/images/download.svg" alt="Download" title=""> </a></p>
+
+<h2 id="use">Use</h2>
+
+<pre><code class="`">&lt;cn.yzapp.numchooseviewlib.NumChooseView
+            android:id="@+id/num_view"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp" /&gt;
+</code></pre>
+
+<p>`</p>
+
+<ul>
+<li>得到数量
+<ul><li>getBuyNum()</li></ul></li>
+<li>设置库存
+<ul><li>setShowStorage(long showStorage)</li></ul></li>
+<li>设置最少购买数量
+<ul><li>setLeastBuyNum(long buyNum)</li></ul></li>
+<li>设置限购数量
+<ul><li>setLimitNum(long limitNum)</li></ul></li>
+<li>设置根视图，用于监听键盘是否收起
+<ul><li>setRootView(final View rootView)</li></ul></li>
+<li>设置是否显示提示
+<ul><li>setCanShowHint(boolean showToast)</li></ul></li>
+</ul>
+
+<h2 id="releasehistory">Release History</h2>
+
+<p><a href="CHANGELOG.md">CHANGELOG</a></p>
 <!-- content end -->
 </div>
 <br>
