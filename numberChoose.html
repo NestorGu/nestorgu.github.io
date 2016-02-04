@@ -45,26 +45,13 @@ NumChooseView
 
 <img src="img\img_3.gif" width="800" height="450"/>
 
-Add NumChooseView to your project
+GITHUB：
 ----------------------------
-Gradle:
-```
-   compile 'cn.yzapp.numchooseview:numchooseviewlib:0.9.9@aar'
-```
-
-Maven:
-```
-<dependency>
-  <groupId>cn.yzapp.numchooseview</groupId>
-  <artifactId>numchooseviewlib</artifactId>
-  <version>0.9.9</version>
-  <type>aar</type>
-</dependency>
-```
-[ ![Download](https://api.bintray.com/packages/nesror/maven/NumChooseView/images/download.svg) ]()
+[https://github.com/nesror/NumChooseView](https://github.com/nesror/NumChooseView)
 
 Use
 ----------------------------
+ * 布局文件
 ````
 <cn.yzapp.numchooseviewlib.NumChooseView
             android:id="@+id/num_view"
@@ -73,21 +60,30 @@ Use
 ````
 
  * 得到数量
-  * getBuyNum()
- * 设置库存
-  * setShowStorage(long showStorage)
- * 设置最少购买数量
-  * setLeastBuyNum(long buyNum)
- * 设置限购数量
-  * setLimitNum(long limitNum)
+~~~~
+getBuyNum()
+~~~~
+ * 设置限制条件
+~~~~
+/**
+  * 设置限制条件
+  *
+  * @param showStorage 库存
+  * @param leastbuyNum 最少购买数量
+  * @param limitNum    限购数量
+  * @param basicNum    购买基数
+  * NOT_LIMIT 不做限制
+*/
+setTerm(long showStorage, long leastbuyNum, long limitNum, long basicNum)
+~~~~
  * 设置根视图，用于监听键盘是否收起
-  * setRootView(final View rootView)
+~~~~
+setRootView(final View rootView)
+~~~~
  * 设置是否显示提示
-  * setCanShowHint(boolean showToast)
-
-Release History
-------------------------
-[CHANGELOG](CHANGELOG.md)
+~~~~
+setCanShowHint(boolean showToast)
+~~~~
 
 <!-- markdown end -->
 </div>
@@ -99,26 +95,15 @@ Release History
 
 <p><img src="img\img_3.gif" width="800" height="450"></p>
 
-<h2 id="addnumchooseviewtoyourproject">Add NumChooseView to your project</h2>
+<h2 id="github">GITHUB：</h2>
 
-<p>Gradle:</p>
-
-<pre><code>   compile 'cn.yzapp.numchooseview:numchooseviewlib:0.9.9@aar'
-</code></pre>
-
-<p>Maven:</p>
-
-<pre><code>&lt;dependency&gt;
-  &lt;groupId&gt;cn.yzapp.numchooseview&lt;/groupId&gt;
-  &lt;artifactId&gt;numchooseviewlib&lt;/artifactId&gt;
-  &lt;version&gt;0.9.9&lt;/version&gt;
-  &lt;type&gt;aar&lt;/type&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p><a href=""> <img src="https://api.bintray.com/packages/nesror/maven/NumChooseView/images/download.svg" alt="Download" title=""> </a></p>
+<p><a href="https://github.com/nesror/NumChooseView">https://github.com/nesror/NumChooseView</a></p>
 
 <h2 id="use">Use</h2>
+
+<ul>
+<li>布局文件</li>
+</ul>
 
 <pre><code class="`">&lt;cn.yzapp.numchooseviewlib.NumChooseView
             android:id="@+id/num_view"
@@ -129,23 +114,26 @@ Release History
 <p>`</p>
 
 <ul>
-<li>得到数量
-<ul><li>getBuyNum()</li></ul></li>
-<li>设置库存
-<ul><li>setShowStorage(long showStorage)</li></ul></li>
-<li>设置最少购买数量
-<ul><li>setLeastBuyNum(long buyNum)</li></ul></li>
-<li>设置限购数量
-<ul><li>setLimitNum(long limitNum)</li></ul></li>
-<li>设置根视图，用于监听键盘是否收起
-<ul><li>setRootView(final View rootView)</li></ul></li>
-<li>设置是否显示提示
-<ul><li>setCanShowHint(boolean showToast)</li></ul></li>
+<li>得到数量</li>
 </ul>
 
-<h2 id="releasehistory">Release History</h2>
-
-<p><a href="CHANGELOG.md">CHANGELOG</a></p>
+<pre><code>getBuyNum()
+</code></pre> * 设置限制条件
+<pre><code>/**
+  * 设置限制条件
+  *
+  * @param showStorage 库存
+  * @param leastbuyNum 最少购买数量
+  * @param limitNum    限购数量
+  * @param basicNum    购买基数
+  * NOT_LIMIT 不做限制
+*/
+setTerm(long showStorage, long leastbuyNum, long limitNum, long basicNum)
+</code></pre> * 设置根视图，用于监听键盘是否收起
+<pre><code>setRootView(final View rootView)
+</code></pre> * 设置是否显示提示
+<pre><code>setCanShowHint(boolean showToast)
+</code></pre>
 <!-- content end -->
 </div>
 <br>
