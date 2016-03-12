@@ -38,8 +38,6 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
-~~~~java
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
@@ -49,7 +47,7 @@
                 onTouchEvent(ev);
                 return false;
             case MotionEvent.ACTION_MOVE:
-                if ((Math.abs(ev.getX() - downX) < 5 && (Math.abs(ev.getY() - downY) < 5))
+                if ((Math.abs(ev.getX() - downX) < CLICK_SIZE && (Math.abs(ev.getY() - downY) < CLICK_SIZE))
                        || Math.abs(ev.getX() - downX) > Math.abs(ev.getY() - downY)) {
                     onTouchEvent(ev);
                     return false;
@@ -59,13 +57,11 @@
                 return super.onInterceptTouchEvent(ev);
         }
     }
-~~~~
+
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<p>~~~~java</p>
-
 <pre><code>@Override
 public boolean onInterceptTouchEvent(MotionEvent ev) {
     switch (ev.getAction()) {
@@ -75,7 +71,7 @@ public boolean onInterceptTouchEvent(MotionEvent ev) {
             onTouchEvent(ev);
             return false;
         case MotionEvent.ACTION_MOVE:
-            if ((Math.abs(ev.getX() - downX) &lt; 5 &amp;&amp; (Math.abs(ev.getY() - downY) &lt; 5))
+            if ((Math.abs(ev.getX() - downX) &lt; CLICK_SIZE &amp;&amp; (Math.abs(ev.getY() - downY) &lt; CLICK_SIZE))
                    || Math.abs(ev.getX() - downX) &gt; Math.abs(ev.getY() - downY)) {
                 onTouchEvent(ev);
                 return false;
@@ -86,8 +82,6 @@ public boolean onInterceptTouchEvent(MotionEvent ev) {
     }
 }
 </code></pre>
-
-<p>~~~~</p>
 <!-- content end -->
 </div>
 <br>
