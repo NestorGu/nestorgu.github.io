@@ -38,12 +38,263 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
-mark
+1.设置listview的height为所有item高度的总和,
+再配合http://blog.yzapp.cn/ScrollView.html 解决ScrollView里嵌套RecyclerView没有惯性滚动
+ + 优点：
+   * 简单，滑动流畅
+ + 缺点：
+   * listview不能复用view，不适用数据太多的情况
+   * 不能监听listview的滑动情况，无法判断哪个item消失了
+   * item高度不统一时listview的height计算复杂
+
+2.自定义ScrollView增加onScrollChanged事件监听，使用ScrollView的onInterceptTouchEvent进行事件拦截，
+再配合listview的onScrollStateChanged。
+
+~~~~java
+// 自定义ScrollView增加onScrollChanged事件监听
+@Override
+protected void onScrollChanged(int x, int y, int oldx, int oldy) {
+    super.onScrollChanged(x, y, oldx, oldy);
+    if (scrollViewListener != null) {
+        scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
+    }
+}
+~~~~
+
+~~~~java
+// 使用ScrollView的onInterceptTouchEvent进行事件拦截
+/**
+ * 解决ScrollView里嵌套listview没有惯性滚动，控制ScrollView拦截状态
+ * mNeedITE listview是否滑倒顶部，可以拦截touch事件
+ * mNeedITE2 listview是否全屏（scrollView没有滑倒顶部），可以拦截touch事件
+ */
+@Override
+public boolean onInterceptTouchEvent(MotionEvent ev) {
+    if (mNeedITE2 && mNeedITE) {
+        // listview是否滑倒顶部并且scrollView没有滑倒顶部，拦截touch事件，由scrollView处理滑动
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = ev.getX();
+                downY = ev.getY();
+                onTouchEvent(ev);
+                return false;
+            case MotionEvent.ACTION_MOVE:
+                if ((Math.abs(ev.getX() - downX) < Util.dip2px(getContext(), 3) && (Math.abs(ev.getY() - downY) < Util.dip2px(getContext(), 3)))
+                        || Math.abs(ev.getX() - downX) > Math.abs(ev.getY() - downY)) {
+                    // 点击事件不拦截
+                    onTouchEvent(ev);
+                    return false;
+                }
+                return true;
+            default:
+                return false;
+        }
+    } else {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = ev.getX();
+                downY = ev.getY();
+                onTouchEvent(ev);
+                return false;
+            case MotionEvent.ACTION_MOVE:
+                if (mNeedITE2 || ((ev.getY() - downY) > 0 && mNeedITE)) {
+                    // scrollView没有滑倒顶部 或者 scrollView滑倒顶，istview也滑倒顶部向下滑 拦截touch事件
+                    onTouchEvent(ev);
+                    return true;
+                }
+                return false;
+            default:
+                return false;
+        }
+    }
+}
+~~~~
+
+~~~~java
+// listview的onScrollStateChanged
+/**
+ * listView 滑动监听
+ */
+serviceSon.setOnScrollListener(new AbsListView.OnScrollListener() {
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+        View firstView = absListView.getChildAt(0);
+        if (firstView != null) {
+            if (firstView.getTop() >= 0) {
+                // 滑倒顶部
+                scrollview.setITE(true, null);
+                mScrollviewTouch = true;
+            } else {
+                scrollview.setITE(false, null);
+                mScrollviewTouch = false;
+            }
+        }
+
+        // 改变父类目的选中状态
+        if (mChooseService.size() > i && !mFathername.equals(mChooseService.get(i).getFathername())) {
+            mFathername = mChooseService.get(i).getFathername();
+        }
+        if (mSonChangeFather) {
+            for (StoreServiceList storeServiceList : storeService) {
+                if (storeServiceList.getServiceName().equals(mFathername)) {
+                    storeServiceList.setChoose(true);
+                } else {
+                    storeServiceList.setChoose(false);
+                }
+            }
+            mFatherAdapt.notifyDataSetChanged();
+        }
+        mSonChangeFather = true;
+    }
+});
+~~~~
++ 优点：
+  * 可以监听listview的滑动情况，判断哪个item消失并对父类目的listview进行相应的改变
+  * 滑动流畅
++ 缺点：
+  * 实现比较复杂
+  * listview滑倒顶部，再向下滑时需要松下收再向下划（也有解决方法，listview向下滑时时触发ScrollView的onTouch事件，但滑动不流畅而且没有惯性）
+
+3.使用子listview的addHeaderView，把ScrollView里的其他view放进去，去掉ScrollView。
+由于最底下是两个listview并列的，所以需要在HeaderView设置layout_marginRight为负的父listview的宽度。
+
+4.使用support.design包里的，CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout。也许可行，未尝试。
+
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<p>mark</p>
+<p>1.设置listview的height为所有item高度的总和,
+再配合http://blog.yzapp.cn/ScrollView.html 解决ScrollView里嵌套RecyclerView没有惯性滚动
+ + 优点：
+   * 简单，滑动流畅
+ + 缺点：
+   * listview不能复用view，不适用数据太多的情况
+   * 不能监听listview的滑动情况，无法判断哪个item消失了
+   * item高度不统一时listview的height计算复杂</p>
+
+<p>2.自定义ScrollView增加onScrollChanged事件监听，使用ScrollView的onInterceptTouchEvent进行事件拦截，
+再配合listview的onScrollStateChanged。</p>
+
+<p>~~~~java
+// 自定义ScrollView增加onScrollChanged事件监听
+@Override
+protected void onScrollChanged(int x, int y, int oldx, int oldy) {
+    super.onScrollChanged(x, y, oldx, oldy);
+    if (scrollViewListener != null) {
+        scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
+    }
+}</p>
+
+<pre><code>
+~~~~java
+// 使用ScrollView的onInterceptTouchEvent进行事件拦截
+/**
+ * 解决ScrollView里嵌套listview没有惯性滚动，控制ScrollView拦截状态
+ * mNeedITE listview是否滑倒顶部，可以拦截touch事件
+ * mNeedITE2 listview是否全屏（scrollView没有滑倒顶部），可以拦截touch事件
+ */
+@Override
+public boolean onInterceptTouchEvent(MotionEvent ev) {
+    if (mNeedITE2 &amp;&amp; mNeedITE) {
+        // listview是否滑倒顶部并且scrollView没有滑倒顶部，拦截touch事件，由scrollView处理滑动
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = ev.getX();
+                downY = ev.getY();
+                onTouchEvent(ev);
+                return false;
+            case MotionEvent.ACTION_MOVE:
+                if ((Math.abs(ev.getX() - downX) &lt; Util.dip2px(getContext(), 3) &amp;&amp; (Math.abs(ev.getY() - downY) &lt; Util.dip2px(getContext(), 3)))
+                        || Math.abs(ev.getX() - downX) &gt; Math.abs(ev.getY() - downY)) {
+                    // 点击事件不拦截
+                    onTouchEvent(ev);
+                    return false;
+                }
+                return true;
+            default:
+                return false;
+        }
+    } else {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = ev.getX();
+                downY = ev.getY();
+                onTouchEvent(ev);
+                return false;
+            case MotionEvent.ACTION_MOVE:
+                if (mNeedITE2 || ((ev.getY() - downY) &gt; 0 &amp;&amp; mNeedITE)) {
+                    // scrollView没有滑倒顶部 或者 scrollView滑倒顶，istview也滑倒顶部向下滑 拦截touch事件
+                    onTouchEvent(ev);
+                    return true;
+                }
+                return false;
+            default:
+                return false;
+        }
+    }
+}
+</code></pre>
+
+<p>~~~~java
+// listview的onScrollStateChanged
+/**
+ * listView 滑动监听
+ */
+serviceSon.setOnScrollListener(new AbsListView.OnScrollListener() {
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+    }</p>
+
+<pre><code>@Override
+public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+    View firstView = absListView.getChildAt(0);
+    if (firstView != null) {
+        if (firstView.getTop() &gt;= 0) {
+            // 滑倒顶部
+            scrollview.setITE(true, null);
+            mScrollviewTouch = true;
+        } else {
+            scrollview.setITE(false, null);
+            mScrollviewTouch = false;
+        }
+    }
+
+    // 改变父类目的选中状态
+    if (mChooseService.size() &gt; i &amp;&amp; !mFathername.equals(mChooseService.get(i).getFathername())) {
+        mFathername = mChooseService.get(i).getFathername();
+    }
+    if (mSonChangeFather) {
+        for (StoreServiceList storeServiceList : storeService) {
+            if (storeServiceList.getServiceName().equals(mFathername)) {
+                storeServiceList.setChoose(true);
+            } else {
+                storeServiceList.setChoose(false);
+            }
+        }
+        mFatherAdapt.notifyDataSetChanged();
+    }
+    mSonChangeFather = true;
+}
+</code></pre>
+
+<p>});
+~~~~
++ 优点：
+  * 可以监听listview的滑动情况，判断哪个item消失并对父类目的listview进行相应的改变
+  * 滑动流畅
++ 缺点：
+  * 实现比较复杂
+  * listview滑倒顶部，再向下滑时需要松下收再向下划（也有解决方法，listview向下滑时时触发ScrollView的onTouch事件，但滑动不流畅而且没有惯性）</p>
+
+<p>3.使用子listview的addHeaderView，把ScrollView里的其他view放进去，去掉ScrollView。
+由于最底下是两个listview并列的，所以需要在HeaderView设置layout_marginRight为负的父listview的宽度。</p>
+
+<p>4.使用support.design包里的，CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout。也许可行，未尝试。</p>
 <!-- content end -->
 </div>
 <br>
