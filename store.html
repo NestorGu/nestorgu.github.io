@@ -38,8 +38,11 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
-1.设置listview的height为所有item高度的总和,
-再配合http://blog.yzapp.cn/ScrollView.html 解决ScrollView里嵌套RecyclerView没有惯性滚动
+1.计算listview高度
+~~~~
+设置listview的height为所有item高度的总和,再配合http://blog.yzapp.cn/ScrollView.html 解决ScrollView里嵌套RecyclerView没有惯性滚动
+~~~~
+
  + 优点：
    * 简单，滑动流畅
  + 缺点：
@@ -47,10 +50,12 @@
    * 不能监听listview的滑动情况，无法判断哪个item消失了
    * item高度不统一时listview的height计算复杂
 
-2.自定义ScrollView增加onScrollChanged事件监听，使用ScrollView的onInterceptTouchEvent进行事件拦截，
-再配合listview的onScrollStateChanged。
+2.使用事件分发机制
+~~~~
+自定义ScrollView增加onScrollChanged事件监听，使用ScrollView的onInterceptTouchEvent进行事件拦截，再配合listview的onScrollStateChanged。
+~~~~
 
-~~~~java
+~~~~{java}
 // 自定义ScrollView增加onScrollChanged事件监听
 @Override
 protected void onScrollChanged(int x, int y, int oldx, int oldy) {
@@ -59,9 +64,7 @@ protected void onScrollChanged(int x, int y, int oldx, int oldy) {
         scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
     }
 }
-~~~~
 
-~~~~java
 // 使用ScrollView的onInterceptTouchEvent进行事件拦截
 /**
  * 解决ScrollView里嵌套listview没有惯性滚动，控制ScrollView拦截状态
@@ -108,9 +111,7 @@ public boolean onInterceptTouchEvent(MotionEvent ev) {
         }
     }
 }
-~~~~
 
-~~~~java
 // listview的onScrollStateChanged
 /**
  * listView 滑动监听
@@ -152,6 +153,7 @@ serviceSon.setOnScrollListener(new AbsListView.OnScrollListener() {
     }
 });
 ~~~~
+
 + 优点：
   * 可以监听listview的滑动情况，判断哪个item消失并对父类目的listview进行相应的改变
   * 滑动流畅
@@ -159,140 +161,148 @@ serviceSon.setOnScrollListener(new AbsListView.OnScrollListener() {
   * 实现比较复杂
   * listview滑倒顶部，再向下滑时需要松下收再向下划（也有解决方法，listview向下滑时时触发ScrollView的onTouch事件，但滑动不流畅而且没有惯性）
 
-3.使用子listview的addHeaderView，把ScrollView里的其他view放进去，去掉ScrollView。
+3.使用ListView的addHeaderView
+~~~~
+使用子listview的addHeaderView，把ScrollView里的其他view放进去，去掉ScrollView。
 由于最底下是两个listview并列的，所以需要在HeaderView设置layout_marginRight为负的父listview的宽度。
+~~~~
 
 4.使用support.design包里的，CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout。也许可行，未尝试。
-
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<p>1.设置listview的height为所有item高度的总和,
-再配合http://blog.yzapp.cn/ScrollView.html 解决ScrollView里嵌套RecyclerView没有惯性滚动
- + 优点：
-   * 简单，滑动流畅
- + 缺点：
-   * listview不能复用view，不适用数据太多的情况
-   * 不能监听listview的滑动情况，无法判断哪个item消失了
-   * item高度不统一时listview的height计算复杂</p>
+<p>1.计算listview高度</p>
 
-<p>2.自定义ScrollView增加onScrollChanged事件监听，使用ScrollView的onInterceptTouchEvent进行事件拦截，
-再配合listview的onScrollStateChanged。</p>
+<pre><code>设置listview的height为所有item高度的总和,再配合http://blog.yzapp.cn/ScrollView.html 解决ScrollView里嵌套RecyclerView没有惯性滚动
+</code></pre>
 
-<p>~~~~java
-// 自定义ScrollView增加onScrollChanged事件监听
-@Override
-protected void onScrollChanged(int x, int y, int oldx, int oldy) {
-    super.onScrollChanged(x, y, oldx, oldy);
-    if (scrollViewListener != null) {
-        scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
-    }
-}</p>
+<ul>
+<li>优点：
+<ul><li>简单，滑动流畅</li></ul></li>
+<li>缺点：
+<ul><li>listview不能复用view，不适用数据太多的情况</li>
+<li>不能监听listview的滑动情况，无法判断哪个item消失了</li>
+<li>item高度不统一时listview的height计算复杂</li></ul></li>
+</ul>
 
-<pre><code>
-~~~~java
+<p>2.使用事件分发机制</p>
+
+<pre><code>自定义ScrollView增加onScrollChanged事件监听，使用ScrollView的onInterceptTouchEvent进行事件拦截，再配合listview的onScrollStateChanged。
+</code></pre>
+
+<pre class=" language-java"><code class=" language-java"><span class="token comment" spellcheck="true">// 自定义ScrollView增加onScrollChanged事件监听
+</span>@Override
+<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">onScrollChanged<span class="token punctuation">(</span></span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">,</span> <span class="token keyword">int</span> oldx<span class="token punctuation">,</span> <span class="token keyword">int</span> oldy<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">onScrollChanged<span class="token punctuation">(</span></span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> oldx<span class="token punctuation">,</span> oldy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>scrollViewListener <span class="token operator">!</span><span class="token operator">=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        scrollViewListener<span class="token punctuation">.</span><span class="token function">onScrollChanged<span class="token punctuation">(</span></span><span class="token keyword">this</span><span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> oldx<span class="token punctuation">,</span> oldy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">
 // 使用ScrollView的onInterceptTouchEvent进行事件拦截
-/**
+</span><span class="token comment" spellcheck="true">/**
  * 解决ScrollView里嵌套listview没有惯性滚动，控制ScrollView拦截状态
  * mNeedITE listview是否滑倒顶部，可以拦截touch事件
  * mNeedITE2 listview是否全屏（scrollView没有滑倒顶部），可以拦截touch事件
- */
+ */</span>
 @Override
-public boolean onInterceptTouchEvent(MotionEvent ev) {
-    if (mNeedITE2 &amp;&amp; mNeedITE) {
-        // listview是否滑倒顶部并且scrollView没有滑倒顶部，拦截touch事件，由scrollView处理滑动
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                downX = ev.getX();
-                downY = ev.getY();
-                onTouchEvent(ev);
-                return false;
-            case MotionEvent.ACTION_MOVE:
-                if ((Math.abs(ev.getX() - downX) &lt; Util.dip2px(getContext(), 3) &amp;&amp; (Math.abs(ev.getY() - downY) &lt; Util.dip2px(getContext(), 3)))
-                        || Math.abs(ev.getX() - downX) &gt; Math.abs(ev.getY() - downY)) {
-                    // 点击事件不拦截
-                    onTouchEvent(ev);
-                    return false;
-                }
-                return true;
-            default:
-                return false;
-        }
-    } else {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                downX = ev.getX();
-                downY = ev.getY();
-                onTouchEvent(ev);
-                return false;
-            case MotionEvent.ACTION_MOVE:
-                if (mNeedITE2 || ((ev.getY() - downY) &gt; 0 &amp;&amp; mNeedITE)) {
-                    // scrollView没有滑倒顶部 或者 scrollView滑倒顶，istview也滑倒顶部向下滑 拦截touch事件
-                    onTouchEvent(ev);
-                    return true;
-                }
-                return false;
-            default:
-                return false;
-        }
-    }
-}
-</code></pre>
-
-<p>~~~~java
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">onInterceptTouchEvent<span class="token punctuation">(</span></span>MotionEvent ev<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>mNeedITE2 <span class="token operator">&amp;&amp;</span> mNeedITE<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token comment" spellcheck="true"> // listview是否滑倒顶部并且scrollView没有滑倒顶部，拦截touch事件，由scrollView处理滑动
+</span>        <span class="token keyword">switch</span> <span class="token punctuation">(</span>ev<span class="token punctuation">.</span><span class="token function">getAction<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> MotionEvent<span class="token punctuation">.</span>ACTION_DOWN<span class="token operator">:</span>
+                downX <span class="token operator">=</span> ev<span class="token punctuation">.</span><span class="token function">getX<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                downY <span class="token operator">=</span> ev<span class="token punctuation">.</span><span class="token function">getY<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">onTouchEvent<span class="token punctuation">(</span></span>ev<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> MotionEvent<span class="token punctuation">.</span>ACTION_MOVE<span class="token operator">:</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">abs<span class="token punctuation">(</span></span>ev<span class="token punctuation">.</span><span class="token function">getX<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">-</span> downX<span class="token punctuation">)</span> <span class="token operator">&lt;</span> Util<span class="token punctuation">.</span><span class="token function">dip2px<span class="token punctuation">(</span></span><span class="token function">getContext<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number"> 3</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">abs<span class="token punctuation">(</span></span>ev<span class="token punctuation">.</span><span class="token function">getY<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">-</span> downY<span class="token punctuation">)</span> <span class="token operator">&lt;</span> Util<span class="token punctuation">.</span><span class="token function">dip2px<span class="token punctuation">(</span></span><span class="token function">getContext<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number"> 3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token operator">||</span> Math<span class="token punctuation">.</span><span class="token function">abs<span class="token punctuation">(</span></span>ev<span class="token punctuation">.</span><span class="token function">getX<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">-</span> downX<span class="token punctuation">)</span> &gt; Math<span class="token punctuation">.</span><span class="token function">abs<span class="token punctuation">(</span></span>ev<span class="token punctuation">.</span><span class="token function">getY<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">-</span> downY<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                   <span class="token comment" spellcheck="true"> // 点击事件不拦截
+</span>                    <span class="token function">onTouchEvent<span class="token punctuation">(</span></span>ev<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>ev<span class="token punctuation">.</span><span class="token function">getAction<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> MotionEvent<span class="token punctuation">.</span>ACTION_DOWN<span class="token operator">:</span>
+                downX <span class="token operator">=</span> ev<span class="token punctuation">.</span><span class="token function">getX<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                downY <span class="token operator">=</span> ev<span class="token punctuation">.</span><span class="token function">getY<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">onTouchEvent<span class="token punctuation">(</span></span>ev<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> MotionEvent<span class="token punctuation">.</span>ACTION_MOVE<span class="token operator">:</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>mNeedITE2 <span class="token operator">||</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ev<span class="token punctuation">.</span><span class="token function">getY<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">-</span> downY<span class="token punctuation">)</span> &gt;<span class="token number"> 0</span> <span class="token operator">&amp;&amp;</span> mNeedITE<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                   <span class="token comment" spellcheck="true"> // scrollView没有滑倒顶部 或者 scrollView滑倒顶，istview也滑倒顶部向下滑 拦截touch事件
+</span>                    <span class="token function">onTouchEvent<span class="token punctuation">(</span></span>ev<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">
 // listview的onScrollStateChanged
-/**
+</span><span class="token comment" spellcheck="true">/**
  * listView 滑动监听
- */
-serviceSon.setOnScrollListener(new AbsListView.OnScrollListener() {
+ */</span>
+serviceSon<span class="token punctuation">.</span><span class="token function">setOnScrollListener<span class="token punctuation">(</span></span><span class="token keyword">new</span> <span class="token class-name">AbsListView<span class="token punctuation">.</span>OnScrollListener</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     @Override
-    public void onScrollStateChanged(AbsListView absListView, int i) {
-    }</p>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onScrollStateChanged<span class="token punctuation">(</span></span>AbsListView absListView<span class="token punctuation">,</span> <span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
 
-<pre><code>@Override
-public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-    View firstView = absListView.getChildAt(0);
-    if (firstView != null) {
-        if (firstView.getTop() &gt;= 0) {
-            // 滑倒顶部
-            scrollview.setITE(true, null);
-            mScrollviewTouch = true;
-        } else {
-            scrollview.setITE(false, null);
-            mScrollviewTouch = false;
-        }
-    }
+    @Override
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onScroll<span class="token punctuation">(</span></span>AbsListView absListView<span class="token punctuation">,</span> <span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span> i1<span class="token punctuation">,</span> <span class="token keyword">int</span> i2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        View firstView <span class="token operator">=</span> absListView<span class="token punctuation">.</span><span class="token function">getChildAt<span class="token punctuation">(</span></span>0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>firstView <span class="token operator">!</span><span class="token operator">=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>firstView<span class="token punctuation">.</span><span class="token function">getTop<span class="token punctuation">(</span></span><span class="token punctuation">)</span> &gt;<span class="token operator">=</span><span class="token number"> 0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+               <span class="token comment" spellcheck="true"> // 滑倒顶部
+</span>                scrollview<span class="token punctuation">.</span><span class="token function">setITE<span class="token punctuation">(</span></span><span class="token boolean">true</span><span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                mScrollviewTouch <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                scrollview<span class="token punctuation">.</span><span class="token function">setITE<span class="token punctuation">(</span></span><span class="token boolean">false</span><span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                mScrollviewTouch <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
 
-    // 改变父类目的选中状态
-    if (mChooseService.size() &gt; i &amp;&amp; !mFathername.equals(mChooseService.get(i).getFathername())) {
-        mFathername = mChooseService.get(i).getFathername();
-    }
-    if (mSonChangeFather) {
-        for (StoreServiceList storeServiceList : storeService) {
-            if (storeServiceList.getServiceName().equals(mFathername)) {
-                storeServiceList.setChoose(true);
-            } else {
-                storeServiceList.setChoose(false);
-            }
-        }
-        mFatherAdapt.notifyDataSetChanged();
-    }
-    mSonChangeFather = true;
-}
+       <span class="token comment" spellcheck="true"> // 改变父类目的选中状态
+</span>        <span class="token keyword">if</span> <span class="token punctuation">(</span>mChooseService<span class="token punctuation">.</span><span class="token function">size<span class="token punctuation">(</span></span><span class="token punctuation">)</span> &gt; i <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>mFathername<span class="token punctuation">.</span><span class="token function">equals<span class="token punctuation">(</span></span>mChooseService<span class="token punctuation">.</span><span class="token function">get<span class="token punctuation">(</span></span>i<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getFathername<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            mFathername <span class="token operator">=</span> mChooseService<span class="token punctuation">.</span><span class="token function">get<span class="token punctuation">(</span></span>i<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getFathername<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>mSonChangeFather<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>StoreServiceList storeServiceList <span class="token operator">:</span> storeService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>storeServiceList<span class="token punctuation">.</span><span class="token function">getServiceName<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals<span class="token punctuation">(</span></span>mFathername<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    storeServiceList<span class="token punctuation">.</span><span class="token function">setChoose<span class="token punctuation">(</span></span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    storeServiceList<span class="token punctuation">.</span><span class="token function">setChoose<span class="token punctuation">(</span></span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            mFatherAdapt<span class="token punctuation">.</span><span class="token function">notifyDataSetChanged<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        mSonChangeFather <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 
-<p>});
-~~~~
-+ 优点：
-  * 可以监听listview的滑动情况，判断哪个item消失并对父类目的listview进行相应的改变
-  * 滑动流畅
-+ 缺点：
-  * 实现比较复杂
-  * listview滑倒顶部，再向下滑时需要松下收再向下划（也有解决方法，listview向下滑时时触发ScrollView的onTouch事件，但滑动不流畅而且没有惯性）</p>
+<ul>
+<li>优点：
+<ul><li>可以监听listview的滑动情况，判断哪个item消失并对父类目的listview进行相应的改变</li>
+<li>滑动流畅</li></ul></li>
+<li>缺点：
+<ul><li>实现比较复杂</li>
+<li>listview滑倒顶部，再向下滑时需要松下收再向下划（也有解决方法，listview向下滑时时触发ScrollView的onTouch事件，但滑动不流畅而且没有惯性）</li></ul></li>
+</ul>
 
-<p>3.使用子listview的addHeaderView，把ScrollView里的其他view放进去，去掉ScrollView。
-由于最底下是两个listview并列的，所以需要在HeaderView设置layout_marginRight为负的父listview的宽度。</p>
+<p>3.使用ListView的addHeaderView</p>
+
+<pre><code>使用子listview的addHeaderView，把ScrollView里的其他view放进去，去掉ScrollView。
+由于最底下是两个listview并列的，所以需要在HeaderView设置layout_marginRight为负的父listview的宽度。
+</code></pre>
 
 <p>4.使用support.design包里的，CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout。也许可行，未尝试。</p>
 <!-- content end -->
