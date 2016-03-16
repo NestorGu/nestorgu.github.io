@@ -167,7 +167,73 @@ serviceSon.setOnScrollListener(new AbsListView.OnScrollListener() {
 由于最底下是两个listview并列的，所以需要在HeaderView设置layout_marginRight为负的父listview的宽度。
 ~~~~
 
-4.使用support.design包里的，CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout。也许可行，未尝试。
+4.使用support.design包里的，CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout。
+简单的例子：
+~~~~
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.yzapp.myapplication2.ScrollingActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"
+                android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:text="dsvf"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="dsvf"/>
+            </LinearLayout>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_scrolling" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_dialog_email"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        android:background="@android:color/holo_red_dark"/>
+
+</android.support.design.widget.CoordinatorLayout>
+~~~~
+
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
@@ -304,7 +370,72 @@ serviceSon<span class="token punctuation">.</span><span class="token function">s
 由于最底下是两个listview并列的，所以需要在HeaderView设置layout_marginRight为负的父listview的宽度。
 </code></pre>
 
-<p>4.使用support.design包里的，CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout。也许可行，未尝试。</p>
+<p>4.使用support.design包里的，CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout。
+简单的例子：</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.yzapp.myapplication2.ScrollingActivity"&gt;
+
+    &lt;android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay"&gt;
+
+        &lt;android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"
+                android:orientation="vertical"&gt;
+            &lt;TextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:text="dsvf"/&gt;
+            &lt;TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="dsvf"/&gt;
+            &lt;/LinearLayout&gt;
+
+        &lt;/android.support.design.widget.CollapsingToolbarLayout&gt;
+
+
+    &lt;/android.support.design.widget.AppBarLayout&gt;
+
+    &lt;include layout="@layout/content_scrolling" /&gt;
+
+    &lt;android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_dialog_email"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end" /&gt;
+    &lt;android.support.design.widget.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        android:background="@android:color/holo_red_dark"/&gt;
+
+&lt;/android.support.design.widget.CoordinatorLayout&gt;
+</code></pre>
 <!-- content end -->
 </div>
 <br>
