@@ -38,6 +38,8 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
+通过productFlavors打包不同资源文件，以改变应用名称等 
+通过variant.outputs设置打包路径，移动apk到py批量打包的目录
 ~~~~{java}
 productFlavors {
         production {}
@@ -69,7 +71,7 @@ productFlavors {
         }
     }
 ~~~~
-
+通过py脚本根据info里不同文件里的渠道号对应批量打包不同资源的apk
 ~~~~{python}
 #!/usr/bin/python
 # coding=utf-8
@@ -158,129 +160,144 @@ for src_apk in src_apks:
             # 关闭zip流
             zipped.close()
 ~~~~
-
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<pre class=" language-java"><code class=" language-java">productFlavors <span class="token punctuation">{</span>
+<p>通过productFlavors打包不同资源文件，以改变应用名称等 
+通过variant.outputs设置打包路径，移动apk到py批量打包的目录
+</p><pre class=" language-java"><code class=" language-java">productFlavors <span class="token punctuation">{</span>
         production <span class="token punctuation">{</span><span class="token punctuation">}</span>
         longname <span class="token punctuation">{</span><span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 
-    buildTypes <span class="token punctuation">{</span>
-        debug <span class="token punctuation">{</span>
-            signingConfig signingConfigs<span class="token punctuation">.</span>release
-           <span class="token comment" spellcheck="true"> //minifyEnabled true
-</span>            proguardFiles <span class="token string">'proguard-project.txt'</span>
-        <span class="token punctuation">}</span>
-        release <span class="token punctuation">{</span>
-            signingConfig signingConfigs<span class="token punctuation">.</span>release
+buildTypes <span class="token punctuation">{</span>
+    debug <span class="token punctuation">{</span>
+        signingConfig signingConfigs<span class="token punctuation">.</span>release
+       <span class="token comment" spellcheck="true"> //minifyEnabled true
+</span>        proguardFiles <span class="token string">'proguard-project.txt'</span>
+    <span class="token punctuation">}</span>
+    release <span class="token punctuation">{</span>
+        signingConfig signingConfigs<span class="token punctuation">.</span>release
 
-            minifyEnabled <span class="token boolean">true</span>
-            proguardFiles <span class="token string">'proguard-project.txt'</span>
-            applicationVariants<span class="token punctuation">.</span>all <span class="token punctuation">{</span> variant <span class="token operator">-</span>&gt;
-                variant<span class="token punctuation">.</span>outputs<span class="token punctuation">.</span>each <span class="token punctuation">{</span> output <span class="token operator">-</span>&gt;
-                    <span class="token keyword">if</span> <span class="token punctuation">(</span>output<span class="token punctuation">.</span>outputFile <span class="token operator">!</span><span class="token operator">=</span> null <span class="token operator">&amp;&amp;</span> output<span class="token punctuation">.</span>outputFile<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">endsWith<span class="token punctuation">(</span></span><span class="token string">'.apk'</span><span class="token punctuation">)</span>
-                            <span class="token operator">&amp;&amp;</span> <span class="token string">'release'</span><span class="token punctuation">.</span><span class="token function">equals<span class="token punctuation">(</span></span>variant<span class="token punctuation">.</span>buildType<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                        def apkFile <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>
-                                output<span class="token punctuation">.</span>outputFile<span class="token punctuation">.</span><span class="token function">getParent<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"/makeapk"</span><span class="token punctuation">,</span>
-                                <span class="token string">"qichechaoren_v${variant.versionName}_${variant.productFlavors[0].name}.apk"</span><span class="token punctuation">)</span>
-                        output<span class="token punctuation">.</span>outputFile <span class="token operator">=</span> apkFile
-                    <span class="token punctuation">}</span>
+        minifyEnabled <span class="token boolean">true</span>
+        proguardFiles <span class="token string">'proguard-project.txt'</span>
+        applicationVariants<span class="token punctuation">.</span>all <span class="token punctuation">{</span> variant <span class="token operator">-</span><span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>
+            variant<span class="token punctuation">.</span>outputs<span class="token punctuation">.</span>each <span class="token punctuation">{</span> output <span class="token operator">-</span><span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>output<span class="token punctuation">.</span>outputFile <span class="token operator">!</span><span class="token operator">=</span> null <span class="token operator">&amp;&amp;</span> output<span class="token punctuation">.</span>outputFile<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">endsWith<span class="token punctuation">(</span></span><span class="token string">'.apk'</span><span class="token punctuation">)</span>
+                        <span class="token operator">&amp;&amp;</span> <span class="token string">'release'</span><span class="token punctuation">.</span><span class="token function">equals<span class="token punctuation">(</span></span>variant<span class="token punctuation">.</span>buildType<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    def apkFile <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>
+                            output<span class="token punctuation">.</span>outputFile<span class="token punctuation">.</span><span class="token function">getParent<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"/makeapk"</span><span class="token punctuation">,</span>
+                            <span class="token string">"qichechaoren_v${variant.versionName}_${variant.productFlavors[0].name}.apk"</span><span class="token punctuation">)</span>
+                    output<span class="token punctuation">.</span>outputFile <span class="token operator">=</span> apkFile
                 <span class="token punctuation">}</span>
             <span class="token punctuation">}</span>
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+
+</code><p><code class=" language-java"></code></p></pre>通过py脚本根据info里不同文件里的渠道号对应批量打包不同资源的apk
+~~~~{python}<p></p>
+
+<h1 id="usrbinpython">!/usr/bin/python</h1>
+
+<h1 id="codingutf8">coding=utf-8</h1>
+
+<p>import zipfile
+import shutil
+import os</p>
+
+<h1 id="apkchannel">空文件 便于写入此空文件到apk包中作为channel文件</h1>
+
+<p>src<em>empty</em>file = 'info/czt.txt'</p>
+
+<h1 id="">创建一个空文件（不存在则创建）</h1>
+
+<p>f = open(src<em>empty</em>file, 'w')
+f.close()</p>
+
+<h1 id="apk">获取当前目录中所有的apk源包</h1>
+
+<p>src_apks = []</p>
+
+<h1 id="python3oslistdirpython2oslistdir">python3 : os.listdir()即可，这里使用兼容Python2的os.listdir('.')</h1>
+
+<p>for file in os.listdir('.'):
+    if os.path.isfile(file):
+        extension = os.path.splitext(file)[1][1:]
+        if extension in 'apk':
+            src_apks.append(file)</p>
+
+<h1 id="">获取渠道列表</h1>
+
+<p>channel<em>name = '</em>production'
+channel<em>long</em>name = '<em>longname'
+channel</em>file = 'info/channel.txt'
+f = open(channel_file)
+lines = f.readlines()
+f.close()</p>
+
+<p>channel<em>file2 = 'info/longname.txt'
+f2 = open(channel</em>file2)
+lines_longname = f2.readlines()
+f2.close()</p>
+
+<p>for src<em>apk in src</em>apks:
+    # file name (with extension)
+    src<em>apk</em>file<em>name = os.path.basename(src</em>apk)
+    # 分割文件名与后缀
+    temp<em>list = os.path.splitext(src</em>apk<em>file</em>name)
+    # name without extension
+    src<em>apk</em>name = temp<em>list[0]
+    # 后缀名，包含.   例如: ".apk "
+    src</em>apk<em>extension = temp</em>list[1]</p>
+
+<pre><code># 创建生成目录,与文件名相关
+output_dir = 'output_' + src_apk_name + '/'
+# 目录不存在则创建
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
+
+if channel_name in src_apk_name:
+    # 遍历渠道号并创建对应渠道号的apk文件
+    for line in lines:
+        # 获取当前渠道号，因为从渠道文件中获得带有\n,所有strip一下
+        target_channel = line.strip()
+        # 拼接对应渠道号的apk
+        apkname = src_apk_name.split(channel_name)
+        target_apk = output_dir + apkname[0] + "_" + target_channel + src_apk_extension
+        # 拷贝建立新apk
+        shutil.copy(src_apk,  target_apk)
+        # zip获取新建立的apk文件
+        zipped = zipfile.ZipFile(target_apk, 'a', zipfile.ZIP_DEFLATED)
+        # 初始化渠道信息
+        empty_channel_file = "META-INF/cztchannel_{channel}".format(channel = target_channel)
+        # 写入渠道信息
+        zipped.write(src_empty_file, empty_channel_file)
+        # 关闭zip流
+        zipped.close()
+if channel_long_name in src_apk_name:
+    # 遍历渠道号并创建对应渠道号的apk文件
+    for line in lines_longname:
+        # 获取当前渠道号，因为从渠道文件中获得带有\n,所有strip一下
+        target_channel = line.strip()
+        # 拼接对应渠道号的apk
+        apkname = src_apk_name.split(channel_long_name)
+        target_apk = output_dir + apkname[0] + "_" + target_channel + src_apk_extension
+        # 拷贝建立新apk
+        shutil.copy(src_apk, target_apk)
+        # zip获取新建立的apk文件
+        zipped = zipfile.ZipFile(target_apk, 'a', zipfile.ZIP_DEFLATED)
+        # 初始化渠道信息
+        empty_channel_file = "META-INF/cztchannel_{channel}".format(channel=target_channel)
+        # 写入渠道信息
+        zipped.write(src_empty_file, empty_channel_file)
+        # 关闭zip流
+        zipped.close()
 </code></pre>
 
-<pre class=" language-python"><code class=" language-python"><span class="token comment" spellcheck="true">#!/usr/bin/python
-</span><span class="token comment" spellcheck="true"># coding=utf-8
-</span><span class="token keyword">import</span> zipfile
-<span class="token keyword">import</span> shutil
-<span class="token keyword">import</span> os
-
-<span class="token comment" spellcheck="true"># 空文件 便于写入此空文件到apk包中作为channel文件
-</span>src_empty_file <span class="token operator">=</span> <span class="token string">'info/czt.txt'</span>
-<span class="token comment" spellcheck="true"># 创建一个空文件（不存在则创建）
-</span><span class="token number">f</span> <span class="token operator">=</span> open<span class="token punctuation">(</span>src_empty_file<span class="token punctuation">,</span> <span class="token string">'w'</span><span class="token punctuation">)</span>
-<span class="token number">f</span><span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true"># 获取当前目录中所有的apk源包
-</span>src_apks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-<span class="token comment" spellcheck="true"># python3 : os.listdir()即可，这里使用兼容Python2的os.listdir('.')
-</span><span class="token keyword">for</span> file <span class="token keyword">in</span> os<span class="token punctuation">.</span>listdir<span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">if</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>isfile<span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        extension <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>splitext<span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
-        <span class="token keyword">if</span> extension <span class="token keyword">in</span> <span class="token string">'apk'</span><span class="token punctuation">:</span>
-            src_apks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>file<span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true"># 获取渠道列表
-</span>channel_name <span class="token operator">=</span> <span class="token string">'_production'</span>
-channel_long_name <span class="token operator">=</span> <span class="token string">'_longname'</span>
-channel_file <span class="token operator">=</span> <span class="token string">'info/channel.txt'</span>
-<span class="token number">f</span> <span class="token operator">=</span> open<span class="token punctuation">(</span>channel_file<span class="token punctuation">)</span>
-lines <span class="token operator">=</span> <span class="token number">f</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token number">f</span><span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-channel_file2 <span class="token operator">=</span> <span class="token string">'info/longname.txt'</span>
-<span class="token number">f2</span> <span class="token operator">=</span> open<span class="token punctuation">(</span>channel_file2<span class="token punctuation">)</span>
-lines_longname <span class="token operator">=</span> <span class="token number">f2</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token number">f2</span><span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-<span class="token keyword">for</span> src_apk <span class="token keyword">in</span> src_apks<span class="token punctuation">:</span>
-    <span class="token comment" spellcheck="true"># file name (with extension)
-</span>    src_apk_file_name <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>basename<span class="token punctuation">(</span>src_apk<span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true"># 分割文件名与后缀
-</span>    temp_list <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>splitext<span class="token punctuation">(</span>src_apk_file_name<span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true"># name without extension
-</span>    src_apk_name <span class="token operator">=</span> temp_list<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
-    <span class="token comment" spellcheck="true"># 后缀名，包含.   例如: ".apk "
-</span>    src_apk_extension <span class="token operator">=</span> temp_list<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
-
-    <span class="token comment" spellcheck="true"># 创建生成目录,与文件名相关
-</span>    output_dir <span class="token operator">=</span> <span class="token string">'output_'</span> <span class="token operator">+</span> src_apk_name <span class="token operator">+</span> <span class="token string">'/'</span>
-    <span class="token comment" spellcheck="true"># 目录不存在则创建
-</span>    <span class="token keyword">if</span> <span class="token operator">not</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span>output_dir<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        os<span class="token punctuation">.</span>mkdir<span class="token punctuation">(</span>output_dir<span class="token punctuation">)</span>
-
-    <span class="token keyword">if</span> channel_name <span class="token keyword">in</span> src_apk_name<span class="token punctuation">:</span>
-        <span class="token comment" spellcheck="true"># 遍历渠道号并创建对应渠道号的apk文件
-</span>        <span class="token keyword">for</span> line <span class="token keyword">in</span> lines<span class="token punctuation">:</span>
-            <span class="token comment" spellcheck="true"># 获取当前渠道号，因为从渠道文件中获得带有\n,所有strip一下
-</span>            target_channel <span class="token operator">=</span> line<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># 拼接对应渠道号的apk
-</span>            apkname <span class="token operator">=</span> src_apk_name<span class="token punctuation">.</span>split<span class="token punctuation">(</span>channel_name<span class="token punctuation">)</span>
-            target_apk <span class="token operator">=</span> output_dir <span class="token operator">+</span> apkname<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">"_"</span> <span class="token operator">+</span> target_channel <span class="token operator">+</span> src_apk_extension
-            <span class="token comment" spellcheck="true"># 拷贝建立新apk
-</span>            shutil<span class="token punctuation">.</span>copy<span class="token punctuation">(</span>src_apk<span class="token punctuation">,</span>  target_apk<span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># zip获取新建立的apk文件
-</span>            zipped <span class="token operator">=</span> zipfile<span class="token punctuation">.</span>ZipFile<span class="token punctuation">(</span>target_apk<span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">,</span> zipfile<span class="token punctuation">.</span>ZIP_DEFLATED<span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># 初始化渠道信息
-</span>            empty_channel_file <span class="token operator">=</span> <span class="token string">"META-INF/cztchannel_{channel}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>channel <span class="token operator">=</span> target_channel<span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># 写入渠道信息
-</span>            zipped<span class="token punctuation">.</span>write<span class="token punctuation">(</span>src_empty_file<span class="token punctuation">,</span> empty_channel_file<span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># 关闭zip流
-</span>            zipped<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">if</span> channel_long_name <span class="token keyword">in</span> src_apk_name<span class="token punctuation">:</span>
-        <span class="token comment" spellcheck="true"># 遍历渠道号并创建对应渠道号的apk文件
-</span>        <span class="token keyword">for</span> line <span class="token keyword">in</span> lines_longname<span class="token punctuation">:</span>
-            <span class="token comment" spellcheck="true"># 获取当前渠道号，因为从渠道文件中获得带有\n,所有strip一下
-</span>            target_channel <span class="token operator">=</span> line<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># 拼接对应渠道号的apk
-</span>            apkname <span class="token operator">=</span> src_apk_name<span class="token punctuation">.</span>split<span class="token punctuation">(</span>channel_long_name<span class="token punctuation">)</span>
-            target_apk <span class="token operator">=</span> output_dir <span class="token operator">+</span> apkname<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">"_"</span> <span class="token operator">+</span> target_channel <span class="token operator">+</span> src_apk_extension
-            <span class="token comment" spellcheck="true"># 拷贝建立新apk
-</span>            shutil<span class="token punctuation">.</span>copy<span class="token punctuation">(</span>src_apk<span class="token punctuation">,</span> target_apk<span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># zip获取新建立的apk文件
-</span>            zipped <span class="token operator">=</span> zipfile<span class="token punctuation">.</span>ZipFile<span class="token punctuation">(</span>target_apk<span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">,</span> zipfile<span class="token punctuation">.</span>ZIP_DEFLATED<span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># 初始化渠道信息
-</span>            empty_channel_file <span class="token operator">=</span> <span class="token string">"META-INF/cztchannel_{channel}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>channel<span class="token operator">=</span>target_channel<span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># 写入渠道信息
-</span>            zipped<span class="token punctuation">.</span>write<span class="token punctuation">(</span>src_empty_file<span class="token punctuation">,</span> empty_channel_file<span class="token punctuation">)</span>
-            <span class="token comment" spellcheck="true"># 关闭zip流
-</span>            zipped<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre>
+<p>~~~~</p>
 <!-- content end -->
 </div>
 <br>
