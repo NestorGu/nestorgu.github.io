@@ -38,8 +38,9 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
-通过productFlavors打包不同资源文件，以改变应用名称等 
-通过variant.outputs设置打包路径，移动apk到py批量打包的目录
+1. 通过productFlavors打包不同资源文件，以改变应用名称等 
+2. 通过variant.outputs设置打包路径，移动apk到py批量打包的目录
+
 ~~~~{java}
 productFlavors {
         production {}
@@ -71,7 +72,9 @@ productFlavors {
         }
     }
 ~~~~
-通过py脚本根据info里不同文件里的渠道号对应批量打包不同资源的apk
+
+3. 通过py脚本根据info里不同文件里的渠道号对应批量打包不同资源的apk
+
 ~~~~{python}
 #!/usr/bin/python
 # coding=utf-8
@@ -164,41 +167,47 @@ for src_apk in src_apks:
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<p>通过productFlavors打包不同资源文件，以改变应用名称等 
-通过variant.outputs设置打包路径，移动apk到py批量打包的目录
-</p><pre class=" language-java"><code class=" language-java">productFlavors <span class="token punctuation">{</span>
+<ol>
+<li>通过productFlavors打包不同资源文件，以改变应用名称等 </li>
+<li>通过variant.outputs设置打包路径，移动apk到py批量打包的目录</li>
+</ol>
+
+<pre class=" language-java"><code class=" language-java">productFlavors <span class="token punctuation">{</span>
         production <span class="token punctuation">{</span><span class="token punctuation">}</span>
         longname <span class="token punctuation">{</span><span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 
-buildTypes <span class="token punctuation">{</span>
-    debug <span class="token punctuation">{</span>
-        signingConfig signingConfigs<span class="token punctuation">.</span>release
-       <span class="token comment" spellcheck="true"> //minifyEnabled true
-</span>        proguardFiles <span class="token string">'proguard-project.txt'</span>
-    <span class="token punctuation">}</span>
-    release <span class="token punctuation">{</span>
-        signingConfig signingConfigs<span class="token punctuation">.</span>release
+    buildTypes <span class="token punctuation">{</span>
+        debug <span class="token punctuation">{</span>
+            signingConfig signingConfigs<span class="token punctuation">.</span>release
+           <span class="token comment" spellcheck="true"> //minifyEnabled true
+</span>            proguardFiles <span class="token string">'proguard-project.txt'</span>
+        <span class="token punctuation">}</span>
+        release <span class="token punctuation">{</span>
+            signingConfig signingConfigs<span class="token punctuation">.</span>release
 
-        minifyEnabled <span class="token boolean">true</span>
-        proguardFiles <span class="token string">'proguard-project.txt'</span>
-        applicationVariants<span class="token punctuation">.</span>all <span class="token punctuation">{</span> variant <span class="token operator">-</span><span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>
-            variant<span class="token punctuation">.</span>outputs<span class="token punctuation">.</span>each <span class="token punctuation">{</span> output <span class="token operator">-</span><span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>
-                <span class="token keyword">if</span> <span class="token punctuation">(</span>output<span class="token punctuation">.</span>outputFile <span class="token operator">!</span><span class="token operator">=</span> null <span class="token operator">&amp;&amp;</span> output<span class="token punctuation">.</span>outputFile<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">endsWith<span class="token punctuation">(</span></span><span class="token string">'.apk'</span><span class="token punctuation">)</span>
-                        <span class="token operator">&amp;&amp;</span> <span class="token string">'release'</span><span class="token punctuation">.</span><span class="token function">equals<span class="token punctuation">(</span></span>variant<span class="token punctuation">.</span>buildType<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                    def apkFile <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>
-                            output<span class="token punctuation">.</span>outputFile<span class="token punctuation">.</span><span class="token function">getParent<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"/makeapk"</span><span class="token punctuation">,</span>
-                            <span class="token string">"qichechaoren_v${variant.versionName}_${variant.productFlavors[0].name}.apk"</span><span class="token punctuation">)</span>
-                    output<span class="token punctuation">.</span>outputFile <span class="token operator">=</span> apkFile
+            minifyEnabled <span class="token boolean">true</span>
+            proguardFiles <span class="token string">'proguard-project.txt'</span>
+            applicationVariants<span class="token punctuation">.</span>all <span class="token punctuation">{</span> variant <span class="token operator">-</span>&gt;
+                variant<span class="token punctuation">.</span>outputs<span class="token punctuation">.</span>each <span class="token punctuation">{</span> output <span class="token operator">-</span>&gt;
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>output<span class="token punctuation">.</span>outputFile <span class="token operator">!</span><span class="token operator">=</span> null <span class="token operator">&amp;&amp;</span> output<span class="token punctuation">.</span>outputFile<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">endsWith<span class="token punctuation">(</span></span><span class="token string">'.apk'</span><span class="token punctuation">)</span>
+                            <span class="token operator">&amp;&amp;</span> <span class="token string">'release'</span><span class="token punctuation">.</span><span class="token function">equals<span class="token punctuation">(</span></span>variant<span class="token punctuation">.</span>buildType<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        def apkFile <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>
+                                output<span class="token punctuation">.</span>outputFile<span class="token punctuation">.</span><span class="token function">getParent<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"/makeapk"</span><span class="token punctuation">,</span>
+                                <span class="token string">"qichechaoren_v${variant.versionName}_${variant.productFlavors[0].name}.apk"</span><span class="token punctuation">)</span>
+                        output<span class="token punctuation">.</span>outputFile <span class="token operator">=</span> apkFile
+                    <span class="token punctuation">}</span>
                 <span class="token punctuation">}</span>
             <span class="token punctuation">}</span>
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
+</code></pre>
 
+<ol>
+<li>通过py脚本根据info里不同文件里的渠道号对应批量打包不同资源的apk</li>
+</ol>
 
-</code><p><code class=" language-java"></code></p></pre>通过py脚本根据info里不同文件里的渠道号对应批量打包不同资源的apk
-~~~~{python}<p></p>
+<p>~~~~{python}</p>
 
 <h1 id="usrbinpython">!/usr/bin/python</h1>
 
