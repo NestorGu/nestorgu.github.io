@@ -38,12 +38,57 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
-compileSdkVersion升级到23后的问题解决
+1.apache.http包去掉了，请在gradle里加入useLibrary 'org.apache.http.legacy'
+~~~~{java}
+android {
+    compileSdkVersion 22
+    buildToolsVersion '23.0.3'
+    useLibrary 'org.apache.http.legacy'
+~~~~
+混淆在原基础上增加：
+~~~~
+-dontwarn android.net.SSLCertificateSocketFactory
+~~~~
+2.友盟统计需要升级到最新版，旧版本不支持6.0
+混淆在原基础上增加：
+~~~~
+-keep class com.bugtags.library.** {*;}
+-dontwarn android.net.http.AndroidHttpClient
+-dontwarn com.bugtags.library.**
+-dontwarn com.bugtags.library.vender.**
+~~~~
+3.shareSdk使用了过时方法，在6.0里已经删除；需要更新shareSdk
+4.support:recyclerview-v7升级到23.2.1后
+GridLayoutManager或StaggeredGridLayoutManager（VERTICAL）里的view根布局需要设置成：
+~~~~
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+~~~~
+（以前match_parent或wrap_content可以随便设置）
+
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<p>compileSdkVersion升级到23后的问题解决</p>
+<p>1.apache.http包去掉了，请在gradle里加入useLibrary 'org.apache.http.legacy'
+</p><pre class=" language-java"><code class=" language-java">android <span class="token punctuation">{</span>
+    compileSdkVersion<span class="token number"> 22</span>
+    buildToolsVersion <span class="token string">'23.0.3'</span>
+    useLibrary <span class="token string">'org.apache.http.legacy'</span>
+</code></pre>混淆在原基础上增加：
+<pre><code>-dontwarn android.net.SSLCertificateSocketFactory
+</code></pre>2.友盟统计需要升级到最新版，旧版本不支持6.0
+混淆在原基础上增加：
+<pre><code>-keep class com.bugtags.library.<em>* {</em>;}
+-dontwarn android.net.http.AndroidHttpClient
+-dontwarn com.bugtags.library.<em>*
+-dontwarn com.bugtags.library.vender.</em>*
+</code></pre>3.shareSdk使用了过时方法，在6.0里已经删除；需要更新shareSdk
+4.support:recyclerview-v7升级到23.2.1后
+GridLayoutManager或StaggeredGridLayoutManager（VERTICAL）里的view根布局需要设置成：
+<pre><code>android:layout<em>width="match</em>parent"
+android:layout<em>height="wrap</em>content"
+</code></pre>（以前match<em>parent或wrap</em>content可以随便设置）<p></p>
 <!-- content end -->
 </div>
 <br>
