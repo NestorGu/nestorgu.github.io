@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html style="height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Nestor的博客</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "//hm.baidu.com/hm.js?31f09fff161b973e671edf0282191b90";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+<body style="height:100%">
+  <div style="position: fixed;bottom: 20px;right: 15px;z-index: 888;">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="http://music.163.com/outchain/player?type=0&id=96831087&auto=1&height=430"></iframe>
+  </div>
+<div class="main" style="width:60%;height:95%">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">主页</a></li>
+            <li><a href="/#/tags">标签</a></li>
+            <li><a href="/#/archive">文章</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+# SuperTextView
+========
+单个textview支持多种字体样式，支持插入图片
+
+<img src="img\img_1.png" />
+
+Add NumChooseView to your project
+----------------------------
+Gradle:
+```
+   compile 'cn.yzapp.supertextview:supertextview:[look download]@aar'
+```
+
+Maven:
+```
+<dependency>
+  <groupId>cn.yzapp.supertextview</groupId>
+  <artifactId>supertextview</artifactId>
+  <version>[look download]</version>
+  <type>aar</type>
+</dependency>
+```
+[ ![Download](https://api.bintray.com/packages/nesror/maven/supertextview/images/download.svg) ](https://bintray.com/artifact/download/nesror/maven/cn/yzapp/supertextview/supertextview/0.0.2/supertextview-0.0.2.aar)
+
+Use
+----------------------------
+~~~~{java}
+RoundedStrokeSpan strokeSpan = new RoundedStrokeSpan(this, R.color.colorAccent, R.color.colorPrimary);
+strokeSpan.setPadding(8, -8, 10, 18);
+
+SuperTextView textView = (SuperTextView) findViewById(R.id.textview);
+textView.addText("你好世界", new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)),new StrikethroughSpan())
+        .text("电话")
+        .setSpan(strokeSpan)
+        .setUrl("tel:0123456789")
+        .setFontColor(getResources().getColor(R.color.colorPrimary))
+        .add()
+        .addImage(getResources().getDrawable(R.drawable.icon_city))
+        .text("我的blog")
+        .setUrl("http://blog.yzapp.cn")
+        .setFontStyle(Typeface.BOLD_ITALIC)
+        .setFontColor(getResources().getColor(R.color.colorPrimary))
+        .add();
+~~~~
+
+<!-- markdown end -->
+</div>
+<div class="entry" id="main" style="min-height:75%">
+<!-- content -->
+<h1 id="supertextview"># SuperTextView</h1>
+
+<p>单个textview支持多种字体样式，支持插入图片</p>
+
+<p><img src="img\img_1.png"></p>
+
+<h2 id="addnumchooseviewtoyourproject">Add NumChooseView to your project</h2>
+
+<p>Gradle:</p>
+
+<pre><code>   compile 'cn.yzapp.supertextview:supertextview:[look download]@aar'
+</code></pre>
+
+<p>Maven:</p>
+
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;cn.yzapp.supertextview&lt;/groupId&gt;
+  &lt;artifactId&gt;supertextview&lt;/artifactId&gt;
+  &lt;version&gt;[look download]&lt;/version&gt;
+  &lt;type&gt;aar&lt;/type&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p><a href="https://bintray.com/artifact/download/nesror/maven/cn/yzapp/supertextview/supertextview/0.0.2/supertextview-0.0.2.aar"> <img src="https://api.bintray.com/packages/nesror/maven/supertextview/images/download.svg" alt="Download" title=""> </a></p>
+
+<h2 id="use">Use</h2>
+
+<pre class=" language-java"><code class=" language-java">RoundedStrokeSpan strokeSpan <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RoundedStrokeSpan</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorAccent<span class="token punctuation">,</span> R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorPrimary<span class="token punctuation">)</span><span class="token punctuation">;</span>
+strokeSpan<span class="token punctuation">.</span><span class="token function">setPadding<span class="token punctuation">(</span></span>8<span class="token punctuation">,</span> <span class="token number">-8</span><span class="token punctuation">,</span><span class="token number"> 10</span><span class="token punctuation">,</span><span class="token number"> 18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+SuperTextView textView <span class="token operator">=</span> <span class="token punctuation">(</span>SuperTextView<span class="token punctuation">)</span> <span class="token function">findViewById<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>id<span class="token punctuation">.</span>textview<span class="token punctuation">)</span><span class="token punctuation">;</span>
+textView<span class="token punctuation">.</span><span class="token function">addText<span class="token punctuation">(</span></span><span class="token string">"你好世界"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">ForegroundColorSpan</span><span class="token punctuation">(</span><span class="token function">getResources<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getColor<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorAccent<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">StrikethroughSpan</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">text<span class="token punctuation">(</span></span><span class="token string">"电话"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">setSpan<span class="token punctuation">(</span></span>strokeSpan<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">setUrl<span class="token punctuation">(</span></span><span class="token string">"tel:0123456789"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">setFontColor<span class="token punctuation">(</span></span><span class="token function">getResources<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getColor<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorPrimary<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">add<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">addImage<span class="token punctuation">(</span></span><span class="token function">getResources<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getDrawable<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>icon_city<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">text<span class="token punctuation">(</span></span><span class="token string">"我的blog"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">setUrl<span class="token punctuation">(</span></span><span class="token string">"http://blog.yzapp.cn"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">setFontStyle<span class="token punctuation">(</span></span>Typeface<span class="token punctuation">.</span>BOLD_ITALIC<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">setFontColor<span class="token punctuation">(</span></span><span class="token function">getResources<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getColor<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorPrimary<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">add<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer" style="height:5%">
+		<p>© Copyright 2015 by yzapp.cn, Code by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "SuperTextView-支持多种字体样式和图片混排.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256645027'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256645027%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+</body>
+</html>
