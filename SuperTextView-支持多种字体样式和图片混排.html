@@ -42,7 +42,7 @@
 ========
 单个textview支持多种字体样式，支持插入图片
 
-<img src="img\img_1.png" />
+<img src="https://github.com/nesror/SuperTextView/raw/master/img/img_1.png" />
 
 Add SuperTextView to your project
 ----------------------------
@@ -82,7 +82,6 @@ textView.addText("你好世界", new ForegroundColorSpan(getResources().getColor
         .setFontColor(getResources().getColor(R.color.colorPrimary))
         .add();
 ~~~~
-
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
@@ -91,7 +90,7 @@ textView.addText("你好世界", new ForegroundColorSpan(getResources().getColor
 
 <p>单个textview支持多种字体样式，支持插入图片</p>
 
-<p><img src="img\img_1.png"></p>
+<p><img src="https://github.com/nesror/SuperTextView/raw/master/img/img_1.png"></p>
 
 <h2 id="addsupertextviewtoyourproject">Add SuperTextView to your project</h2>
 
@@ -114,23 +113,24 @@ textView.addText("你好世界", new ForegroundColorSpan(getResources().getColor
 
 <h2 id="use">Use</h2>
 
-<pre class=" language-java"><code class=" language-java">RoundedStrokeSpan strokeSpan <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RoundedStrokeSpan</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorAccent<span class="token punctuation">,</span> R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorPrimary<span class="token punctuation">)</span><span class="token punctuation">;</span>
-strokeSpan<span class="token punctuation">.</span><span class="token function">setPadding<span class="token punctuation">(</span></span>8<span class="token punctuation">,</span> <span class="token number">-8</span><span class="token punctuation">,</span><span class="token number"> 10</span><span class="token punctuation">,</span><span class="token number"> 18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>~~~~{java}
+RoundedStrokeSpan strokeSpan = new RoundedStrokeSpan(this, R.color.colorAccent, R.color.colorPrimary);
+strokeSpan.setPadding(8, -8, 10, 18);</p>
 
-SuperTextView textView <span class="token operator">=</span> <span class="token punctuation">(</span>SuperTextView<span class="token punctuation">)</span> <span class="token function">findViewById<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>id<span class="token punctuation">.</span>textview<span class="token punctuation">)</span><span class="token punctuation">;</span>
-textView<span class="token punctuation">.</span><span class="token function">addText<span class="token punctuation">(</span></span><span class="token string">"你好世界"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">ForegroundColorSpan</span><span class="token punctuation">(</span><span class="token function">getResources<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getColor<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorAccent<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">StrikethroughSpan</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">text<span class="token punctuation">(</span></span><span class="token string">"电话"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">setSpan<span class="token punctuation">(</span></span>strokeSpan<span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">setUrl<span class="token punctuation">(</span></span><span class="token string">"tel:0123456789"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">setFontColor<span class="token punctuation">(</span></span><span class="token function">getResources<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getColor<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorPrimary<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">add<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">addImage<span class="token punctuation">(</span></span><span class="token function">getResources<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getDrawable<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>drawable<span class="token punctuation">.</span>icon_city<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">text<span class="token punctuation">(</span></span><span class="token string">"我的blog"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">setUrl<span class="token punctuation">(</span></span><span class="token string">"http://blog.yzapp.cn"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">setFontStyle<span class="token punctuation">(</span></span>Typeface<span class="token punctuation">.</span>BOLD_ITALIC<span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">setFontColor<span class="token punctuation">(</span></span><span class="token function">getResources<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getColor<span class="token punctuation">(</span></span>R<span class="token punctuation">.</span>color<span class="token punctuation">.</span>colorPrimary<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        <span class="token punctuation">.</span><span class="token function">add<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
+<p>SuperTextView textView = (SuperTextView) findViewById(R.id.textview);
+textView.addText("你好世界", new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)),new StrikethroughSpan())
+        .text("电话")
+        .setSpan(strokeSpan)
+        .setUrl("tel:0123456789")
+        .setFontColor(getResources().getColor(R.color.colorPrimary))
+        .add()
+        .addImage(getResources().getDrawable(R.drawable.icon<em>city))
+        .text("我的blog")
+        .setUrl("http://blog.yzapp.cn")
+        .setFontStyle(Typeface.BOLD</em>ITALIC)
+        .setFontColor(getResources().getColor(R.color.colorPrimary))
+        .add();
+~~~~</p>
 <!-- content end -->
 </div>
 <br>
