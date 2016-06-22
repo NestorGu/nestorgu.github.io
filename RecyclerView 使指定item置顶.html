@@ -44,7 +44,7 @@
   ~~~~{java}
     mLinearLayoutManager = new LinearLayoutManager(this);
     mRecyclerView.setLayoutManager(mLinearLayoutManager);
-    mLinearLayoutManager.scrollToPositionWithOffset(position - 1, 0);
+    mLinearLayoutManager.scrollToPositionWithOffset(position, 0);
   ~~~~
 
 <!-- markdown end -->
@@ -58,7 +58,7 @@
 <li>正确的方法是用LayoutManager里的scrollToPositionWithOffset；
 <pre class=" language-java"><code class=" language-java">    mLinearLayoutManager <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinearLayoutManager</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 mRecyclerView<span class="token punctuation">.</span><span class="token function">setLayoutManager<span class="token punctuation">(</span></span>mLinearLayoutManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
-mLinearLayoutManager<span class="token punctuation">.</span><span class="token function">scrollToPositionWithOffset<span class="token punctuation">(</span></span>position <span class="token operator">-</span><span class="token number"> 1</span><span class="token punctuation">,</span><span class="token number"> 0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+mLinearLayoutManager<span class="token punctuation">.</span><span class="token function">scrollToPositionWithOffset<span class="token punctuation">(</span></span>position<span class="token punctuation">,</span><span class="token number"> 0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre></li>
 </ul>
 <!-- content end -->
