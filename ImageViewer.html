@@ -58,57 +58,6 @@ Step 2. Add the dependency
 	compile 'com.github.nesror:ImageViewer:[look download]'
 ```
 
-Use
-----------------------------
-Step 1. 实现IImageLoader设置图片加载器，也可以使用默认实现类DefaultImageLoader()
-```{java}
-    ImageViewer.setImageLoader(new IImageLoader() {
-            @Override
-            public void getImage(Context context, ImageView imageView, String Url) {
-                Picasso.with(MainActivity.this).load(Url).into(imageView);
-            }
-
-            @Override
-            public void getImage(Context context, ImageView imageView, File file) {
-                
-            }
-
-            @Override
-            public void getImage(Context context, ImageView imageView, @DrawableRes int res) {
-
-            }
-
-            @Override
-            public void getImage(Context context, ImageView imageView, Bitmap bitmap) {
-
-        });
-```
-Step 2. 使用
-```{java}
-    /**
-     * 打开图片浏览多张
-     *
-     * @param context    Context
-     * @param imageViews ImageView
-     * @param objects    传入格式支持：String:图片的url;(@DrawableRes) int:资源id;Bitmap;File
-     * @param clickItem  点击的图片
-     */
-    public static void openImageViewer(Context context, List<ImageView> imageViews, ArrayList<Object> objects, int clickItem) 
-```
-* 更多方法详见Demo
-
-混淆配置
-----------------------------
-```
-	-keep class uk.co.senab.photoview.** { *; }
-	-dontwarn uk.co.senab.photoview.**
-```
-
-用到的第3方lib
-----------------------------
-* compile 'com.github.chrisbanes.photoview:library:1.2.2'
-* compile 'me.relex:circleindicator:1.2.1@aar'
-* 图片缩放代码参考自CocolVook/SimplifyReader
 
  
 <!-- markdown end -->
@@ -136,63 +85,6 @@ Step 2. 使用
 
 <pre><code>    compile 'com.github.nesror:ImageViewer:[look download]'
 </code></pre>
-
-<h2 id="use">Use</h2>
-
-<p>Step 1. 实现IImageLoader设置图片加载器，也可以使用默认实现类DefaultImageLoader()</p>
-
-<pre><code class="{java}">    ImageViewer.setImageLoader(new IImageLoader() {
-            @Override
-            public void getImage(Context context, ImageView imageView, String Url) {
-                Picasso.with(MainActivity.this).load(Url).into(imageView);
-            }
-
-            @Override
-            public void getImage(Context context, ImageView imageView, File file) {
-
-            }
-
-            @Override
-            public void getImage(Context context, ImageView imageView, @DrawableRes int res) {
-
-            }
-
-            @Override
-            public void getImage(Context context, ImageView imageView, Bitmap bitmap) {
-
-        });
-</code></pre>
-
-<p>Step 2. 使用</p>
-
-<pre><code class="{java}">    /**
-     * 打开图片浏览多张
-     *
-     * @param context    Context
-     * @param imageViews ImageView
-     * @param objects    传入格式支持：String:图片的url;(@DrawableRes) int:资源id;Bitmap;File
-     * @param clickItem  点击的图片
-     */
-    public static void openImageViewer(Context context, List&lt;ImageView&gt; imageViews, ArrayList&lt;Object&gt; objects, int clickItem) 
-</code></pre>
-
-<ul>
-<li>更多方法详见Demo</li>
-</ul>
-
-<h2 id="">混淆配置</h2>
-
-<pre><code>    -keep class uk.co.senab.photoview.** { *; }
-    -dontwarn uk.co.senab.photoview.**
-</code></pre>
-
-<h2 id="3lib">用到的第3方lib</h2>
-
-<ul>
-<li>compile 'com.github.chrisbanes.photoview:library:1.2.2'</li>
-<li>compile 'me.relex:circleindicator:1.2.1@aar'</li>
-<li>图片缩放代码参考自CocolVook/SimplifyReader</li>
-</ul>
 <!-- content end -->
 </div>
 <br>
