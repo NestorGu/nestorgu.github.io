@@ -38,12 +38,11 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
-# 使用Gradle发布项目到JCenter仓库
-JCenter现在是Android Studio中repositories的默认节点了，之前是Maven的，不过JCenter是兼容Maven的，所以放心使用。
+### JCenter现在是Android Studio中repositories的默认节点了，之前是Maven的，不过JCenter是兼容Maven的，所以放心使用。
 1. 申请Bintray账号
- * https://bintray.com/
+  * https://bintray.com/
 2. 生成jar/aar包
- * 这一步需要android-maven-plugin插件，所以我们需要在项目的build.gradle（、项目最外层的build.gradle文件）中添加这个构建依赖，如下：
+  * 这一步需要android-maven-plugin插件，所以我们需要在项目的build.gradle（、项目最外层的build.gradle文件）中添加这个构建依赖，如下：
 
   ~~~~{java}
   buildscript {
@@ -65,7 +64,7 @@ JCenter现在是Android Studio中repositories的默认节点了，之前是Maven
   ~~~~
    注意自动化maven打包插件的版本，网速查到的资料写的都是1.0或1.1；gradle升级后已经不能再用旧版本了
 
- * 然后在你需要发布的那个module（我这里的即是library）的build.gradle里配置如下内容：
+  * 然后在你需要发布的那个module（我这里的即是library）的build.gradle里配置如下内容：
 
  ~~~~{java}
   apply plugin: 'com.android.library'
@@ -164,7 +163,7 @@ JCenter现在是Android Studio中repositories的默认节点了，之前是Maven
   }
  ~~~~
 
- * 配置好上述后需要在你的项目的根目录上的local.properties文件里（一般这文件需gitignore，防止泄露账户信息）配置你的bintray账号信息。
+  * 配置好上述后需要在你的项目的根目录上的local.properties文件里（一般这文件需gitignore，防止泄露账户信息）配置你的bintray账号信息。
 
  ~~~~
  bintray.user=your_user_name
@@ -172,10 +171,10 @@ JCenter现在是Android Studio中repositories的默认节点了，之前是Maven
  ~~~~
 
 3. 这一步为止，就可以把你项目生成到本地的仓库中了，Android Studio中默认即在Android\sdk\extras\android\m2repository这里，所以我们可以通过如下命令执行生成:
- * gradlew install
+  * gradlew install
 
 4. 上传到Bintray
- * 上传到Bintray需要gradle-bintray-plugin的支持，所以在最外层的build.gradle里添加构建依赖：
+  * 上传到Bintray需要gradle-bintray-plugin的支持，所以在最外层的build.gradle里添加构建依赖：
 
  ~~~~{java}
     dependencies {
@@ -187,22 +186,21 @@ JCenter现在是Android Studio中repositories的默认节点了，之前是Maven
     }
  ~~~~
 
- * 然后执行如下命令完成上传：
- * gradlew bintrayUpload
+  * 然后执行如下命令完成上传：
+  * gradlew bintrayUpload
 
 5. 申请你的Repo添加到JCenter
- * https://bintray.com/bintray/jcenter ,输入你的项目名字点击匹配到的项目，然后写一写Comments再send即可，工作时间内1消失内就会批准
- * 可能会检查 “def siteUrl = 'https://github.com/nesror/NumChooseView' // 项目的主页 ”里的项目来确认
+  * https://bintray.com/bintray/jcenter ,输入你的项目名字点击匹配到的项目，然后写一写Comments再send即可，工作时间内1消失内就会批准
+  * 可能会检查 “def siteUrl = 'https://github.com/nesror/NumChooseView' // 项目的主页 ”里的项目来确认
 
 6. 使用
- * compile 'cn.yzapp.numchooseview:numchooseviewlib:1.6.4@aar'
+  * compile 'cn.yzapp.numchooseview:numchooseviewlib:1.6.4@aar'
 
 7. 可能会遇到的问题
- * 生成javaDoc报错：
-    * javaDoc注释中有中文：
-    * 注释中非javadoc中规定的注解：
+  * 生成javaDoc报错：
+  * javaDoc注释中有中文：
+  * 注释中非javadoc中规定的注解：
     如（以下只有@author是可以用的）：
-
        ~~~~
        /**
        * @author: GuSiheng
@@ -211,42 +209,42 @@ JCenter现在是Android Studio中repositories的默认节点了，之前是Maven
        * @desc:
        */
        ~~~~
-
-     * 还有其他很多，已经忘记了
+  * 还有其他很多，已经忘记了
 
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<h1 id="gradlejcenter">使用Gradle发布项目到JCenter仓库</h1>
+<h3 id="jcenterandroidstudiorepositoriesmavenjcentermaven">JCenter现在是Android Studio中repositories的默认节点了，之前是Maven的，不过JCenter是兼容Maven的，所以放心使用。</h3>
 
-<p>JCenter现在是Android Studio中repositories的默认节点了，之前是Maven的，不过JCenter是兼容Maven的，所以放心使用。
-1. 申请Bintray账号
- * https://bintray.com/
-2. 生成jar/aar包
- * 这一步需要android-maven-plugin插件，所以我们需要在项目的build.gradle（、项目最外层的build.gradle文件）中添加这个构建依赖，如下：</p>
+<ol>
+<li>申请Bintray账号
+<ul><li>https://bintray.com/</li></ul></li>
+<li><p>生成jar/aar包</p>
 
-<p></p><pre class=" language-java"><code class=" language-java">  buildscript <span class="token punctuation">{</span>
-     repositories <span class="token punctuation">{</span>
-         <span class="token function">jcenter<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
-     <span class="token punctuation">}</span>
-     dependencies <span class="token punctuation">{</span>
-         classpath <span class="token string">'com.android.tools.build:gradle:2.0.0'</span>
-        <span class="token comment" spellcheck="true"> //自动化maven打包插件
-</span>         classpath <span class="token string">'com.github.dcendents:android-maven-gradle-plugin:1.3'</span>
-     <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
+<ul><li>这一步需要android-maven-plugin插件，所以我们需要在项目的build.gradle（、项目最外层的build.gradle文件）中添加这个构建依赖，如下：</li></ul>
 
-</code><p><code class=" language-java">allprojects <span class="token punctuation">{</span>
-     repositories <span class="token punctuation">{</span>
-         <span class="token function">jcenter<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
-     <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-  </code></p></pre>   注意自动化maven打包插件的版本，网速查到的资料写的都是1.0或1.1；gradle升级后已经不能再用旧版本了<p></p>
+<pre class=" language-java"><code class=" language-java">  buildscript <span class="token punctuation">{</span>
+ repositories <span class="token punctuation">{</span>
+     <span class="token function">jcenter<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+ <span class="token punctuation">}</span>
+ dependencies <span class="token punctuation">{</span>
+     classpath <span class="token string">'com.android.tools.build:gradle:2.0.0'</span>
+    <span class="token comment" spellcheck="true"> //自动化maven打包插件
+</span>     classpath <span class="token string">'com.github.dcendents:android-maven-gradle-plugin:1.3'</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-<ul>
-<li><p>然后在你需要发布的那个module（我这里的即是library）的build.gradle里配置如下内容：</p>
 
+allprojects <span class="token punctuation">{</span>
+ repositories <span class="token punctuation">{</span>
+     <span class="token function">jcenter<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>   注意自动化maven打包插件的版本，网速查到的资料写的都是1.0或1.1；gradle升级后已经不能再用旧版本了
+
+
+<ul><li>然后在你需要发布的那个module（我这里的即是library）的build.gradle里配置如下内容：</li></ul>
 <pre class=" language-java"><code class=" language-java">  apply plugin<span class="token operator">:</span> <span class="token string">'com.android.library'</span>
 apply plugin<span class="token operator">:</span> <span class="token string">'com.github.dcendents.android-maven'</span>
 apply plugin<span class="token operator">:</span> <span class="token string">'com.jfrog.bintray'</span>
@@ -346,18 +344,19 @@ bintray <span class="token punctuation">{</span>
       publish <span class="token operator">=</span> <span class="token boolean">true</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
-</code></pre></li>
-<li><p>配置好上述后需要在你的项目的根目录上的local.properties文件里（一般这文件需gitignore，防止泄露账户信息）配置你的bintray账号信息。</p>
+</code></pre>
+
+<ul><li>配置好上述后需要在你的项目的根目录上的local.properties文件里（一般这文件需gitignore，防止泄露账户信息）配置你的bintray账号信息。</li></ul>
 
 <pre><code> bintray.user=your_user_name
 bintray.apikey=your_apikey
-</code></pre>
+</code></pre></li>
+<li><p>这一步为止，就可以把你项目生成到本地的仓库中了，Android Studio中默认即在Android\sdk\extras\android\m2repository这里，所以我们可以通过如下命令执行生成:</p>
 
-<ol><li>这一步为止，就可以把你项目生成到本地的仓库中了，Android Studio中默认即在Android\sdk\extras\android\m2repository这里，所以我们可以通过如下命令执行生成:</li></ol></li>
-<li><p>gradlew install</p>
+<ul><li>gradlew install</li></ul></li>
+<li><p>上传到Bintray</p>
 
-<ol><li>上传到Bintray</li></ol></li>
-<li><p>上传到Bintray需要gradle-bintray-plugin的支持，所以在最外层的build.gradle里添加构建依赖：</p>
+<ul><li>上传到Bintray需要gradle-bintray-plugin的支持，所以在最外层的build.gradle里添加构建依赖：</li></ul>
 
 <pre class=" language-java"><code class=" language-java">    dependencies <span class="token punctuation">{</span>
     classpath <span class="token string">'com.android.tools.build:gradle:2.0.0'</span>
@@ -366,34 +365,31 @@ bintray.apikey=your_apikey
    <span class="token comment" spellcheck="true"> //自动上传至Bintray平台插件
 </span>    classpath <span class="token string">"com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4"</span>
 <span class="token punctuation">}</span>
-</code></pre></li>
-<li>然后执行如下命令完成上传：</li>
-<li><p>gradlew bintrayUpload</p>
+</code></pre>
 
-<ol><li>申请你的Repo添加到JCenter</li></ol></li>
-<li>https://bintray.com/bintray/jcenter ,输入你的项目名字点击匹配到的项目，然后写一写Comments再send即可，工作时间内1消失内就会批准</li>
-<li><p>可能会检查 “def siteUrl = 'https://github.com/nesror/NumChooseView' // 项目的主页 ”里的项目来确认</p>
+<ul><li>然后执行如下命令完成上传：</li>
+<li>gradlew bintrayUpload</li></ul></li>
+<li><p>申请你的Repo添加到JCenter</p>
 
-<ol><li>使用</li></ol></li>
-<li><p>compile 'cn.yzapp.numchooseview:numchooseviewlib:1.6.4@aar'</p>
+<ul><li>https://bintray.com/bintray/jcenter ,输入你的项目名字点击匹配到的项目，然后写一写Comments再send即可，工作时间内1消失内就会批准</li>
+<li>可能会检查 “def siteUrl = 'https://github.com/nesror/NumChooseView' // 项目的主页 ”里的项目来确认</li></ul></li>
+<li><p>使用</p>
 
-<ol><li>可能会遇到的问题</li></ol></li>
-<li><p>生成javaDoc报错：</p>
+<ul><li>compile 'cn.yzapp.numchooseview:numchooseviewlib:1.6.4@aar'</li></ul></li>
+<li><p>可能会遇到的问题</p>
 
-<ul><li>javaDoc注释中有中文：</li>
-<li><p>注释中非javadoc中规定的注解：
-如（以下只有@author是可以用的）：</p>
-
-<p></p><pre><code>       /**<p></p>
-
+<ul><li>生成javaDoc报错：</li>
+<li>javaDoc注释中有中文：</li>
+<li>注释中非javadoc中规定的注解：
+如（以下只有@author是可以用的）：
+<pre><code>       /**
 </code><ul><code><li>@author: GuSiheng</li>
 <li>@time: 4/9 009-11:56.</li>
 <li>@email: gusiheng@qccr.com</li>
 </code><li><code>@desc:
 */
-</code></li></ul></pre></li>
-<li>还有其他很多，已经忘记了</li></ul></li></ul>
-
+</code></li></ul></pre>  * 还有其他很多，已经忘记了</li></ul></li>
+</ol>
 <!-- content end -->
 </div>
 <br>
