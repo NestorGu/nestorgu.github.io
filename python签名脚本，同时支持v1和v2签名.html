@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html style="height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Nestor的博客</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "//hm.baidu.com/hm.js?31f09fff161b973e671edf0282191b90";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+<body style="height:100%">
+  <div style="position: fixed;bottom: 20px;right: 15px;z-index: 888;">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="http://music.163.com/outchain/player?type=0&id=96831087&auto=1&height=430"></iframe>
+  </div>
+<div class="main" style="width:60%;height:95%">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">主页</a></li>
+            <li><a href="/#/tags">标签</a></li>
+            <li><a href="/#/archive">文章</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+* 由于android7.0开始采用v2签名，以前的美团等多渠道打包方式会导致v2签名失效；虽然暂时可以使用v2SigningEnabled false关闭，但不保证今后也能使用；为彻底解决问题，就些了这个脚本对多渠道包进行重新签名。
+
+* 代码：
+~~~~{python}
+# -*- coding: utf-8 -*-
+import os
+import shutil
+import os.path
+import re
+
+BASE_DIR = os.path.dirname(__file__)
+
+out = os.path.exists('out')
+if(out):
+    shutil.rmtree('out')
+    os.mkdir('out')
+else:
+    os.mkdir('out')
+
+_build = os.path.exists('build')
+if(_build):
+    shutil.rmtree('build')
+    os.mkdir('build')
+else:
+    os.mkdir('build')
+
+keystore = '@@@@@@@@@'
+keypass = '@@@@@@@@@'
+keyalias = '@@@@@@@@@'
+
+BASE_DIR = os.path.dirname(__file__)
+
+outDir = os.path.join(BASE_DIR, "out")
+buildDir = os.path.join(BASE_DIR, "build")
+targetDir = os.path.join(BASE_DIR, "target")
+list = os.listdir(os.path.join(BASE_DIR, "target"))
+for file in list:
+    print("start sign: " + file)
+    signedFile = os.path.join(buildDir, file + "signed.apk")
+    outFile = os.path.join(outDir, file)
+    f = os.path.join(targetDir, file)
+
+    # v1签名
+    signcmd = 'jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore "%s" -storepass "%s" -signedjar "%s" "%s" "%s"' % (keystore, keypass, signedFile, f, keyalias)
+    os.system(signcmd)
+
+    # zipalign
+    aligncmd = 'zipalign -f 4 "%s" "%s"' % (signedFile, outFile)
+    os.system(aligncmd)
+
+    # v2签名
+    signcmd2 = 'apksigner sign --ks %s --ks-pass pass:%s --ks-key-alias %s %s' % (keystore, keypass, keyalias, outFile)
+    os.system(signcmd2)
+
+    print(file + " finish\n")
+~~~~
+
+* v2签名apksigner说明：
+~~~~
+--ks <filename>
+The signer's private key and certificate chain reside in the given Java-based KeyStore file. If the filename is set to "NONE", the KeyStore containing the key and certificate doesn't need a file specified, which is the case for some PKCS #11 KeyStores.
+--ks-key-alias <alias>
+The name of the alias that represents the signer's private key and certificate data within the KeyStore. If the KeyStore associated with the signer contains multiple keys, you must specify this option.
+--ks-pass <input-format>
+The password for the KeyStore that contains the signer's private key and certificate. You must provide a password to open a KeyStore. The apksigner tool supports the following formats:
+
+pass:<password> – Password provided inline with the rest of the apksigner sign command.
+env:<name> – Password is stored in the given environment variable.
+file:<filename> – Password is stored as a single line in the given file.
+stdin – Password is provided as a single line in the standard input stream. This is the default behavior for --ks-pass.
+Note: If you include multiple passwords in the same file, specify them on separate lines. The apksigner tool associates passwords with an APK's signers based on the order in which you specify the signers. If you've provided two passwords for a signer, apksigner interprets the first password as the KeyStore password and the second one as the key password.
+~~~~
+https://developer.android.com/studio/command-line/apksigner.html
+
+
+
+<!-- markdown end -->
+</div>
+<div class="entry" id="main" style="min-height:75%">
+<!-- content -->
+<ul>
+<li><p>由于android7.0开始采用v2签名，以前的美团等多渠道打包方式会导致v2签名失效；虽然暂时可以使用v2SigningEnabled false关闭，但不保证今后也能使用；为彻底解决问题，就些了这个脚本对多渠道包进行重新签名。</p></li>
+<li><p>代码：</p></li>
+</ul>
+
+<pre class=" language-python"><code class=" language-python"><span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-
+</span><span class="token keyword">import</span> os
+<span class="token keyword">import</span> shutil
+<span class="token keyword">import</span> os<span class="token punctuation">.</span>path
+<span class="token keyword">import</span> re
+
+BASE_DIR <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>dirname<span class="token punctuation">(</span>__file__<span class="token punctuation">)</span>
+
+out <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span><span class="token string">'out'</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span>out<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    shutil<span class="token punctuation">.</span>rmtree<span class="token punctuation">(</span><span class="token string">'out'</span><span class="token punctuation">)</span>
+    os<span class="token punctuation">.</span>mkdir<span class="token punctuation">(</span><span class="token string">'out'</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    os<span class="token punctuation">.</span>mkdir<span class="token punctuation">(</span><span class="token string">'out'</span><span class="token punctuation">)</span>
+
+_build <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span><span class="token string">'build'</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span>_build<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    shutil<span class="token punctuation">.</span>rmtree<span class="token punctuation">(</span><span class="token string">'build'</span><span class="token punctuation">)</span>
+    os<span class="token punctuation">.</span>mkdir<span class="token punctuation">(</span><span class="token string">'build'</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    os<span class="token punctuation">.</span>mkdir<span class="token punctuation">(</span><span class="token string">'build'</span><span class="token punctuation">)</span>
+
+keystore <span class="token operator">=</span> <span class="token string">'@@@@@@@@@'</span>
+keypass <span class="token operator">=</span> <span class="token string">'@@@@@@@@@'</span>
+keyalias <span class="token operator">=</span> <span class="token string">'@@@@@@@@@'</span>
+
+BASE_DIR <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>dirname<span class="token punctuation">(</span>__file__<span class="token punctuation">)</span>
+
+outDir <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>BASE_DIR<span class="token punctuation">,</span> <span class="token string">"out"</span><span class="token punctuation">)</span>
+buildDir <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>BASE_DIR<span class="token punctuation">,</span> <span class="token string">"build"</span><span class="token punctuation">)</span>
+targetDir <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>BASE_DIR<span class="token punctuation">,</span> <span class="token string">"target"</span><span class="token punctuation">)</span>
+list <span class="token operator">=</span> os<span class="token punctuation">.</span>listdir<span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>BASE_DIR<span class="token punctuation">,</span> <span class="token string">"target"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> file <span class="token keyword">in</span> list<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"start sign: "</span> <span class="token operator">+</span> file<span class="token punctuation">)</span>
+    signedFile <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>buildDir<span class="token punctuation">,</span> file <span class="token operator">+</span> <span class="token string">"signed.apk"</span><span class="token punctuation">)</span>
+    outFile <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>outDir<span class="token punctuation">,</span> file<span class="token punctuation">)</span>
+    <span class="token number">f</span> <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>targetDir<span class="token punctuation">,</span> file<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># v1签名
+</span>    signcmd <span class="token operator">=</span> <span class="token string">'jarsigner -sigalg SHA1withRSA -digestalg SHA1 -keystore "%s" -storepass "%s" -signedjar "%s" "%s" "%s"'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>keystore<span class="token punctuation">,</span> keypass<span class="token punctuation">,</span> signedFile<span class="token punctuation">,</span> <span class="token number">f</span><span class="token punctuation">,</span> keyalias<span class="token punctuation">)</span>
+    os<span class="token punctuation">.</span>system<span class="token punctuation">(</span>signcmd<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># zipalign
+</span>    aligncmd <span class="token operator">=</span> <span class="token string">'zipalign -f 4 "%s" "%s"'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>signedFile<span class="token punctuation">,</span> outFile<span class="token punctuation">)</span>
+    os<span class="token punctuation">.</span>system<span class="token punctuation">(</span>aligncmd<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># v2签名
+</span>    signcmd2 <span class="token operator">=</span> <span class="token string">'apksigner sign --ks %s --ks-pass pass:%s --ks-key-alias %s %s'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>keystore<span class="token punctuation">,</span> keypass<span class="token punctuation">,</span> keyalias<span class="token punctuation">,</span> outFile<span class="token punctuation">)</span>
+    os<span class="token punctuation">.</span>system<span class="token punctuation">(</span>signcmd2<span class="token punctuation">)</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span>file <span class="token operator">+</span> <span class="token string">" finish\n"</span><span class="token punctuation">)</span>
+</code></pre>
+
+<ul>
+<li>v2签名apksigner说明：
+<pre><code>--ks &lt;filename&gt;
+The signer's private key and certificate chain reside in the given Java-based KeyStore file. If the filename is set to "NONE", the KeyStore containing the key and certificate doesn't need a file specified, which is the case for some PKCS #11 KeyStores.
+--ks-key-alias &lt;alias&gt;
+The name of the alias that represents the signer's private key and certificate data within the KeyStore. If the KeyStore associated with the signer contains multiple keys, you must specify this option.
+--ks-pass &lt;input-format&gt;
+The password for the KeyStore that contains the signer's private key and certificate. You must provide a password to open a KeyStore. The apksigner tool supports the following formats:</code></pre></li><code>
+</code></ul><code>
+
+</code><p><code>pass:&lt;password&gt; – Password provided inline with the rest of the apksigner sign command.
+env:&lt;name&gt; – Password is stored in the given environment variable.
+file:&lt;filename&gt; – Password is stored as a single line in the given file.
+stdin – Password is provided as a single line in the standard input stream. This is the default behavior for --ks-pass.
+Note: If you include multiple passwords in the same file, specify them on separate lines. The apksigner tool associates passwords with an APK's signers based on the order in which you specify the signers. If you've provided two passwords for a signer, apksigner interprets the first password as the KeyStore password and the second one as the key password.
+</code>https://developer.android.com/studio/command-line/apksigner.html</p>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer" style="height:5%">
+		<p>© Copyright 2015 by yzapp.cn, Code by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "python签名脚本，同时支持v1和v2签名.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256645027'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256645027%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+</body>
+</html>
