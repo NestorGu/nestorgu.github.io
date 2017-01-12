@@ -39,6 +39,7 @@
 <div id="md" style="display: none;">
 <!-- markdown -->
 * 由于android7.0开始采用v2签名，以前的美团等多渠道打包方式会导致v2签名失效；虽然暂时可以使用v2SigningEnabled false关闭，但不保证今后也能使用；为彻底解决问题，就些了这个脚本对多渠道包进行重新签名。
+* 请自行配置jarsigner zipalign apksigner 的环境变量
 
 * 代码：
 ~~~~{python}
@@ -120,7 +121,8 @@ https://developer.android.com/studio/command-line/apksigner.html
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
 <ul>
-<li><p>由于android7.0开始采用v2签名，以前的美团等多渠道打包方式会导致v2签名失效；虽然暂时可以使用v2SigningEnabled false关闭，但不保证今后也能使用；为彻底解决问题，就些了这个脚本对多渠道包进行重新签名。</p></li>
+<li>由于android7.0开始采用v2签名，以前的美团等多渠道打包方式会导致v2签名失效；虽然暂时可以使用v2SigningEnabled false关闭，但不保证今后也能使用；为彻底解决问题，就些了这个脚本对多渠道包进行重新签名。</li>
+<li><p>请自行配置jarsigner zipalign apksigner 的环境变量</p></li>
 <li><p>代码：</p></li>
 </ul>
 
