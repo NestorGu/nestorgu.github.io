@@ -110,6 +110,7 @@ file:<filename> – Password is stored as a single line in the given file.
 stdin – Password is provided as a single line in the standard input stream. This is the default behavior for --ks-pass.
 Note: If you include multiple passwords in the same file, specify them on separate lines. The apksigner tool associates passwords with an APK's signers based on the order in which you specify the signers. If you've provided two passwords for a signer, apksigner interprets the first password as the KeyStore password and the second one as the key password.
 ~~~~
+
 https://developer.android.com/studio/command-line/apksigner.html
 
 
@@ -177,21 +178,24 @@ list <span class="token operator">=</span> os<span class="token punctuation">.</
 </code></pre>
 
 <ul>
-<li>v2签名apksigner说明：
+<li>v2签名apksigner说明：</li>
+</ul>
+
 <pre><code>--ks &lt;filename&gt;
 The signer's private key and certificate chain reside in the given Java-based KeyStore file. If the filename is set to "NONE", the KeyStore containing the key and certificate doesn't need a file specified, which is the case for some PKCS #11 KeyStores.
 --ks-key-alias &lt;alias&gt;
 The name of the alias that represents the signer's private key and certificate data within the KeyStore. If the KeyStore associated with the signer contains multiple keys, you must specify this option.
 --ks-pass &lt;input-format&gt;
-The password for the KeyStore that contains the signer's private key and certificate. You must provide a password to open a KeyStore. The apksigner tool supports the following formats:</code></pre></li><code>
-</code></ul><code>
+The password for the KeyStore that contains the signer's private key and certificate. You must provide a password to open a KeyStore. The apksigner tool supports the following formats:
 
-</code><p><code>pass:&lt;password&gt; – Password provided inline with the rest of the apksigner sign command.
+pass:&lt;password&gt; – Password provided inline with the rest of the apksigner sign command.
 env:&lt;name&gt; – Password is stored in the given environment variable.
 file:&lt;filename&gt; – Password is stored as a single line in the given file.
 stdin – Password is provided as a single line in the standard input stream. This is the default behavior for --ks-pass.
 Note: If you include multiple passwords in the same file, specify them on separate lines. The apksigner tool associates passwords with an APK's signers based on the order in which you specify the signers. If you've provided two passwords for a signer, apksigner interprets the first password as the KeyStore password and the second one as the key password.
-</code>https://developer.android.com/studio/command-line/apksigner.html</p>
+</code></pre>
+
+<p>https://developer.android.com/studio/command-line/apksigner.html</p>
 <!-- content end -->
 </div>
 <br>
