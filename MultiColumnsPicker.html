@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html style="height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Nestor的博客</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "//hm.baidu.com/hm.js?31f09fff161b973e671edf0282191b90";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+<body style="height:100%">
+  <div style="position: fixed;bottom: 20px;right: 15px;z-index: 888;">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="http://music.163.com/outchain/player?type=0&id=96831087&auto=1&height=430"></iframe>
+  </div>
+<div class="main" style="width:60%;height:95%">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">主页</a></li>
+            <li><a href="/#/tags">标签</a></li>
+            <li><a href="/#/archive">文章</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+# MultiColumnsPicker
+* 多列选择器,支持设置页数,设置自定义adapter,横向或纵向布局
+* ![image](img/img1.png)![image](img/img2.png)
+
+Add ImageViewer to your project
+----------------------------
+[![](https://jitpack.io/v/nesror/MultiColumnsPicker.svg)](https://jitpack.io/#nesror/MultiColumnsPicker)
+
+Step 1. Add the JitPack repository to your build file
+```
+	maven { url "https://www.jitpack.io" }
+```
+
+Step 2. Add the dependency
+```
+	compile 'com.github.nesror:MultiColumnsPicker:[look jitpack]@aar'
+```
+
+简单使用
+----------------------------
+1. 布局文件
+    ````{xml}
+        <cn.yzapp.multicolumnspickerlib.MultiColumnsPicker
+            android:id="@+id/city_columns_picker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:multicolomns_divisionColour="@color/colorAccent"
+            app:multicolomns_pageCount="3" />
+    ````
+
+1. 设置映射器
+    ```{java}
+    /**
+     * 设置选中,显示内容的字段
+     *
+     * @param mapper 映射器
+     */
+    public void setMapper(Mapper<T> mapper)
+    ```
+
+1. 设置监听
+    ```{java}
+    /**
+     * 设置选择监听器
+     *
+     * @param onSelected 中项的回调
+     */
+    public void setOnSelected(OnSelected<T> onSelected) 
+    ```
+
+1. 设置内容
+    ```{java}
+    /**
+     * 设置显示内容
+     *
+     * @param page 需要显示的页
+     * @param data 内容
+     */
+    public void setContent(final int page, final List<T> data) 
+    ```
+
+更多设置请见demo
+
+
+<!-- markdown end -->
+</div>
+<div class="entry" id="main" style="min-height:75%">
+<!-- content -->
+<h1 id="multicolumnspicker">MultiColumnsPicker</h1>
+
+<ul>
+<li>多列选择器,支持设置页数,设置自定义adapter,横向或纵向布局</li>
+<li><img src="img/img1.png" alt="image" title=""><img src="img/img2.png" alt="image" title=""></li>
+</ul>
+
+<h2 id="addimageviewertoyourproject">Add ImageViewer to your project</h2>
+
+<p><a href="https://jitpack.io/#nesror/MultiColumnsPicker"><img src="https://jitpack.io/v/nesror/MultiColumnsPicker.svg" alt="" title=""></a></p>
+
+<p>Step 1. Add the JitPack repository to your build file</p>
+
+<pre><code>    maven { url "https://www.jitpack.io" }
+</code></pre>
+
+<p>Step 2. Add the dependency</p>
+
+<pre><code>    compile 'com.github.nesror:MultiColumnsPicker:[look jitpack]@aar'
+</code></pre>
+
+<h2 id="">简单使用</h2>
+
+<ol>
+<li><p>布局文件
+<code>{xml}
+    &lt;cn.yzapp.multicolumnspickerlib.MultiColumnsPicker
+        android:id="@+id/city_columns_picker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:multicolomns_divisionColour="@color/colorAccent"
+        app:multicolomns_pageCount="3" /&gt;
+</code></p></li>
+<li><p>设置映射器
+```{java}
+/**</p>
+
+<ul><li>设置选中,显示内容的字段
+*</li>
+<li>@param mapper 映射器
+*/
+public void setMapper(Mapper<t> mapper)
+```</t></li></ul></li>
+<li><p>设置监听
+```{java}
+/**</p>
+
+<ul><li>设置选择监听器
+*</li>
+<li>@param onSelected 中项的回调
+*/
+public void setOnSelected(OnSelected<t> onSelected) 
+```</t></li></ul></li>
+<li><p>设置内容
+```{java}
+/**</p>
+
+<ul><li>设置显示内容
+*</li>
+<li>@param page 需要显示的页</li>
+<li>@param data 内容
+*/
+public void setContent(final int page, final List<t> data) 
+```</t></li></ul></li>
+</ol>
+
+<p>更多设置请见demo</p>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer" style="height:5%">
+		<p>© Copyright 2015 by yzapp.cn, Code by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "MultiColumnsPicker.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256645027'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256645027%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+</body>
+</html>
