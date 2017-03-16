@@ -79,13 +79,15 @@ public boolean onInterceptTouchEvent(MotionEvent ev) {
             case MotionEvent.ACTION_DOWN:
                 downX = ev.getX();
                 downY = ev.getY();
+                // 为了让ScrollView获取初始点击坐标,不然会突然跳动
                 onTouchEvent(ev);
                 return false;
             case MotionEvent.ACTION_MOVE:
                 if ((Math.abs(ev.getX() - downX) < Util.dip2px(getContext(), 3) && (Math.abs(ev.getY() - downY) < Util.dip2px(getContext(), 3)))
                         || Math.abs(ev.getX() - downX) > Math.abs(ev.getY() - downY)) {
-                    // 点击事件不拦截
+                    // 小距离滑动也是ScrollView响应
                     onTouchEvent(ev);
+                    // 点击事件不拦截
                     return false;
                 }
                 return true;
@@ -280,14 +282,16 @@ serviceSon.setOnScrollListener(new AbsListView.OnScrollListener() {
             <span class="token keyword">case</span> MotionEvent<span class="token punctuation">.</span>ACTION_DOWN<span class="token operator">:</span>
                 downX <span class="token operator">=</span> ev<span class="token punctuation">.</span><span class="token function">getX<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
                 downY <span class="token operator">=</span> ev<span class="token punctuation">.</span><span class="token function">getY<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token function">onTouchEvent<span class="token punctuation">(</span></span>ev<span class="token punctuation">)</span><span class="token punctuation">;</span>
+               <span class="token comment" spellcheck="true"> // 为了让ScrollView获取初始点击坐标,不然会突然跳动
+</span>                <span class="token function">onTouchEvent<span class="token punctuation">(</span></span>ev<span class="token punctuation">)</span><span class="token punctuation">;</span>
                 <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
             <span class="token keyword">case</span> MotionEvent<span class="token punctuation">.</span>ACTION_MOVE<span class="token operator">:</span>
                 <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">abs<span class="token punctuation">(</span></span>ev<span class="token punctuation">.</span><span class="token function">getX<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">-</span> downX<span class="token punctuation">)</span> <span class="token operator">&lt;</span> Util<span class="token punctuation">.</span><span class="token function">dip2px<span class="token punctuation">(</span></span><span class="token function">getContext<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number"> 3</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">abs<span class="token punctuation">(</span></span>ev<span class="token punctuation">.</span><span class="token function">getY<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">-</span> downY<span class="token punctuation">)</span> <span class="token operator">&lt;</span> Util<span class="token punctuation">.</span><span class="token function">dip2px<span class="token punctuation">(</span></span><span class="token function">getContext<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number"> 3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
                         <span class="token operator">||</span> Math<span class="token punctuation">.</span><span class="token function">abs<span class="token punctuation">(</span></span>ev<span class="token punctuation">.</span><span class="token function">getX<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">-</span> downX<span class="token punctuation">)</span> &gt; Math<span class="token punctuation">.</span><span class="token function">abs<span class="token punctuation">(</span></span>ev<span class="token punctuation">.</span><span class="token function">getY<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token operator">-</span> downY<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                   <span class="token comment" spellcheck="true"> // 点击事件不拦截
+                   <span class="token comment" spellcheck="true"> // 小距离滑动也是ScrollView响应
 </span>                    <span class="token function">onTouchEvent<span class="token punctuation">(</span></span>ev<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                   <span class="token comment" spellcheck="true"> // 点击事件不拦截
+</span>                    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
                 <span class="token punctuation">}</span>
                 <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
             <span class="token keyword">default</span><span class="token operator">:</span>
