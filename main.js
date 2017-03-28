@@ -999,3 +999,15 @@ var HoganTemplate = function() {
                     this[a] = new d({ stack: this }), this.add(this[a]) }
                 i = this.routes, e = function(a) { return function(b, c) { var d; return "function" == typeof c && (d = c), d || (d = function() { var b; return (b = a[c]).active.apply(b, arguments) }), a.route(b, d) } }(this); for (a in i) d = i[a], e(a, d);
                 this["default"] && this[this["default"]].active() } return d(c, a), c.prototype.controllers = {}, c.prototype.routes = {}, c.prototype.className = "spine stack", c.prototype.add = function(a) { return this.manager.add(a), this.append(a) }, c.prototype.release = function() { var a; return null != (a = this.router) && a.destroy(), c.__super__.release.apply(this, arguments) }, c }(b.Controller), "undefined" != typeof module && null !== module && (module.exports = b.Manager), "undefined" != typeof module && null !== module && (module.exports.Stack = b.Stack) }.call(this);
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
