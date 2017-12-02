@@ -38,7 +38,6 @@
 	</div>
 <div id="md" style="display: none;">
 <!-- markdown -->
-# 提升开发效率-构建速度与快速配置
 ## 问题：
 1. 随着项目的逐步复杂，各种业务也已经到达了12个以上，app的编译速度越来越缓慢。特别是我们在去年年底和今年年初对整个android端app进行的模块化，由原来的一个模块分成了现在的11个模块。这更加导致了编译速度进一步变慢，同时还引入了growingio，以及我们组开自己发的无埋点统计。由于要进行代码插庄进一步导致编译速度变缓，在非ssd的电脑上首次编译需要进20分钟时间，二次编译也要接近5分钟（开启enableBuildCache的功劳）。
 2. 开发，测试期间不同项目间的服务器地址都需要切换，版本号的变化等等因为后台部分接口对于不同版本有不同的处理，并且一个项目开发期间不同功能开发进度可能不同，所以有时候需要不同业务间切换版本号。
@@ -48,13 +47,14 @@ __________
     * 新建dev模块，独立于正式打包的app模块，该模块去除了会进行代码插庄的依赖（growingio，自己的无埋点统计等）和关闭tinker等。
     * 对各模块分别进行编译并上传到内网Maven仓库，对于某个开发只需要开启自己需要改动的模块，其它模块引用aar就可以了。
 2. 增加shortcuts，点击就可以直接以对应的服务器启动；增加独立于其它activity的设置界面，可以不返回当前界面的情况下通过多任务界面进入设置界面并修改服务器，版本号等参数。
-    * ![image](img/shortcuts.png)![image](img/settings.png)
+    * ![shortcuts.png](http://upload-images.jianshu.io/upload_images/2408849-25ce3b96b6c1dd8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)![settings.png](http://upload-images.jianshu.io/upload_images/2408849-1e1919cd94cabf34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 -----------
 ## 实现
 1. 加快编译速度
-    * 在frameworkd模块里增加对dev模块编译的标识
-
-    ````
+    * 在frameworkd模块里增加对dev模块编译的标识，用来控制是否调用growing等未被引入的代码和开启一些开发测试中的特殊功能
+   
+   ````
         productFlavors {
             ...
             dev {
@@ -70,7 +70,7 @@ __________
         }
     ````
 
-    * 在dev模块中引入模块配置
+    * 在dev模块中引入模块配置，只编译需要改动的模块
 
     ````
     // 用户模块依赖导入
@@ -170,10 +170,8 @@ __________
         CAR=false
     ```` 
 
-2. 快速设置
-
-    *   
-   ````
+2. 设置。快速，实时的修改配置
+    * ````
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
@@ -187,14 +185,13 @@ __________
         </activity>
     ````
 
-
-转载请注明出处：[http://blog.yzapp.cn/提升开发效率-构建速度与快速配置.html](http://blog.yzapp.cn/提升开发效率-构建速度与快速配置.html)
+* github：[https://github.com/nesror](https://github.com/nesror)
+* 掘金：[https://juejin.im/user/561b1b9c60b2617174659ba0](https://juejin.im/user/561b1b9c60b2617174659ba0)
+* 简书：[http://www.jianshu.com/u/85e5f9992a2a](http://www.jianshu.com/u/85e5f9992a2a)
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
 <!-- content -->
-<h1 id="">提升开发效率-构建速度与快速配置</h1>
-
 <h2 id="">问题：</h2>
 
 <ol>
@@ -210,17 +207,18 @@ __________
 <li>今年第一季度末尾我已经开始进行一些提高编译速度的方法。期间使用过Instant Run，但首次编译会更慢，同时某些改动（见官方文档）后会需要重新进行全量编译；freeline，比Instant Run适用范围更广一点但某些情况仍然需要进行全量编译，并且有部分bug。目前我采取了下面的方案并配合Instant Run来提升编译速度：
 <ul><li>新建dev模块，独立于正式打包的app模块，该模块去除了会进行代码插庄的依赖（growingio，自己的无埋点统计等）和关闭tinker等。</li>
 <li>对各模块分别进行编译并上传到内网Maven仓库，对于某个开发只需要开启自己需要改动的模块，其它模块引用aar就可以了。</li></ul></li>
-<li>增加shortcuts，点击就可以直接以对应的服务器启动；增加独立于其它activity的设置界面，可以不返回当前界面的情况下通过多任务界面进入设置界面并修改服务器，版本号等参数。</li>
+<li>增加shortcuts，点击就可以直接以对应的服务器启动；增加独立于其它activity的设置界面，可以不返回当前界面的情况下通过多任务界面进入设置界面并修改服务器，版本号等参数。
+<ul><li><img src="http://upload-images.jianshu.io/upload_images/2408849-25ce3b96b6c1dd8e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="shortcuts.png" title=""><img src="http://upload-images.jianshu.io/upload_images/2408849-1e1919cd94cabf34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="settings.png" title=""></li></ul></li>
 </ol>
 
-<h2 id="imageimgshortcutspngimageimgsettingspng">    * <img src="img/shortcuts.png" alt="image" title=""><img src="img/settings.png" alt="image" title=""></h2>
+<hr>
 
 <h2 id="">实现</h2>
 
 <ol>
 <li><p>加快编译速度</p>
 
-<ul><li>在frameworkd模块里增加对dev模块编译的标识</li></ul>
+<ul><li>在frameworkd模块里增加对dev模块编译的标识，用来控制是否调用growing等未被引入的代码和开启一些开发测试中的特殊功能</li></ul>
 
 <p>````
     productFlavors {
@@ -240,7 +238,7 @@ __________
     }
 </code></p>
 
-<ul><li>在dev模块中引入模块配置</li></ul>
+<ul><li>在dev模块中引入模块配置，只编译需要改动的模块</li></ul>
 
 <p><code>
 // 用户模块依赖导入
@@ -339,10 +337,9 @@ if (Boolean.parseBoolean(CAR)) {
     ILLEGAL=false
     CAR=false
 </code> </p></li>
-<li><p>快速设置</p>
+<li><p>设置。快速，实时的修改配置</p>
 
-<ul><li>
-<code>
+<ul><li><code>
 &lt;activity
     android:name=".SettingsActivity"
     android:label="Settings"
@@ -355,9 +352,10 @@ if (Boolean.parseBoolean(CAR)) {
     &lt;/intent-filter&gt;
 &lt;/activity&gt;
 </code></li></ul></li>
+<li><p>github：<a href="https://github.com/nesror">https://github.com/nesror</a></p></li>
+<li>掘金：<a href="https://juejin.im/user/561b1b9c60b2617174659ba0">https://juejin.im/user/561b1b9c60b2617174659ba0</a></li>
+<li>简书：<a href="http://www.jianshu.com/u/85e5f9992a2a">http://www.jianshu.com/u/85e5f9992a2a</a></li>
 </ol>
-
-<p>转载请注明出处：<a href="http://blog.yzapp.cn/提升开发效率-构建速度与快速配置.html">http://blog.yzapp.cn/提升开发效率-构建速度与快速配置.html</a></p>
 <!-- content end -->
 </div>
 <br>
