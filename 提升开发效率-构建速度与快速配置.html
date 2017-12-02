@@ -76,82 +76,82 @@ __________
     // 用户模块依赖导入
     if (Boolean.parseBoolean(USER)) {
         compile(project(':user')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:user:${APP_VER_NAME_M}")
+        compile("包名:user:${APP_VER_NAME_M}")
     }
     // 商品模块依赖导入
     if (Boolean.parseBoolean(GOODS)) {
         compile(project(':goods')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:goods:${APP_VER_NAME_M}")
+        compile("包名:goods:${APP_VER_NAME_M}")
     }
     // 订单模块依赖导入
     if (Boolean.parseBoolean(ORDER)) {
         compile(project(':order')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:order:${APP_VER_NAME_M}")
+        compile("包名:order:${APP_VER_NAME_M}")
     }
     // 引导模块依赖导入
     if (Boolean.parseBoolean(GUIDE)) {
         compile(project(':guide')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:guide:${APP_VER_NAME_M}")
+        compile("包名:guide:${APP_VER_NAME_M}")
     }
     // 违章查询模块依赖导入
     if (Boolean.parseBoolean(ILLEGAL)) {
         compile(project(':illegal')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:illegal:${APP_VER_NAME_M}")
+        compile("包名:illegal:${APP_VER_NAME_M}")
     }
     // 评价模块依赖导入
     if (Boolean.parseBoolean(EVALUATE)) {
         compile(project(':evaluate')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:evaluate:${APP_VER_NAME_M}")
+        compile("包名:evaluate:${APP_VER_NAME_M}")
     }
     // 加油模块依赖导入
     if (Boolean.parseBoolean(REFUEL)) {
         compile(project(':refuel')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:refuel:${APP_VER_NAME_M}")
+        compile("包名:refuel:${APP_VER_NAME_M}")
     }
     // 保养模块依赖导入
     if (Boolean.parseBoolean(MAINTENANCE)) {
         compile(project(':maintenance')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:maintenance:${APP_VER_NAME_M}")
+        compile("包名:maintenance:${APP_VER_NAME_M}")
     }
     // 门店模块依赖导入
     if (Boolean.parseBoolean(STORE)) {
         compile(project(':store')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:store:${APP_VER_NAME_M}")
+        compile("包名:store:${APP_VER_NAME_M}")
     }
     // 爱车模块依赖导入
     if (Boolean.parseBoolean(CAR)) {
         compile(project(':car')) {
-            exclude module: 'qccrframework'
+            exclude module: 'framework'
         }
     } else {
-        compile("com.twl.qichechaoren:car:${APP_VER_NAME_M}")
+        compile("包名:car:${APP_VER_NAME_M}")
     }
    ~~~~
 
@@ -243,82 +243,82 @@ __________
 <pre><code>    // 用户模块依赖导入
 if (Boolean.parseBoolean(USER)) {
     compile(project(':user')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:user:${APP_VER_NAME_M}")
+    compile("包名:user:${APP_VER_NAME_M}")
 }
 // 商品模块依赖导入
 if (Boolean.parseBoolean(GOODS)) {
     compile(project(':goods')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:goods:${APP_VER_NAME_M}")
+    compile("包名:goods:${APP_VER_NAME_M}")
 }
 // 订单模块依赖导入
 if (Boolean.parseBoolean(ORDER)) {
     compile(project(':order')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:order:${APP_VER_NAME_M}")
+    compile("包名:order:${APP_VER_NAME_M}")
 }
 // 引导模块依赖导入
 if (Boolean.parseBoolean(GUIDE)) {
     compile(project(':guide')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:guide:${APP_VER_NAME_M}")
+    compile("包名:guide:${APP_VER_NAME_M}")
 }
 // 违章查询模块依赖导入
 if (Boolean.parseBoolean(ILLEGAL)) {
     compile(project(':illegal')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:illegal:${APP_VER_NAME_M}")
+    compile("包名:illegal:${APP_VER_NAME_M}")
 }
 // 评价模块依赖导入
 if (Boolean.parseBoolean(EVALUATE)) {
     compile(project(':evaluate')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:evaluate:${APP_VER_NAME_M}")
+    compile("包名:evaluate:${APP_VER_NAME_M}")
 }
 // 加油模块依赖导入
 if (Boolean.parseBoolean(REFUEL)) {
     compile(project(':refuel')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:refuel:${APP_VER_NAME_M}")
+    compile("包名:refuel:${APP_VER_NAME_M}")
 }
 // 保养模块依赖导入
 if (Boolean.parseBoolean(MAINTENANCE)) {
     compile(project(':maintenance')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:maintenance:${APP_VER_NAME_M}")
+    compile("包名:maintenance:${APP_VER_NAME_M}")
 }
 // 门店模块依赖导入
 if (Boolean.parseBoolean(STORE)) {
     compile(project(':store')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:store:${APP_VER_NAME_M}")
+    compile("包名:store:${APP_VER_NAME_M}")
 }
 // 爱车模块依赖导入
 if (Boolean.parseBoolean(CAR)) {
     compile(project(':car')) {
-        exclude module: 'qccrframework'
+        exclude module: 'framework'
     }
 } else {
-    compile("com.twl.qichechaoren:car:${APP_VER_NAME_M}")
+    compile("包名:car:${APP_VER_NAME_M}")
 }
 </code></pre>
 
