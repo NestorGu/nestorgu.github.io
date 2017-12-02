@@ -54,7 +54,7 @@ __________
 1. 加快编译速度
     * 在frameworkd模块里增加对dev模块编译的标识
 
-    ````{grove}
+    ````
         productFlavors {
             ...
             dev {
@@ -64,7 +64,7 @@ __________
         }
     ````
 
-    ````[java]
+    ````
         public static boolean isDev() {
             return BuildConfig.DEV;
         }
@@ -72,7 +72,7 @@ __________
 
     * 在dev模块中引入模块配置
 
-    ````{grove}
+    ````
     // 用户模块依赖导入
     if (Boolean.parseBoolean(USER)) {
         compile(project(':user')) {
@@ -173,7 +173,7 @@ __________
 2. 快速设置
 
     *   
-   ````{xml}
+   ````
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
@@ -222,7 +222,7 @@ __________
 
 <ul><li>在frameworkd模块里增加对dev模块编译的标识</li></ul>
 
-<p>````{grove}
+<p>````
     productFlavors {
         ...
         dev {
@@ -234,7 +234,7 @@ __________
 
 <p>````</p>
 
-<p><code>[java]
+<p><code>
     public static boolean isDev() {
         return BuildConfig.DEV;
     }
@@ -242,7 +242,7 @@ __________
 
 <ul><li>在dev模块中引入模块配置</li></ul>
 
-<p><code>{grove}
+<p><code>
 // 用户模块依赖导入
 if (Boolean.parseBoolean(USER)) {
     compile(project(':user')) {
@@ -342,7 +342,7 @@ if (Boolean.parseBoolean(CAR)) {
 <li><p>快速设置</p>
 
 <ul><li>
-<code>{xml}
+<code>
 &lt;activity
     android:name=".SettingsActivity"
     android:label="Settings"
