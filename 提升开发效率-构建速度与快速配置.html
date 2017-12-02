@@ -54,7 +54,7 @@ __________
 1. 加快编译速度
     * 在frameworkd模块里增加对dev模块编译的标识，用来控制是否调用growing等未被引入的代码和开启一些开发测试中的特殊功能
    
-   ````
+   ~~~~
         productFlavors {
             ...
             dev {
@@ -62,17 +62,17 @@ __________
             }
 
         }
-    ````
+   ~~~~
 
-    ````
+   ~~~~
         public static boolean isDev() {
             return BuildConfig.DEV;
         }
-    ````
+   ~~~~
 
     * 在dev模块中引入模块配置，只编译需要改动的模块
 
-    ````
+    ~~~~
     // 用户模块依赖导入
     if (Boolean.parseBoolean(USER)) {
         compile(project(':user')) {
@@ -153,9 +153,9 @@ __________
     } else {
         compile("com.twl.qichechaoren:car:${APP_VER_NAME_M}")
     }
-    ```` 
+   ~~~~
 
-    ````
+    ~~~~
         DEV=true
         FRAMEWORK=true
         USER=false
@@ -168,10 +168,10 @@ __________
         STORE=false
         ILLEGAL=false
         CAR=false
-    ```` 
+    ~~~~
 
 2. 设置。快速，实时的修改配置
-    * ````
+    *~~~~
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
@@ -183,11 +183,12 @@ __________
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    ````
+   ~~~~
 
-* github：[https://github.com/nesror](https://github.com/nesror)
-* 掘金：[https://juejin.im/user/561b1b9c60b2617174659ba0](https://juejin.im/user/561b1b9c60b2617174659ba0)
-* 简书：[http://www.jianshu.com/u/85e5f9992a2a](http://www.jianshu.com/u/85e5f9992a2a)
+
+> * github：[https://github.com/nesror](https://github.com/nesror)
+*  掘金：[https://juejin.im/user/561b1b9c60b2617174659ba0](https://juejin.im/user/561b1b9c60b2617174659ba0)
+*  简书：[http://www.jianshu.com/u/85e5f9992a2a](http://www.jianshu.com/u/85e5f9992a2a)
 <!-- markdown end -->
 </div>
 <div class="entry" id="main" style="min-height:75%">
@@ -220,28 +221,26 @@ __________
 
 <ul><li>在frameworkd模块里增加对dev模块编译的标识，用来控制是否调用growing等未被引入的代码和开启一些开发测试中的特殊功能</li></ul>
 
-<p>````
-    productFlavors {
+<pre><code>        productFlavors {
         ...
         dev {
             buildConfigField "boolean", "DEV", "true"
-        }</p>
+        }
+
 
 <pre><code>}
 </code></pre>
 
-<p>````</p>
+</code></pre>
 
-<p><code>
-    public static boolean isDev() {
+<pre><code>        public static boolean isDev() {
         return BuildConfig.DEV;
     }
-</code></p>
+</code></pre>
 
 <ul><li>在dev模块中引入模块配置，只编译需要改动的模块</li></ul>
 
-<p><code>
-// 用户模块依赖导入
+<pre><code>    // 用户模块依赖导入
 if (Boolean.parseBoolean(USER)) {
     compile(project(':user')) {
         exclude module: 'qccrframework'
@@ -321,10 +320,9 @@ if (Boolean.parseBoolean(CAR)) {
 } else {
     compile("com.twl.qichechaoren:car:${APP_VER_NAME_M}")
 }
-</code> </p>
+</code></pre>
 
-<p><code>
-    DEV=true
+<pre><code>        DEV=true
     FRAMEWORK=true
     USER=false
     GOODS=false
@@ -336,26 +334,29 @@ if (Boolean.parseBoolean(CAR)) {
     STORE=false
     ILLEGAL=false
     CAR=false
-</code> </p></li>
-<li><p>设置。快速，实时的修改配置</p>
-
-<ul><li><code>
-&lt;activity
-    android:name=".SettingsActivity"
-    android:label="Settings"
-    android:launchMode="singleInstance"
-    android:taskAffinity="主包名.test"
-    android:theme="@android:style/Theme.DeviceDefault"&gt;
-    &lt;intent-filter&gt;
-        &lt;action android:name="android.intent.action.MAIN" /&gt;
-        &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
-    &lt;/intent-filter&gt;
-&lt;/activity&gt;
-</code></li></ul></li>
-<li><p>github：<a href="https://github.com/nesror">https://github.com/nesror</a></p></li>
-<li>掘金：<a href="https://juejin.im/user/561b1b9c60b2617174659ba0">https://juejin.im/user/561b1b9c60b2617174659ba0</a></li>
-<li>简书：<a href="http://www.jianshu.com/u/85e5f9992a2a">http://www.jianshu.com/u/85e5f9992a2a</a></li>
+</code></pre></li>
+<li>设置。快速，实时的修改配置
+*<pre><code>        &lt;activity
+        android:name=".SettingsActivity"
+        android:label="Settings"
+        android:launchMode="singleInstance"
+        android:taskAffinity="主包名.test"
+        android:theme="@android:style/Theme.DeviceDefault"&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name="android.intent.action.MAIN" /&gt;
+            &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+</code></pre></li>
 </ol>
+
+<blockquote>
+  <ul>
+  <li>github：<a href="https://github.com/nesror">https://github.com/nesror</a></li>
+  <li>掘金：<a href="https://juejin.im/user/561b1b9c60b2617174659ba0">https://juejin.im/user/561b1b9c60b2617174659ba0</a></li>
+  <li>简书：<a href="http://www.jianshu.com/u/85e5f9992a2a">http://www.jianshu.com/u/85e5f9992a2a</a></li>
+  </ul>
+</blockquote>
 <!-- content end -->
 </div>
 <br>
