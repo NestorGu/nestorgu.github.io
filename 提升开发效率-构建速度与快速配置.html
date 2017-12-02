@@ -53,7 +53,8 @@ __________
 ## 实现
 1. 加快编译速度
     * 在frameworkd模块里增加对dev模块编译的标识
-    ````[grove]
+
+    ````{grove}
         productFlavors {
             ...
             dev {
@@ -62,6 +63,7 @@ __________
 
         }
     ````
+
     ````[java]
         public static boolean isDev() {
             return BuildConfig.DEV;
@@ -69,7 +71,8 @@ __________
     ````
 
     * 在dev模块中引入模块配置
-    ````[grove]
+
+    ````{grove}
     // 用户模块依赖导入
     if (Boolean.parseBoolean(USER)) {
         compile(project(':user')) {
@@ -151,7 +154,8 @@ __________
         compile("com.twl.qichechaoren:car:${APP_VER_NAME_M}")
     }
     ```` 
-    ````[]
+
+    ````
         DEV=true
         FRAMEWORK=true
         USER=false
@@ -165,8 +169,11 @@ __________
         ILLEGAL=false
         CAR=false
     ```` 
+
 2. 快速设置
-    * ````[xml]
+
+    *   
+   ````{xml}
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
@@ -213,120 +220,129 @@ __________
 <ol>
 <li><p>加快编译速度</p>
 
-<ul><li><p>在frameworkd模块里增加对dev模块编译的标识
-````[grove]
-productFlavors {
-    ...
-    dev {
-        buildConfigField "boolean", "DEV", "true"
-    }</p>
+<ul><li>在frameworkd模块里增加对dev模块编译的标识</li></ul>
 
-<p>}
-<code>
-</code>[java]
-public static boolean isDev() {
-    return BuildConfig.DEV;
-}
-````</p></li>
-<li><p>在dev模块中引入模块配置
-<code>[grove]
+<p>````{grove}
+    productFlavors {
+        ...
+        dev {
+            buildConfigField "boolean", "DEV", "true"
+        }</p>
+
+<pre><code>}
+</code></pre>
+
+<p>````</p>
+
+<p><code>[java]
+    public static boolean isDev() {
+        return BuildConfig.DEV;
+    }
+</code></p>
+
+<ul><li>在dev模块中引入模块配置</li></ul>
+
+<p><code>{grove}
 // 用户模块依赖导入
 if (Boolean.parseBoolean(USER)) {
-compile(project(':user')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':user')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:user:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:user:${APP_VER_NAME_M}")
 }
 // 商品模块依赖导入
 if (Boolean.parseBoolean(GOODS)) {
-compile(project(':goods')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':goods')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:goods:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:goods:${APP_VER_NAME_M}")
 }
 // 订单模块依赖导入
 if (Boolean.parseBoolean(ORDER)) {
-compile(project(':order')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':order')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:order:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:order:${APP_VER_NAME_M}")
 }
 // 引导模块依赖导入
 if (Boolean.parseBoolean(GUIDE)) {
-compile(project(':guide')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':guide')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:guide:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:guide:${APP_VER_NAME_M}")
 }
 // 违章查询模块依赖导入
 if (Boolean.parseBoolean(ILLEGAL)) {
-compile(project(':illegal')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':illegal')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:illegal:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:illegal:${APP_VER_NAME_M}")
 }
 // 评价模块依赖导入
 if (Boolean.parseBoolean(EVALUATE)) {
-compile(project(':evaluate')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':evaluate')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:evaluate:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:evaluate:${APP_VER_NAME_M}")
 }
 // 加油模块依赖导入
 if (Boolean.parseBoolean(REFUEL)) {
-compile(project(':refuel')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':refuel')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:refuel:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:refuel:${APP_VER_NAME_M}")
 }
 // 保养模块依赖导入
 if (Boolean.parseBoolean(MAINTENANCE)) {
-compile(project(':maintenance')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':maintenance')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:maintenance:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:maintenance:${APP_VER_NAME_M}")
 }
 // 门店模块依赖导入
 if (Boolean.parseBoolean(STORE)) {
-compile(project(':store')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':store')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:store:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:store:${APP_VER_NAME_M}")
 }
 // 爱车模块依赖导入
 if (Boolean.parseBoolean(CAR)) {
-compile(project(':car')) {
-    exclude module: 'qccrframework'
-}
+    compile(project(':car')) {
+        exclude module: 'qccrframework'
+    }
 } else {
-compile("com.twl.qichechaoren:car:${APP_VER_NAME_M}")
+    compile("com.twl.qichechaoren:car:${APP_VER_NAME_M}")
 }
-</code> 
-<code>[]
-DEV=true
-FRAMEWORK=true
-USER=false
-GOODS=false
-ORDER=false
-GUIDE=false
-MAINTENANCE=true
-EVALUATE=false
-REFUEL=false
-STORE=false
-ILLEGAL=false
-CAR=false
-</code> </p></li></ul></li>
-<li>快速设置
-<ul><li><code>[xml]
+</code> </p>
+
+<p><code>
+    DEV=true
+    FRAMEWORK=true
+    USER=false
+    GOODS=false
+    ORDER=false
+    GUIDE=false
+    MAINTENANCE=true
+    EVALUATE=false
+    REFUEL=false
+    STORE=false
+    ILLEGAL=false
+    CAR=false
+</code> </p></li>
+<li><p>快速设置</p>
+
+<ul><li>
+<code>{xml}
 &lt;activity
     android:name=".SettingsActivity"
     android:label="Settings"
