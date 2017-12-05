@@ -55,36 +55,36 @@ __________
 1. 加快编译速度
     * 在frameworkd模块里增加对dev模块编译的标识，用来控制是否调用growing等未被引入的代码和开启一些开发测试中的特殊功能。部分配置如下：
       * gradle.properties
-        ````
+        ~~~~
             DEV=true
-        ````
+        ~~~~
       * framework/build.gradle
-        ````{grove}
+        ~~~~{grove}
             buildConfigField "boolean", "DEV", DEV
-        ````
+        ~~~~
       * others build.gradle
-        ````{grove}
+        ~~~~{grove}
         if (!Boolean.parseBoolean(DEV)) {
             classpath "com.growingio.android:vds-gradle-plugin:${GROWINGIO_VERSION}"
             classpath "gradle.plugin.com.foo.myplugin:ajc:2.0.7"
         }
-        ````
-        ````{grove}
+        ~~~~
+        ~~~~{grove}
         if (!Boolean.parseBoolean(DEV)) {
             apply plugin: "org.wellijohn.greeting"
             apply plugin: 'com.growingio.android'
             apply from: 'tinker.gradle'
         }
-        ````
+        ~~~~
       * java
-        ````{java}
+        ~~~~{java}
             public static boolean isDev() {
                 return BuildConfig.DEV;
             }
-        ````
+        ~~~~
 
     * 在dev模块中引入模块配置，根据gradle.properties配置只编译需要改动的模块
-    ````{grove}
+    ~~~~{grove}
         implementation project(':framework')
         // 用户模块依赖导入
         if (Boolean.parseBoolean(USER)) {
@@ -146,11 +146,11 @@ __________
         } else {
             implementation("包名:car:${APP_VER_NAME_M}")
         }
-    ```` 
+    ~~~~ 
     
 2. 设置。快速，实时的修改配置
     * 在清单文件中配置
-    ````{xml}
+    ~~~~{xml}
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
@@ -162,7 +162,7 @@ __________
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    ````
+    ~~~~
     
 > * github：[https://github.com/nesror](https://github.com/nesror)
 *  掘金：[https://juejin.im/user/561b1b9c60b2617174659ba0](https://juejin.im/user/561b1b9c60b2617174659ba0)
@@ -197,104 +197,92 @@ __________
 <ol>
 <li><p>加快编译速度</p>
 
-<ul><li><p>在frameworkd模块里增加对dev模块编译的标识，用来控制是否调用growing等未被引入的代码和开启一些开发测试中的特殊功能。部分配置如下：</p>
-
+<ul><li>在frameworkd模块里增加对dev模块编译的标识，用来控制是否调用growing等未被引入的代码和开启一些开发测试中的特殊功能。部分配置如下：
 <ul><li>gradle.properties
-<code>
-DEV=true
-</code></li>
-<li>framework/build.gradle
-<code>{grove}
-buildConfigField "boolean", "DEV", DEV
-</code></li>
-<li>others build.gradle
-<code>{grove}
-if (!Boolean.parseBoolean(DEV)) {
+<pre><code>            DEV=true
+</code></pre>      * framework/build.gradle
+<pre><code class="language-grove">            buildConfigField "boolean", "DEV", DEV
+</code></pre>      * others build.gradle
+<pre><code class="language-grove">        if (!Boolean.parseBoolean(DEV)) {
 classpath "com.growingio.android:vds-gradle-plugin:${GROWINGIO_VERSION}"
 classpath "gradle.plugin.com.foo.myplugin:ajc:2.0.7"
 }
-</code>
-<code>{grove}
-if (!Boolean.parseBoolean(DEV)) {
+</code></pre>        <pre><code class="language-grove">        if (!Boolean.parseBoolean(DEV)) {
 apply plugin: "org.wellijohn.greeting"
 apply plugin: 'com.growingio.android'
 apply from: 'tinker.gradle'
 }
-</code></li>
-<li>java
-<code>{java}
-public static boolean isDev() {
-    return BuildConfig.DEV;
-}
-</code></li></ul></li>
-<li><p>在dev模块中引入模块配置，根据gradle.properties配置只编译需要改动的模块
-<code>{grove}
-implementation project(':framework')
+</code></pre>      * java
+<pre class=" language-java"><code class=" language-java">            <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isDev<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> BuildConfig<span class="token punctuation">.</span>DEV<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></li></ul></li>
+<li>在dev模块中引入模块配置，根据gradle.properties配置只编译需要改动的模块
+<pre><code class="language-grove">        implementation project(':framework')
 // 用户模块依赖导入
 if (Boolean.parseBoolean(USER)) {
     implementation(project(':user'))
 } else {
-    implementation("包名:user:${APP_VER_NAME_M}")
+    implementation("包名:user:${APP<em>VER</em>NAME<em>M}")
 }
 // 商品模块依赖导入
 if (Boolean.parseBoolean(GOODS)) {
     implementation(project(':goods'))
 } else {
-    implementation("包名:goods:${APP_VER_NAME_M}")
+    implementation("包名:goods:${APP</em>VER<em>NAME</em>M}")
 }
 // 订单模块依赖导入
 if (Boolean.parseBoolean(ORDER)) {
     implementation(project(':order'))
 } else {
-    implementation("包名:order:${APP_VER_NAME_M}")
+    implementation("包名:order:${APP<em>VER</em>NAME<em>M}")
 }
 // 引导模块依赖导入
 if (Boolean.parseBoolean(GUIDE)) {
     implementation(project(':guide'))
 } else {
-    implementation("包名:guide:${APP_VER_NAME_M}")
+    implementation("包名:guide:${APP</em>VER<em>NAME</em>M}")
 }
 // 违章查询模块依赖导入
 if (Boolean.parseBoolean(ILLEGAL)) {
     implementation(project(':illegal'))
 } else {
-    implementation("包名:illegal:${APP_VER_NAME_M}")
+    implementation("包名:illegal:${APP<em>VER</em>NAME<em>M}")
 }
 // 评价模块依赖导入
 if (Boolean.parseBoolean(EVALUATE)) {
     implementation(project(':evaluate'))
 } else {
-    implementation("包名:evaluate:${APP_VER_NAME_M}")
+    implementation("包名:evaluate:${APP</em>VER<em>NAME</em>M}")
 }
 // 加油模块依赖导入
 if (Boolean.parseBoolean(REFUEL)) {
     implementation(project(':refuel'))
 } else {
-    implementation("包名:refuel:${APP_VER_NAME_M}")
+    implementation("包名:refuel:${APP<em>VER</em>NAME<em>M}")
 }
 // 保养模块依赖导入
 if (Boolean.parseBoolean(MAINTENANCE)) {
     implementation(project(':maintenance'))
 } else {
-    implementation("包名:maintenance:${APP_VER_NAME_M}")
+    implementation("包名:maintenance:${APP</em>VER<em>NAME</em>M}")
 }
 // 门店模块依赖导入
 if (Boolean.parseBoolean(STORE)) {
     implementation(project(':store'))
 } else {
-    implementation("包名:store:${APP_VER_NAME_M}")
+    implementation("包名:store:${APP<em>VER</em>NAME<em>M}")
 }
 // 爱车模块依赖导入
 if (Boolean.parseBoolean(CAR)) {
     implementation(project(':car'))
 } else {
-    implementation("包名:car:${APP_VER_NAME_M}")
+    implementation("包名:car:${APP</em>VER<em>NAME</em>M}")
 }
-</code> </p></li></ul></li>
-<li><p>设置。快速，实时的修改配置</p>
-
-<ul><li>在清单文件中配置
-<code>{xml}
+~~~~ </code></pre></li></ul></li><code class="language-grove">
+</code><li><code class="language-grove"><p>设置。快速，实时的修改配置
+</p></code><ul><code class="language-grove"></code><li><code class="language-grove">在清单文件中配置
+~~~~{xml}
 &lt;activity
     android:name=".SettingsActivity"
     android:label="Settings"
@@ -306,16 +294,14 @@ if (Boolean.parseBoolean(CAR)) {
         &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
     &lt;/intent-filter&gt;
 &lt;/activity&gt;
-</code></li></ul></li>
-</ol>
+</code> <br><p></p>
 
 <blockquote>
-  <ul>
-  <li>github：<a href="https://github.com/nesror">https://github.com/nesror</a></li>
-  <li>掘金：<a href="https://juejin.im/user/561b1b9c60b2617174659ba0">https://juejin.im/user/561b1b9c60b2617174659ba0</a></li>
-  <li>简书：<a href="http://www.jianshu.com/u/85e5f9992a2a">http://www.jianshu.com/u/85e5f9992a2a</a></li>
-  </ul>
-</blockquote>
+  <ul><li>github：<a href="https://github.com/nesror">https://github.com/nesror</a></li></ul></blockquote></li></ul>
+</li>
+<li>掘金：<a href="https://juejin.im/user/561b1b9c60b2617174659ba0">https://juejin.im/user/561b1b9c60b2617174659ba0</a></li>
+<li>简书：<a href="http://www.jianshu.com/u/85e5f9992a2a">http://www.jianshu.com/u/85e5f9992a2a</a></li>
+</ol>
 <!-- content end -->
 </div>
 <br>
