@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html style="height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Nestor的博客</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "//hm.baidu.com/hm.js?31f09fff161b973e671edf0282191b90";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+<body style="height:100%">
+  <div style="position: fixed;bottom: 20px;right: 15px;z-index: 888;">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="http://music.163.com/outchain/player?type=0&id=96831087&auto=1&height=430"></iframe>
+  </div>
+<div class="main" style="width:60%;height:95%">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">主页</a></li>
+            <li><a href="/#/tags">标签</a></li>
+            <li><a href="/#/archive">文章</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+
+1. 原因
+  * 由于一些h5人员方面的原因，新的非主流程需求将全部由app人员开发。然后app的人员已经由15人缩减成ios和android各两个了。为了应对3个产品各自负责的需求，我们调研了weex和rn。
+    * 我们原app已经非常完整，并且新业务都是相对独立的页面，顾更专注于页面的weex更加符合（不建议整个app都使用weex做，RN和Flutter更合适）
+    * 我个人在17年中旬就关注了，有一定了解。
+    * 结合mpvue，可以让微信小程序和weex共用组件。
+    * weex上手简单，团队整体更喜欢vue。
+    * 虽然网上有很多关于weex有深坑的文章，但我们尝试后发现对于app开发来说绝大部分不是问题。但weex不适合做整个app。
+    * 社区支持相对弱，但我们可以自己造轮子，自己改sdk。
+    * 最终我们决定采用weex进行开发。
+2. 目前的使用程度
+  * 已经有5个新业务全部使用weex开发，还有12个单独的weex界面，共34个weex页面，23个weex组件，3个原生提供的组件，6个moudle提供42个原生app的功能。
+2. 遇到的问题
+  * 我们自己使用okhttp封装的网络库限制了只能返回确定的数据类型，而weex的IWXHttpAdapter需要返回bytes。
+    * 修改网络库解决
+  * android端string值传递到weex变成数字类型并且js精度丢失问题
+    * 现象：android端传递String类型的“1111111111111111...”到weex页面时，通过weex页面接收到的是数字类型，并且精度丢失变成：1.111e+84。ios无此问题。排查weex sdk，一直到WXBridgeManager的invokeExecJS方法时参数还是String类型的。下面的execJS方法是调用jni的，android的sdk里并没有这部分native代码。顾对于串数字端超长id我们暂时采用值前面拼接参数名的办法（理论上后台设计不应该出现这么长的纯数字id）。
+  * 编译时间过长，预览导致
+    * 开发时通过webpack.dev.conf的filterPage(entrys)进行过滤，通过npm run serve -- --env.page=XX，指定需要预览的页面。
+  * css展现的ui各端稍有不一致。
+  * weex官方ui库不丰富
+    * 一部分使用weex-ui
+    * 一部分自己使用vue写
+    * 使用原生ui（地图等）
+3. 页面跳转 
+  * 我们没有采用vue-router和weex自带的navigator模块。而是使用自定义的navigator模块通过原生已经定义好的Scheme跳转实现（与推送，h5，外部应用跳转共用一套），无论是调原生还是weex都采用这一套。weex间的跳转直接带参数到下一个weex页面，原生只通过Scheme传递Map<String,object>类型的json数据。
+4. 使用
+  * 开发：提交代码后GitLib通过Webhooks通知jenkins服务器编译，app使用jenkins服务器产生的js链接地址。
+  * 线上：使用tag版本产生的js文件，存放到线上静态服务器，app使用线上链接。下版本将支持app本地缓存和根据文件版本更新。
+<!-- markdown end -->
+</div>
+<div class="entry" id="main" style="min-height:75%">
+<!-- content -->
+<ol>
+<li>原因
+<ul><li>由于一些h5人员方面的原因，新的非主流程需求将全部由app人员开发。然后app的人员已经由15人缩减成ios和android各两个了。为了应对3个产品各自负责的需求，我们调研了weex和rn。</li>
+<li>我们原app已经非常完整，并且新业务都是相对独立的页面，顾更专注于页面的weex更加符合（不建议整个app都使用weex做，RN和Flutter更合适）</li>
+<li>我个人在17年中旬就关注了，有一定了解。</li>
+<li>结合mpvue，可以让微信小程序和weex共用组件。</li>
+<li>weex上手简单，团队整体更喜欢vue。</li>
+<li>虽然网上有很多关于weex有深坑的文章，但我们尝试后发现对于app开发来说绝大部分不是问题。但weex不适合做整个app。</li>
+<li>社区支持相对弱，但我们可以自己造轮子，自己改sdk。</li>
+<li>最终我们决定采用weex进行开发。</li></ul></li>
+<li>目前的使用程度
+<ul><li>已经有5个新业务全部使用weex开发，还有12个单独的weex界面，共34个weex页面，23个weex组件，3个原生提供的组件，6个moudle提供42个原生app的功能。</li></ul></li>
+<li>遇到的问题
+<ul><li>我们自己使用okhttp封装的网络库限制了只能返回确定的数据类型，而weex的IWXHttpAdapter需要返回bytes。</li>
+<li>修改网络库解决</li>
+<li>android端string值传递到weex变成数字类型并且js精度丢失问题</li>
+<li>现象：android端传递String类型的“1111111111111111...”到weex页面时，通过weex页面接收到的是数字类型，并且精度丢失变成：1.111e+84。ios无此问题。排查weex sdk，一直到WXBridgeManager的invokeExecJS方法时参数还是String类型的。下面的execJS方法是调用jni的，android的sdk里并没有这部分native代码。顾对于串数字端超长id我们暂时采用值前面拼接参数名的办法（理论上后台设计不应该出现这么长的纯数字id）。</li>
+<li>编译时间过长，预览导致</li>
+<li>开发时通过webpack.dev.conf的filterPage(entrys)进行过滤，通过npm run serve -- --env.page=XX，指定需要预览的页面。</li>
+<li>css展现的ui各端稍有不一致。</li>
+<li>weex官方ui库不丰富</li>
+<li>一部分使用weex-ui</li>
+<li>一部分自己使用vue写</li>
+<li>使用原生ui（地图等）</li></ul></li>
+<li>页面跳转 
+<ul><li>我们没有采用vue-router和weex自带的navigator模块。而是使用自定义的navigator模块通过原生已经定义好的Scheme跳转实现（与推送，h5，外部应用跳转共用一套），无论是调原生还是weex都采用这一套。weex间的跳转直接带参数到下一个weex页面，原生只通过Scheme传递Map<string,object>类型的json数据。</string,object></li></ul></li>
+<li>使用
+<ul><li>开发：提交代码后GitLib通过Webhooks通知jenkins服务器编译，app使用jenkins服务器产生的js链接地址。</li>
+<li>线上：使用tag版本产生的js文件，存放到线上静态服务器，app使用线上链接。下版本将支持app本地缓存和根据文件版本更新。</li></ul></li>
+</ol>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer" style="height:5%">
+		<p>© Copyright 2015 by yzapp.cn, Code by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "weex.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256645027'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256645027%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+</body>
+</html>
